@@ -1,1 +1,19 @@
+@use '@angular/material' as mat;
+@include mat.core();
+@import '/src/my-theme';
+
 /* You can add global styles to this file, and also import other style files */
+$white : #FBF8F7;
+$crem : #E8C9A2;
+$brick : #CA512E;
+$black : #0E0805;
+$culoare1 : #C6B0A0;
+$culoare2 : #CC9662;
+$dark-green : #504828;
+$purple-blue : #4C4ADE;
+
+
+html, body, app-container{
+  height: 100%;
+  margin: 0;
+}
