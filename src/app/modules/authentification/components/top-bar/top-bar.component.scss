@@ -1,4 +1,4 @@
-@import "/src/styles.scss";
+@import "../../../../../styles";
 
 .top-bg{
   background-color: $brick;
@@ -10,9 +10,18 @@
 .logo{
   padding-left: 1vw;
 
-  .donut{
+  .image{
     max-height: 4em;
     max-width: 4em;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   p{

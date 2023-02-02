@@ -1,0 +1,48 @@
+<script src="landing.component.ts"></script>
+<div class="container" fxLayout="column" fxLayoutAlign="space-between center" >
+
+  <p class="title"
+     fxFlexAlign="center"
+     fxFlexOffset="10"
+  >Simple and Delicious Recipes</p>
+
+  <div class="quick-start"  fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="0">
+
+    <p class="text">Get started now</p>
+<!--    <app-google-form></app-google-form>-->
+    <p class="text">or</p>
+
+    <div class="form"
+         fxLayout="row"
+         fxLayoutGap="10"
+         fxLayout.xs="column"
+         fxLayoutGap.xs="0">
+
+      <mat-form-field appearance="fill" [style.width.px]=220>
+        <mat-label>Enter your email</mat-label>
+        <input matInput
+               placeholder="pat@example.com"
+               [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" [style.width.px]=220>
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix
+                color="accent"
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary"
+              class="nav-button"
+              (click)="goToRegisterWithData()">Continue Registration</button>
+
+    </div>
+
+  </div>
+</div>
