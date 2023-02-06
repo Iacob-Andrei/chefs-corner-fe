@@ -23,6 +23,9 @@ import {RegisterFormComponent} from "./components/register-form/register-form.co
     RegisterFormComponent,
     GoogleFormComponent
   ],
+  exports: [
+    TopBarComponent
+  ],
   imports: [
     CommonModule,
     AuthentificationRoutingModule,
