@@ -12,14 +12,20 @@ export class TopBarComponent {
   constructor(private router: Router) {}
 
   onClickHome(): void {
-    this.router.navigateByUrl(WELCOME).then();
+    this.router.navigateByUrl(WELCOME).then(() => {
+      window.location.reload();
+    });
   }
 
   onClickLogin(): void{
-    this.router.navigateByUrl(`${WELCOME}/login`).then();
+    this.router.navigateByUrl(`${WELCOME}/login`).then(() => {
+      window.location.reload();
+    });
   }
 
   onClickRegister(): void{
-    this.router.navigateByUrl(`${WELCOME}/register`).then();
+    this.router.navigateByUrl(`${WELCOME}/register`).then(() => {
+      window.location.reload();
+    });
   }
 }
