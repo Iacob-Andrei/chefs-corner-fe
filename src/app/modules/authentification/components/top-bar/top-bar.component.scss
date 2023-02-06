@@ -1,0 +1,48 @@
+@import "../../../../../styles";
+
+.top-bg{
+  background-color: $brick;
+  color: $white;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.logo{
+  padding-left: 1vw;
+
+  .image{
+    max-height: 4em;
+    max-width: 4em;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  p{
+    font-size: 1.5em;
+  }
+}
+
+.navigation{
+  padding-right: 2vw;
+}
+
+.nav-button{
+  min-height: 3em;
+  min-width: 7em;
+  border-radius: 30px;
+  border: 2px solid $white;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 600px)  {
+  .nav-button{
+    font-size: 12px;
+  }
+}

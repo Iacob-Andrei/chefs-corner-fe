@@ -1,0 +1,23 @@
+<div class="top-bg"
+     fxLayout="row"
+     fxLayoutAlign="space-between start"
+>
+
+  <div fxLayout="row"
+       class="logo"
+       fxLayoutGap="1vw"
+  >
+    <img src="assets/chefhat.svg" alt="hat" class="image" fxFlexAlign="center" (click)="onClickHome()">
+    <p>ChefsCorner</p>
+  </div>
+
+  <div class="navigation"
+       fxLayout="row"
+       fxFlexAlign="center"
+       fxLayoutAlign="space-between start"
+       fxLayoutGap="3vw"
+  >
+    <button mat-raised-button color="primary" class="nav-button" (click)="onClickRegister()">Register</button>
+    <button mat-raised-button color="primary" class="nav-button" (click)="onClickLogin()">Log In</button>
+  </div>
+</div>

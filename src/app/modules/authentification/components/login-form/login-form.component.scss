@@ -1,0 +1,43 @@
+@import "src/styles";
+
+.container{
+  margin-top: 10vh;
+  padding:20px 0 20px 0;
+  width: 30vw;
+  background-color: rgba(232, 201, 162, 0.75);
+  border-radius: 15%;
+
+  .text{
+    color: $white;
+    font-size: 2em;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .underline{
+    border: 2px solid $black;
+    width: 75%;
+  }
+
+  .google-container{
+    padding: 20px 0 20px 0;
+    width: 60%;
+  }
+
+  .form{
+    width: 100%;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+  .container{
+    width: 80vw;
+
+    .google-container{
+      width: 75%;
+    }
+  }
+}
+
+
