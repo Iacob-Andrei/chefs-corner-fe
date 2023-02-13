@@ -24,6 +24,7 @@
 
   .text{
     margin-top: 0;
+    margin-bottom: 0;
     color: $black;
     font-size: 1.7em;
   }
@@ -44,7 +45,13 @@
   }
 }
 
-@media screen and (max-width: 600px)  {
+@media screen and (max-width: 950px){
+  .form {
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 700px)  {
   .title{
     width: 50%;
   }

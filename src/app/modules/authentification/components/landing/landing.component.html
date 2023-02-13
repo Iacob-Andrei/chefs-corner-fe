@@ -5,19 +5,21 @@
      fxFlexOffset="10"
   >Simple and Delicious Recipes</p>
 
-  <div class="quick-start"  fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="0" >
+  <div class="quick-start"  fxLayout="column" fxLayoutAlign="space-evenly center">
 
     <p class="text">Get started now</p>
+
+    <form [formGroup]="form" autocomplete="off">
 <!--    <app-google-form></app-google-form>-->
 <!--    <p class="text">or</p>-->
 
-    <form [formGroup]="form" autocomplete="off">
       <div class="form"
            fxLayout="row"
-           fxLayoutGap="10"
+           fxLayoutGap="20"
            fxLayout.xs="column"
-           fxLayoutGap.xs="0">
-      <mat-form-field appearance="fill" [style.width.px]=220>
+           fxLayoutAlign="space-evenly">
+
+      <mat-form-field appearance="fill" [style.width.px]=220 color="accent">
         <mat-label>Enter your email</mat-label>
         <input matInput
                placeholder="ex@example.com"
@@ -25,13 +27,12 @@
         <mat-error *ngIf="this.form.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" [style.width.px]=220>
+      <mat-form-field appearance="fill" [style.width.px]=220 color="accent">
         <mat-label>Enter your password</mat-label>
         <input matInput
                [type]="hide ? 'password' : 'text'"
                formControlName="password" required>
         <button mat-icon-button matSuffix
-                color="primary"
                 (click)="hide = !hide"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hide">

@@ -5,6 +5,8 @@ import { HomeRoutingModule } from './home-routing.module';
 import { LandingComponent } from './components/landing/landing.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import {FlexModule} from "@angular/flex-layout";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import {FlexModule} from "@angular/flex-layout";
   imports: [
     CommonModule,
     HomeRoutingModule,
-    FlexModule
+    FlexModule,
+    MatInputModule,
+    MatIconModule
   ]
 })
 export class HomeModule { }

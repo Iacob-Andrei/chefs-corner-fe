@@ -5,9 +5,31 @@
   <div fxLayout="row"
        class="logo"
        fxLayoutGap="1vw">
+    <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center">
+    <div><p>ChefsCorner</p></div>
+  </div>
 
-    <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center" >
-    <p>ChefsCorner</p>
+
+  <div class="navigation"
+       fxLayout="row"
+       fxLayoutGap="2vw"
+       fxLayoutAlign="space-between center">
+
+    <img src="./assets/icons/home.svg" alt="home-icon" title="Home" class="nav-icons">
+    <img src="./assets/icons/favorite.svg" alt="favourite-icon" title="Favourite" class="nav-icons">
+    <img src="./assets/icons/all-recipes-list.svg" alt="all-recipes-icon" title="All recipes" class="nav-icons">
+    <img src="./assets/icons/my-recipes.svg" alt="mt-recipes-icon" title="My recipes" class="nav-icons">
+    <img src="./assets/icons/draw-pen.svg" alt="create-recipe-icon" title="Create recipe" class="nav-icons">
+
+    <mat-form-field appearance="fill" color="accent" class="search-bar">
+      <mat-label >Search recipes by name</mat-label>
+      <input matInput autocomplete="off"/>
+      <mat-icon matSuffix class="black-icon" color="accent">search</mat-icon>
+    </mat-form-field>
+
+    <div>
+      <img src="./assets/icons/test-profile-img.jpg" alt="profile-img" class="profile-img" >
+    </div>
   </div>
 
 </div>
