@@ -3,8 +3,7 @@
 .top-bg{
   background-color: $brick;
   color: $white;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-radius: 0 0 15px 15px;
 
   .logo{
     padding-left: 1vw;
@@ -87,11 +86,11 @@
 
 @media screen and (max-width: 600px) {
   .top-bg{
+    border-radius: 0;
     .navigation{
       .search-bar {
         display: none;
       }
     }
   }
-
 }

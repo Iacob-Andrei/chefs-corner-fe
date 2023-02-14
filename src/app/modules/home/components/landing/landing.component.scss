@@ -1,7 +1,6 @@
 @import "../../../../../styles";
 
 .pg{
-  height: 400px;
   background: $brick;
   border-radius: 15px;
 
@@ -14,7 +13,7 @@
     }
 
     .images {
-      padding-right: 200px;
+      padding: 0 100px 15px 0;
       -webkit-user-drag: none;
       user-select: none;
       -moz-user-select: none;
@@ -24,24 +23,11 @@
   }
 }
 
-@media screen and (max-width: 850px){
-  .pg{
-    height: 450px;
-  }
-}
-
-@media screen and (max-width: 800px){
-  .pg{
-    height: 500px;
-  }
-}
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
   .pg {
-    height: 550px;
     .welcoming {
       .images {
-        padding: 0;
+        padding: 0 25px 15px 0;
       }
     }
   }
