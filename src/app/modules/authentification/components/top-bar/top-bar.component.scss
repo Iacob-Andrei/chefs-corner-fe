@@ -46,3 +46,9 @@
     font-size: 12px;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .logo p{
+    color: transparent;
+  }
+}

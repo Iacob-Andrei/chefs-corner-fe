@@ -1,0 +1,48 @@
+@import "../../../../../styles";
+
+.pg{
+  height: 400px;
+  background: $brick;
+  border-radius: 15px;
+
+  .welcoming{
+    p{
+      text-align: center;
+      color: $white;
+      margin: 0 0 0 0;
+      font-size: 3em;
+    }
+
+    .images {
+      padding-right: 200px;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+  }
+}
+
+@media screen and (max-width: 850px){
+  .pg{
+    height: 450px;
+  }
+}
+
+@media screen and (max-width: 800px){
+  .pg{
+    height: 500px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .pg {
+    height: 550px;
+    .welcoming {
+      .images {
+        padding: 0;
+      }
+    }
+  }
+}

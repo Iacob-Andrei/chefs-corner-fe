@@ -43,15 +43,6 @@ export class RegisterFormComponent {
   }
 
   getErrorMessageRePassword(): string{
-    if (this.form.controls['password'].hasError('required')) {
-      return 'You must enter a password';
-    }
-
-    if(this.form.controls['password'].hasError('minlength')){
-      return 'Minimum length is 6';
-    }
-
-    //return this.form.controls['password'].value === this.form.controls['rePassword'].value ? 'Password does not match': '';
     return this.form.hasError('matchPasswords') ? 'Password does not match' :  '';
   }
 

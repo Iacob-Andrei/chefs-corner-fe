@@ -1,0 +1,97 @@
+@import "../../../../../styles";
+
+.top-bg{
+  background-color: $brick;
+  color: $white;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+
+  .logo{
+    padding-left: 1vw;
+
+    .menu-small-width{
+      display: none;
+    }
+
+    .image{
+      max-height: 4em;
+      max-width: 4em;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+
+    p{
+      font-size: 1.5rem;
+    }
+  }
+
+  .navigation{
+    padding-right: 1vw;
+
+    .search-bar{
+      padding-top: 10px;
+      padding-bottom: -10px;
+    }
+
+    .nav-icons {
+      transform: scale(1.2);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .profile-img {
+      transform: scale(2);
+      border-radius: 50%;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.search-mobile{
+  background-color: $brick;
+  color: $white;
+}
+
+@media screen and (max-width: 700px){
+  .top-bg {
+    .logo {
+      padding-left: 0;
+
+      .menu-small-width {
+        display: inline;
+      }
+    }
+    .navigation {
+      .nav-icons {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .top-bg{
+    .navigation{
+      .search-bar {
+        display: none;
+      }
+    }
+  }
+
+}
