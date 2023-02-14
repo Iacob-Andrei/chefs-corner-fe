@@ -9,6 +9,10 @@
   .logo{
     padding-left: 1vw;
 
+    .menu-small-width{
+      display: none;
+    }
+
     .image{
       max-height: 4em;
       max-width: 4em;
@@ -35,23 +39,59 @@
       padding-bottom: -10px;
     }
 
-    .profile-img{
-      height: 4em;
-      width: 4em;
+    .nav-icons {
+      transform: scale(1.2);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .profile-img {
+      transform: scale(2);
       border-radius: 50%;
       -webkit-user-drag: none;
       user-select: none;
       -moz-user-select: none;
       -webkit-user-select: none;
       -ms-user-select: none;
-      &:hover{
+
+      &:hover {
         cursor: pointer;
       }
-    }
-    .nav-icons{
-      width: 30px;
-      height: 30px;
     }
   }
 }
 
+.search-mobile{
+  background-color: $brick;
+  color: $white;
+}
+
+@media screen and (max-width: 700px){
+  .top-bg {
+    .logo {
+      padding-left: 0;
+
+      .menu-small-width {
+        display: inline;
+      }
+    }
+    .navigation {
+      .nav-icons {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .top-bg{
+    .navigation{
+      .search-bar {
+        display: none;
+      }
+    }
+  }
+
+}
