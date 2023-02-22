@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {PagenotfoundComponent} from "./modules/pagenotfound/pagenotfound.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'recipe',
     loadChildren: () => import("./modules/recipes/recipes.module").then((m) => m.RecipesModule)
+  },
+  {
+    path: '**',
+    pathMatch: "full",
+    component: PagenotfoundComponent
   }
 ];
 

@@ -10,13 +10,19 @@ const routes: Routes = [
     component: ContainerComponent,
     children:[
       {
-        path: ':id',
-        component: RecipePageComponent
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'search'
       },
       {
         path: 'search',
-        component: SearchComponent
-      }
+        component: SearchComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: ':id',
+        component: RecipePageComponent
+      },
     ]
   }
 ];

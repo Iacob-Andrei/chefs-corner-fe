@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @include mat.core();
 @import '/src/my-theme';
+@import 'ngx-toastr/toastr';
 
 /* You can add global styles to this file, and also import other style files */
 $white : #FBF8F7;
@@ -16,4 +17,14 @@ $purple-blue : #4C4ADE;
 html, body, app-container{
   height: 100%;
   margin: 0;
+}
+
+.toast-top-full-width{
+  margin-top: 100px !important;
+}
+
+@media screen and (max-width: 600px) {
+  .toast-top-full-width{
+    margin-top: 170px !important;
+  }
 }
