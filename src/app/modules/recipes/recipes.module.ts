@@ -6,6 +6,8 @@ import { ContainerComponent } from './components/container/container.component';
 import {HomeModule} from "../home/home.module";
 import { RecipePageComponent } from './components/recipe-page/recipe-page.component';
 import { SearchComponent } from './components/search/search.component';
+import {FlexModule} from "@angular/flex-layout";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -14,10 +16,12 @@ import { SearchComponent } from './components/search/search.component';
     RecipePageComponent,
     SearchComponent
   ],
-    imports: [
-        CommonModule,
-        RecipesRoutingModule,
-        HomeModule
-    ]
+  imports: [
+    CommonModule,
+    RecipesRoutingModule,
+    HomeModule,
+    FlexModule,
+    MatButtonModule
+  ]
 })
 export class RecipesModule { }

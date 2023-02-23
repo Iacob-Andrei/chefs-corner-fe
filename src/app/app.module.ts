@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { PagenotfoundComponent } from './modules/pagenotfound/pagenotfound.component';
 import {ToastrModule} from "ngx-toastr";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [AppComponent, PagenotfoundComponent],
@@ -18,8 +19,8 @@ import {ToastrModule} from "ngx-toastr";
     FlexModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    HttpClientModule,
     ToastrModule.forRoot({
-      disableTimeOut: true,
       positionClass: 'toast-top-full-width',
       tapToDismiss: false,
       closeButton: true

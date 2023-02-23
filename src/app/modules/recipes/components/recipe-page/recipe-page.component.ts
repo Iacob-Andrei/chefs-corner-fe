@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ToastrService} from "ngx-toastr";
+import {Recipe} from "../../../../shared/models";
+import {RecipeService} from "../../services/recipe.service";
 
 @Component({
   selector: 'app-recipe-page',
@@ -10,23 +12,51 @@ import {ToastrService} from "ngx-toastr";
 })
 export class RecipePageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
+  isValid: boolean = true
+
+  response!: Recipe;
 
   constructor(private route: ActivatedRoute,
-              public toastr: ToastrService) {}
+              public toaster: ToastrService,
+              private recipeService: RecipeService ) {}
 
   ngOnInit(): void{
     this.subscriptions.push(
       this.route.params.subscribe(params => {
         if( isNaN(Number(params['id']))){
-          //todo: redirect 404
+          this.showErrorToaster('400',`Invalid recipe id '${params['id']}'.`);
+          this.isValid = false
         }
-        console.log(params['id'])
-        this.toastr.error('everything is broken', 'Major Error', {});
+        else{
+          this.isValid = true
+          this.getRecipeData(params['id']);
+        }
       }
     ));
   }
 
+  getRecipeData(id: string): void{
+    this.subscriptions.push(
+      this.recipeService.getRecipeById(id).subscribe(
+        (response) => {
+          console.log(response)
+        },
+        (error) => {
+          this.isValid = false
+          this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
+        }
+      ));
+  }
+
+  showErrorToaster(title: string, message: string): void{
+    this.toaster.error(message, title, {});
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  }
+
+  goBack() {
+    window.history.go(-1);
   }
 }

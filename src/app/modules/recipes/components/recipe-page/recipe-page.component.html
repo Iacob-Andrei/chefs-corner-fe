@@ -1,1 +1,15 @@
-<p>recipe-page works!</p>
+<ng-container *ngIf="isValid">
+  <div>info about recipes</div>
+</ng-container>
+
+<ng-container *ngIf="!isValid">
+  <div fxLayout="column" fxLayoutAlign="space-around center" >
+    <img src="assets/food-characters/chef-character.png" alt="chefs-image">
+
+    <button mat-raised-button
+            color="primary"
+            (click)="goBack()"
+            class="nav-button">Return to previous page</button>
+  </div>
+</ng-container>
+
