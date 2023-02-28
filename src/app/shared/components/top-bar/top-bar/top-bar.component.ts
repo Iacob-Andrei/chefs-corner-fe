@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {HOME} from "../../../constants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-top-bar',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class TopBarComponent {
   isAuth: boolean = true;
+
+  constructor( private router: Router) {}
+
+  onClickGoHome() {
+    this.router.navigateByUrl(HOME).then();
+  }
 }

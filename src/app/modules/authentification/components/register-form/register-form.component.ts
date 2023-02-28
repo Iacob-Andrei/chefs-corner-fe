@@ -6,7 +6,7 @@ import {StepperOrientation} from "@angular/cdk/stepper";
 import {map, Observable} from "rxjs";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
-import {HOME} from "../../../../shared/constants";
+import {AUTH, HOME} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-register-form',
@@ -51,5 +51,11 @@ export class RegisterFormComponent {
     console.log(this.firstFormGroup.value);
     console.log(this.secondFormGroup.value);
     console.log(this.thirdFormGroup.value);
+  }
+
+  onClickGoRegistration() {
+    this.router.navigateByUrl(`${AUTH}/login`).then(() => {
+      window.location.reload();
+    });
   }
 }

@@ -9,7 +9,7 @@
       <mat-icon title="Menu" class="nav-icons">menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onClickGoHome()">
         <mat-icon>home</mat-icon>
         <span>Home</span>
       </button>
@@ -37,7 +37,7 @@
       </ng-container>
     </mat-menu>
 
-    <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center">
+    <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center" (click)="onClickGoHome()">
     <div><p>ChefsCorner</p></div>
   </div>
 
@@ -47,7 +47,7 @@
        fxLayoutGap="2vw"
        fxLayoutAlign="space-between center">
 
-    <mat-icon title="Home" class="nav-icons">home</mat-icon>
+    <mat-icon title="Home" class="nav-icons" (click)="onClickGoHome()">home</mat-icon>
     <mat-icon title="All recipes" class="nav-icons">list_alt</mat-icon>
     <ng-container *ngIf="isAuth">
       <mat-icon title="Favourite" class="nav-icons">favorite</mat-icon>
