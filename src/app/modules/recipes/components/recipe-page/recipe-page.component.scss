@@ -8,3 +8,109 @@
   font-size: 16px;
 }
 
+.title {
+  padding-left: 50px;
+  h1{
+    margin-bottom: 0;
+  }
+  .breadcrumb {
+    padding-left: 10px;
+    width: fit-content;
+
+    p{
+      margin: 0;
+    }
+
+    p + p:before {
+      padding: 8px;
+      color: black;
+      content: ">\00a0";
+    }
+
+    a {
+      color: $purple-blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #01447e;
+      text-decoration: underline;
+    }
+  }
+}
+
+.data {
+  padding-top: 50px;
+  width: 60%;
+
+  .ingredients{
+    padding-left: 50px;
+  }
+
+  .directions{
+    padding-left: 50px;
+  }
+
+  .infos-mobile {
+    display: none;
+
+    .container-info {
+      padding: 20px;
+      background-color: $crem;
+      border: 2px solid $dark-crem;
+      border-radius: 10%;
+      width: 60%;
+
+      p {
+        font-size: 1em;
+      }
+
+      .food-image {
+        border-radius: inherit;
+        border: 2px solid $dark-crem;
+        max-width: 100%;
+        max-height: 70%;
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+      }
+    }
+  }
+}
+
+.infos {
+  width: 30%;
+
+  .container-info {
+    padding: 20px;
+    background-color: $crem;
+    border: 2px solid $dark-crem;
+    border-radius: 10%;
+    width: 70%;
+
+    p{
+      font-size: 1.1em;
+    }
+
+    .food-image {
+      border-radius: inherit;
+      border: 2px solid $dark-crem;
+      max-width: 100%;
+      max-height: 70%;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .data{
+    width: 100%;
+  }
+}
+

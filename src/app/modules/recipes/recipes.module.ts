@@ -6,8 +6,9 @@ import { ContainerComponent } from './components/container/container.component';
 import {HomeModule} from "../home/home.module";
 import { RecipePageComponent } from './components/recipe-page/recipe-page.component';
 import { SearchComponent } from './components/search/search.component';
-import {FlexModule} from "@angular/flex-layout";
+import {ExtendedModule, FlexModule} from "@angular/flex-layout";
 import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -21,7 +22,9 @@ import {MatButtonModule} from "@angular/material/button";
     RecipesRoutingModule,
     HomeModule,
     FlexModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    ExtendedModule
   ]
 })
 export class RecipesModule { }

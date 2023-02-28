@@ -4,6 +4,7 @@ import {Subscription} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {Recipe} from "../../../../shared/models";
 import {RecipeService} from "../../services/recipe.service";
+import {environment} from "../../../../../environment/environment";
 
 @Component({
   selector: 'app-recipe-page',
@@ -12,9 +13,9 @@ import {RecipeService} from "../../services/recipe.service";
 })
 export class RecipePageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
+  protected imageUrl = environment.imageUrl;
   isValid: boolean = true
-
-  response!: Recipe;
+  protected recipe!: Recipe;
 
   constructor(private route: ActivatedRoute,
               public toaster: ToastrService,
@@ -38,14 +39,15 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   getRecipeData(id: string): void{
     this.subscriptions.push(
       this.recipeService.getRecipeById(id).subscribe(
-        (response) => {
-          console.log(response)
+        response => {
+          this.recipe = response;
+          this.imageUrl += response.image;
         },
-        (error) => {
+        error => {
           this.isValid = false
           this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
         }
-      ));
+    ));
   }
 
   showErrorToaster(title: string, message: string): void{
