@@ -1,2 +1,2 @@
-export const WELCOME = 'welcome';
-export const HOME = 'home';
+export const AUTH = 'auth';
+export const HOME = '';

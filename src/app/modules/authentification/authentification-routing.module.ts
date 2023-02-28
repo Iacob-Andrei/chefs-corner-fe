@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthentificationContainer} from "./components/container/authentification-container.component";
-import {LandingComponent} from "./components/landing/landing.component";
 import {LoginFormComponent} from "./components/login-form/login-form.component";
 import {RegisterFormComponent} from "./components/register-form/register-form.component";
 
@@ -12,7 +11,8 @@ const routes: Routes = [
     children:[
       {
         path: '',
-        component: LandingComponent
+        redirectTo: 'login',
+        pathMatch: 'full'
       },
       {
         path: 'login',

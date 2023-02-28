@@ -15,24 +15,26 @@
       </button>
 
       <button mat-menu-item>
-        <mat-icon>favorite</mat-icon>
-        <span>Favourite</span>
-      </button>
-
-      <button mat-menu-item>
         <mat-icon>list_alt</mat-icon>
         <span>All recipes</span>
       </button>
 
-      <button mat-menu-item>
-        <mat-icon>restaurant_menu</mat-icon>
-        <span>My recipes</span>
-      </button>
+      <ng-container *ngIf="isAuth">
+        <button mat-menu-item>
+          <mat-icon>favorite</mat-icon>
+          <span>Favourite</span>
+        </button>
 
-      <button mat-menu-item>
-        <mat-icon>create</mat-icon>
-        <span>Create recipe</span>
-      </button>
+        <button mat-menu-item>
+          <mat-icon>restaurant_menu</mat-icon>
+          <span>My recipes</span>
+        </button>
+
+        <button mat-menu-item>
+          <mat-icon>create</mat-icon>
+          <span>Create recipe</span>
+        </button>
+      </ng-container>
     </mat-menu>
 
     <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center">
@@ -46,10 +48,12 @@
        fxLayoutAlign="space-between center">
 
     <mat-icon title="Home" class="nav-icons">home</mat-icon>
-    <mat-icon title="Favourite" class="nav-icons">favorite</mat-icon>
     <mat-icon title="All recipes" class="nav-icons">list_alt</mat-icon>
-    <mat-icon title="My recipes" class="nav-icons">restaurant_menu</mat-icon>
-    <mat-icon title="Create recipe" class="nav-icons">create</mat-icon>
+    <ng-container *ngIf="isAuth">
+      <mat-icon title="Favourite" class="nav-icons">favorite</mat-icon>
+      <mat-icon title="My recipes" class="nav-icons">restaurant_menu</mat-icon>
+      <mat-icon title="Create recipe" class="nav-icons">create</mat-icon>
+    </ng-container>
 
     <mat-form-field appearance="fill" color="accent" class="search-bar">
       <mat-label >Search recipes by name</mat-label>
@@ -57,7 +61,7 @@
       <mat-icon matSuffix class="black-icon" color="accent">search</mat-icon>
     </mat-form-field>
 
-    <div>
+    <ng-container *ngIf="isAuth">
       <button mat-icon-button [matMenuTriggerFor]="account">
         <img src="./assets/icons/test-profile-img.jpg" alt="profile-img" class="profile-img" >
       </button>
@@ -77,8 +81,10 @@
           <span>Logout</span>
         </button>
       </mat-menu>
-    </div>
+    </ng-container>
 
+    <button *ngIf="!isAuth" mat-raised-button color="primary" class="nav-button">Authenticate</button>
+    <!--    (click)="onClickLogin()"-->
   </div>
 </div>
 

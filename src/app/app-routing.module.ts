@@ -5,16 +5,11 @@ import {PagenotfoundComponent} from "./modules/pagenotfound/pagenotfound.compone
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome',
-    pathMatch: 'full'
-  },
-  {
-    path: 'welcome',
-    loadChildren: () => import("./modules/authentification/authentification.module").then((m) => m.AuthentificationModule)
-  },
-  {
-    path: 'home',
     loadChildren: () => import("./modules/home/home.module").then((m)=>m.HomeModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import("./modules/authentification/authentification.module").then((m) => m.AuthentificationModule)
   },
   {
     path: 'recipe',
