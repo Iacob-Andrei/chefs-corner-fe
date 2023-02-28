@@ -12,6 +12,7 @@ import {LoginFormComponent} from "./components/login-form/login-form.component";
 import {RegisterFormComponent} from "./components/register-form/register-form.component";
 import {MatMenuModule} from "@angular/material/menu";
 import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
+import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
   declarations: [
@@ -21,17 +22,18 @@ import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
   ],
   exports: [
   ],
-    imports: [
-        CommonModule,
-        AuthentificationRoutingModule,
-        FlexModule,
-        MatButtonModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        ExtendedModule,
-        MatMenuModule,
-        TopBarModule
-    ]
+  imports: [
+    CommonModule,
+    AuthentificationRoutingModule,
+    FlexModule,
+    MatButtonModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    ExtendedModule,
+    MatMenuModule,
+    TopBarModule,
+    MatStepperModule
+  ]
 })
 export class AuthentificationModule { }

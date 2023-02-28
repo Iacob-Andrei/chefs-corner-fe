@@ -1,43 +1,29 @@
 @import "src/styles";
 
-.container{
-  margin-top: 10vh;
-  padding:20px 0 20px 0;
-  width: 30vw;
+.register-container {
+  border-radius: 20px;
+  margin:  2% 15% 0 15%;
   background-color: rgba(232, 201, 162, 0.75);
-  border-radius: 15%;
+  padding: 20px;
 
-  .text{
-    color: $white;
-    font-size: 2em;
-    margin-bottom: 15px;
-    text-align: center;
+  p {
+    font-size: 1.3em;
   }
 
-  .underline{
-    border: 2px solid $black;
-    width: 75%;
+  .register-stepper {
+    background-color: transparent;
+    width: 90%;
   }
-
-  .google-container{
-    padding: 20px 0 20px 0;
-    width: 60%;
-  }
-
-  .form{
-    width: 100%;
-  }
-
 }
 
-@media screen and (max-width: 600px) {
-  .container{
-    width: 80vw;
-
-    .google-container{
-      width: 75%;
+@media only screen and (max-width: 800px) {
+  .register-container {
+    p {
+      font-size: 1em;
     }
   }
+
+  .mat-step-header .mat-step-label .mat-step-text-label {
+    font-size: 1em;
+  }
 }
-
-

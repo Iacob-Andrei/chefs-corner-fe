@@ -1,71 +1,98 @@
-<div fxLayout="column" fxLayoutAlign="space-between center" >
-  <div class="container" fxLayout="column" fxLayoutAlign="space-between center" >
+<div class="register-container" fxLayout="column" fxLayoutAlign="center center">
+  <p>Register your account</p>
 
-    <div class="text">Continue your registration</div>
+  <mat-stepper
+    class="register-stepper"
+    [linear]="true"
+    [orientation]="(stepperOrientation | async)!">
 
-    <hr class="underline">
-
-    <div class="form">
-      <form [formGroup]="form"
-            autocomplete="off"
-            class="formular"
-            fxLayout="column"
-            fxLayoutAlign="space-around center"
-            fxLayoutGap="10">
-
-        <mat-form-field appearance="fill" [style.width.%]="60" color="accent">
-          <mat-label>Enter your name</mat-label>
-          <input matInput
-                 placeholder="Your name"
-                 formControlName="fullName" required>
-          <mat-error *ngIf="this.form.controls['fullName'].invalid">Ful name is required</mat-error>
+    <mat-step [stepControl]="firstFormGroup" label="Fill out your name">
+      <form [formGroup]="firstFormGroup" fxLayout="column" fxLayoutAlign="space-between start">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" required>
+          <mat-error *ngIf="this.firstFormGroup.controls.firstName.invalid">
+            {{getErrorMsgRequired(this.firstFormGroup.controls.firstName)}}
+          </mat-error>
         </mat-form-field>
-
-        <mat-form-field appearance="fill" [style.width.%]="60" color="accent">
-          <mat-label>Enter your email</mat-label>
-          <input matInput
-                 placeholder="ex@example.com"
-                 formControlName="email" required>
-          <mat-error *ngIf="this.form.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" required>
+          <mat-error *ngIf="this.firstFormGroup.controls.lastName.invalid">
+            {{getErrorMsgRequired(this.firstFormGroup.controls.lastName)}}
+          </mat-error>
         </mat-form-field>
+        <div>
+          <button mat-button (click)="onBackRegister()">Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
 
-        <mat-form-field appearance="fill" [style.width.%]="60" color="accent">
-          <mat-label>Enter your password</mat-label>
+    <mat-step [stepControl]="secondFormGroup" label="Fill out your email">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" placeholder="andrew@example.com" required>
+          <mat-error *ngIf="this.secondFormGroup.controls.email.invalid">
+            {{getErrorMsgEmail(this.secondFormGroup.controls.email)}}
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup" label="Fill out your password">
+      <form [formGroup]="thirdFormGroup" fxLayout="column" fxLayoutAlign="space-between start">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Password</mat-label>
           <input matInput
-                 [type]="hide ? 'password' : 'text'"
+                 [type]="hidePassword ? 'password' : 'text'"
                  formControlName="password" required>
           <button mat-icon-button matSuffix
-                  (click)="hide = !hide"
+                  (click)="hidePassword = !hidePassword"
                   [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error *ngIf="this.form.controls['password'].invalid">{{getErrorMessagePassword()}}</mat-error>
+          <mat-error *ngIf="this.thirdFormGroup.controls.password.invalid">
+            {{getErrorMsgPwd(this.thirdFormGroup.controls.password)}}
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" [style.width.%]="60" color="accent">
-          <mat-label>Confirm your password</mat-label>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Confirm Your Password</mat-label>
           <input matInput
-                 [type]="hide ? 'password' : 'text'"
+                 [type]="hideConfirmPassword ? 'password' : 'text'"
                  formControlName="confirmPassword" required>
           <button mat-icon-button matSuffix
-                  (click)="hide = !hide"
+                  (click)="hideConfirmPassword = !hideConfirmPassword"
                   [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  [attr.aria-pressed]="hideConfirmPassword">
+            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error *ngIf="this.form.errors?.hasOwnProperty('matchPasswords')">{{getErrorMessageRePassword()}}</mat-error>
+          <mat-error *ngIf="this.thirdFormGroup.invalid">
+            {{'Passwords does not match'}}
+          </mat-error>
         </mat-form-field>
-
-        <button mat-raised-button color="primary"
-                class="nav-button"
-                [disabled]="!form.valid"
-                type="submit"
-                (click)="onSubmit()"
-                [style.width.%]="60">Log In</button>
-
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
       </form>
-    </div>
+    </mat-step>
 
-  </div>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>Confirm registering your account.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="onConfirmClick()">Confirm?</button>
+      </div>
+    </mat-step>
+
+  </mat-stepper>
 </div>
