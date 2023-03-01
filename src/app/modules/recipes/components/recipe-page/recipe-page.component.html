@@ -3,45 +3,60 @@
   <div class="title">
     <h1>{{recipe.name}}</h1>
     <div class="breadcrumb" fxLayout="row" fxLayoutAlign="end center">
-      <p><a href="#">Menu</a></p>
-      <p><a href="#">Main Dish</a></p>
-      <p>{{recipe.name}}</p>
+      <span><a href="#">Menu</a></span>
+      <span><a href="#">Main Dish</a></span>
+      <span>{{recipe.name}}</span>
     </div>
   </div>
 
   <div fxLayout="row"
        fxLayout.xs = "column"
-       fxLayoutAlign="space-between none">
+       fxLayoutAlign="space-between start">
 
     <div class="data">
       <div class="infos-mobile" fxLayoutAlign="center" fxShow="false" fxShow.xs="true">
         <div class="container-info">
           <img [src]="imageUrl" alt="{{recipe.name}}" class="food-image">
-          <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> <b>Prep time: </b> {{recipe.prep_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> <b>Cook time: </b> {{recipe.cook_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> <b>Total time: </b> {{recipe.prep_time + recipe.cook_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> <b>Servings: </b> {{recipe.number_servings}}</p>
+          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Prep time: </b> {{recipe.prep_time}} minutes</p>
+          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Cook time: </b> {{recipe.cook_time}} minutes</p>
+          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Total time: </b> {{recipe.prep_time + recipe.cook_time}} minutes</p>
+          <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> <b>Servings: </b> {{recipe.number_servings}}</p>
         </div>
       </div>
 
       <div class="ingredients">
         <h2>Ingredients:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet beatae ipsa libero magnam natus odit tempore totam ullam vero! Rerum?</p>
+        <ul>
+          <li *ngFor="let item of recipe.directions">
+            <div class="row-instruction" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10">
+              <div class="order">{{ item.order }}</div>
+              <span class="instruction"> {{ item.instruction }}</span>
+            </div>
+          </li>
+        </ul>
       </div>
 
       <div class="directions">
         <h2>Directions:</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi corporis dolore expedita iste necessitatibus quam sed sequi soluta tempore.</p>
+        <p class="note">Note: Directions are based on the original recipe of {{recipe.number_servings}} servings.</p>
+        <ul>
+          <li *ngFor="let item of recipe.directions">
+            <div class="row-instruction" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10">
+              <div class="order">{{ item.order }}</div>
+              <span class="instruction"> {{ item.instruction }}</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
 
     <div class="infos" fxShow="true" fxShow.xs="false">
       <div class="container-info">
         <img [src]="imageUrl" alt="{{recipe.name}}" class="food-image">
-        <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> Prep time:  {{recipe.prep_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> Cook time:  {{recipe.cook_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> Total time:  {{recipe.prep_time + recipe.cook_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> bubble_chart</mat-icon> Servings:  {{recipe.number_servings}}</p>
+        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Prep time:  {{recipe.prep_time}} minutes</p>
+        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Cook time:  {{recipe.cook_time}} minutes</p>
+        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Total time:  {{recipe.prep_time + recipe.cook_time}} minutes</p>
+        <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:  {{recipe.number_servings}}</p>
       </div>
     </div>
 

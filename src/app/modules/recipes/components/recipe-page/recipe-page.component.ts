@@ -42,6 +42,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
         response => {
           this.recipe = response;
           this.imageUrl += response.image;
+          console.log(this.recipe)
         },
         error => {
           this.isValid = false

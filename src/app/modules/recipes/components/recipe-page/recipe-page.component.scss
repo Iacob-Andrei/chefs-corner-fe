@@ -8,20 +8,29 @@
   font-size: 16px;
 }
 
+ul{
+  list-style-type: none;
+}
+
 .title {
-  padding-left: 50px;
+  margin-bottom: 40px;
+  padding: 30px 25px;
+  background-color: white;
+  border-bottom: 2px solid $dark-crem;
+  font-size: 1.1em;
+
   h1{
-    margin-bottom: 0;
+    margin: 0;
   }
   .breadcrumb {
     padding-left: 10px;
     width: fit-content;
 
-    p{
+    span{
       margin: 0;
     }
 
-    p + p:before {
+    span + span:before {
       padding: 8px;
       color: black;
       content: ">\00a0";
@@ -40,26 +49,50 @@
 }
 
 .data {
-  padding-top: 50px;
   width: 60%;
+  font-size: 1.2em;
+  background-color: $white;
+  border: 2px solid $crem;
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
 
   .ingredients{
-    padding-left: 50px;
+    margin: 25px;
+    padding: 0 25px;
   }
 
   .directions{
-    padding-left: 50px;
+    margin: 25px;
+    padding: 0 25px;
+
+    .note{
+      margin-top: 0;
+      font-size: 0.75em;
+    }
+
+    h2{
+      margin-bottom: 0;
+    }
+
+    .row-instruction{
+      margin-bottom: 20px;
+      .order{
+        padding:5px;
+        color: $brick;
+        border: 2px solid $brick;
+        border-radius: 50%;
+        align-items: center;
+      }
+    }
   }
 
   .infos-mobile {
-    display: none;
-
     .container-info {
       padding: 20px;
-      background-color: $crem;
+      background-color: #A2C1E8;
       border: 2px solid $dark-crem;
-      border-radius: 10%;
-      width: 60%;
+      border-left: 0;
+      border-right: 0;
 
       p {
         font-size: 1em;
@@ -85,9 +118,9 @@
 
   .container-info {
     padding: 20px;
-    background-color: $crem;
+    background-color: #A2C1E8;
     border: 2px solid $dark-crem;
-    border-radius: 10%;
+    border-radius: 3%;
     width: 70%;
 
     p{
@@ -111,6 +144,11 @@
 @media screen and (max-width: 600px) {
   .data{
     width: 100%;
+    border: 0;
+    font-size: 1.3em;
+  }
+  ul{
+    padding-inline-start: 0;
   }
 }
 
