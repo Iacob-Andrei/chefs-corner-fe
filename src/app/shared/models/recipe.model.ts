@@ -1,4 +1,5 @@
 import {Direction} from "./direction.model";
+import {IngredientUsed} from "./ingredientused.model";
 
 export interface Recipe {
   id: number;
@@ -8,4 +9,5 @@ export interface Recipe {
   number_servings: number;
   image: string;
   directions: [Direction]
+  ingredients: [IngredientUsed]
 }

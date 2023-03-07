@@ -12,6 +12,10 @@ ul{
   list-style-type: none;
 }
 
+.grid-container{
+  margin-bottom: 20px;
+}
+
 .title {
   margin-bottom: 40px;
   padding: 30px 25px;
@@ -51,7 +55,7 @@ ul{
 .data {
   width: 60%;
   font-size: 1.2em;
-  background-color: $white;
+  background-color: white;
   border: 2px solid $crem;
   border-left: 0;
   border-radius: 0 10px 10px 0;
@@ -59,6 +63,33 @@ ul{
   .ingredients{
     margin: 25px;
     padding: 0 25px;
+
+    .ingredient-container{
+      margin-bottom: 25px;
+
+      .order{
+        padding-top: 20px;
+      }
+
+      .ingredient-image{
+        max-height: 25%;
+        max-width: 25%;
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+      }
+
+      .ingredient-name{
+        padding-top: 20px;
+      }
+
+      .ingredient-description, .ingredient-amount{
+        color: gray;
+        font-size: 0.8em;
+      }
+    }
   }
 
   .directions{

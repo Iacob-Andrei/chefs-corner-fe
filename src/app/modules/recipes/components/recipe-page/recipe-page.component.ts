@@ -14,6 +14,7 @@ import {environment} from "../../../../../environment/environment";
 export class RecipePageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
   protected imageUrl = environment.imageUrl;
+  protected ingredientsUrl = environment.imageUrl;
   isValid: boolean = true
   protected recipe!: Recipe;
 

@@ -9,6 +9,7 @@ import {ExtendedModule, FlexModule} from "@angular/flex-layout";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
         MatButtonModule,
         MatIconModule,
         ExtendedModule,
-        TopBarModule
+        TopBarModule,
+        MatGridListModule
     ]
 })
 export class RecipesModule { }
