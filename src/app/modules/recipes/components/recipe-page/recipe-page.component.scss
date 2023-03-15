@@ -1,5 +1,20 @@
 @import "src/styles";
 
+input[type="number"]
+{
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 40px;
+  font-size: 0.9em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .nav-button {
   min-height: 5em;
   min-width: 10em;
@@ -37,7 +52,7 @@ ul{
     span + span:before {
       padding: 8px;
       color: black;
-      content: ">\00a0";
+      content: " ";
     }
 
     a {
@@ -109,8 +124,8 @@ ul{
       margin-bottom: 20px;
       .order{
         padding:5px;
-        color: $brick;
-        border: 2px solid $brick;
+        color: gray;
+        border: 2px solid gray;
         border-radius: 50%;
         align-items: center;
       }

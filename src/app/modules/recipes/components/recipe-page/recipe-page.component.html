@@ -4,14 +4,17 @@
     <h1>{{recipe.name}}</h1>
     <div class="breadcrumb" fxLayout="row" fxLayoutAlign="end center">
       <span><a href="#">Menu</a></span>
-      <span><a href="#">Main Dish</a></span>
-      <span>{{recipe.name}}</span>
+      <span> > </span>
+      <span *ngFor="let category of recipe.categories">
+        <span><a href="#">{{category.category}}</a></span>
+      </span>
     </div>
   </div>
 
-  <div fxLayout="row"
-       fxLayout.xs = "column"
-       fxLayoutAlign="space-between start">
+  <form [formGroup]="form"
+        fxLayout="row"
+        fxLayout.xs = "column"
+        fxLayoutAlign="space-between start">
 
     <div class="data">
       <div class="infos-mobile" fxLayoutAlign="center" fxShow="false" fxShow.xs="true">
@@ -62,7 +65,7 @@
         <p class="note">Note: Directions are based on the original recipe of {{recipe.number_servings}} servings.</p>
         <ul>
           <li *ngFor="let item of recipe.directions">
-            <div class="row-instruction" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10">
+            <div class="row-instruction" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
               <div class="order">{{ item.order }}</div>
               <span class="instruction"> {{ item.instruction }}</span>
             </div>
@@ -77,11 +80,14 @@
         <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Prep time:  {{recipe.prep_time}} minutes</p>
         <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Cook time:  {{recipe.cook_time}} minutes</p>
         <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Total time:  {{recipe.prep_time + recipe.cook_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:  {{recipe.number_servings}}</p>
+        <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
+          <input type="number"
+                 formControlName = 'number_servings'
+                 [value]=recipe.number_servings>
+        </p>
       </div>
     </div>
-
-  </div>
+  </form>
 
 </ng-container>
 
