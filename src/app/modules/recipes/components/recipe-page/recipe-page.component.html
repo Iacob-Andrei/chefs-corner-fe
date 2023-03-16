@@ -23,7 +23,9 @@
           <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Prep time: </b> {{recipe.prep_time}} minutes</p>
           <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Cook time: </b> {{recipe.cook_time}} minutes</p>
           <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Total time: </b> {{recipe.prep_time + recipe.cook_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> <b>Servings: </b> {{recipe.number_servings}}</p>
+          <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
+            <input type="number" formControlName = 'number_servings'>
+          </p>
         </div>
       </div>
 
@@ -41,7 +43,10 @@
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%" fxShow="true" fxShow.xs="false">
-                <div class="ingredient-amount"> {{item.amount}} {{item.unit}}  </div>
+                <div class="ingredient-amount">
+                  <input type="number" formControlName="{{item.ingredient.id + '_amount'}}">
+                  {{item.unit}}
+                </div>
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%">
@@ -49,11 +54,16 @@
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%" fxShow="false" fxShow.xs="true">
-                <div class="ingredient-amount"> {{item.amount}} {{item.unit}}  </div>
+                <div class="ingredient-amount">
+                  <input type="number" formControlName="{{item.ingredient.id + '_amount'}}">
+                  {{item.unit}}  </div>
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%">
-                <div class="ingredient-amount"> {{item.grams * item.amount}} grams </div>
+                <div class="ingredient-amount">
+                  <input type="number" formControlName="{{item.ingredient.id + '_grams'}}">
+                  grams
+                </div>
               </div>
             </div>
           </li>
@@ -81,44 +91,13 @@
         <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Cook time:  {{recipe.cook_time}} minutes</p>
         <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Total time:  {{recipe.prep_time + recipe.cook_time}} minutes</p>
         <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
-          <input type="number"
-                 formControlName = 'number_servings'
-                 [value]=recipe.number_servings>
+          <input type="number" formControlName = 'number_servings'>
         </p>
       </div>
     </div>
   </form>
 
 </ng-container>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

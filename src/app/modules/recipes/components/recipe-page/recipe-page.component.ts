@@ -68,8 +68,8 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     group['number_servings'] = new FormControl(this.recipe.number_servings);
 
     ingredients.forEach(item => {
-      group[`${item.ingredient.id}_amount`] = new FormControl(0);
-      group[`${item.ingredient.id}_grams`] = new FormControl(0);
+      group[`${item.ingredient.id}_amount`] = new FormControl(item.amount);
+      group[`${item.ingredient.id}_grams`] = new FormControl(item.grams * item.amount);
     });
 
     return new FormGroup(group);
@@ -87,7 +87,41 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   updateOnValue(key: string, value: number){
     if (!value || value < 0.1) return;
-    console.log(key + " " + value)
+    let ratio;
+
+    if (key === "number_servings"){
+      ratio = value / this.recipe.number_servings ;
+    }
+    else{
+      const id = key.split("_")[0];
+      const modified_key = key.split("_")[1];
+      ratio = this.getRatioUpdate( +id, modified_key, value);
+    }
+
+    this.updateValues(ratio);
+  }
+
+  getRatioUpdate(id: number, key: string, value: number){
+    const ingredients = this.recipe ? this.recipe.ingredients : [];
+
+    for( let item of ingredients ){
+      if (item.ingredient.id === id){
+        if (key === 'amount')
+          return value / item.amount;
+        return value / ( item.grams * item.amount );
+      }
+    }
+
+    return 1;
+  }
+
+  updateValues(ratio: number){
+    this.form.controls['number_servings'].setValue(this.recipe.number_servings * ratio, { emitEvent: false });
+
+    this.recipe.ingredients.forEach(item => {
+      this.form.controls[`${item.ingredient.id}_amount`].setValue(ratio * item.amount, { emitEvent: false });
+      this.form.controls[`${item.ingredient.id}_grams`].setValue(ratio * item.amount * item.grams, { emitEvent: false });
+    });
   }
 
   showErrorToaster(title: string, message: string): void{
