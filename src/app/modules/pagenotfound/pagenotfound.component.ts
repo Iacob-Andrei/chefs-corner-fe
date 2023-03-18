@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 export class PagenotfoundComponent {
 
   goBack() {
-    window.history.go(-1);
+    window.history.go(-2);
   }
 }

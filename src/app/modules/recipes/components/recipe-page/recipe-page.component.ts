@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Observable, Subscription} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {Recipe} from "../../../../shared/models";
 import {RecipeService} from "../../services/recipe.service";
-import {environment} from "../../../../../environment/environment";
+import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
+import {PAGE_404} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-recipe-page',
@@ -16,26 +17,25 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
   protected imageUrl = environment.imageUrl;
   protected ingredientsUrl = environment.imageUrl;
-  isValid: boolean = true
   protected recipe!: Recipe;
+  protected recipeObs!: Observable<Recipe>;
 
   form! : FormGroup;
 
 
-
   constructor(private route: ActivatedRoute,
+              private router: Router,
               public toaster: ToastrService,
-              private recipeService: RecipeService ) {}
+              private recipeService: RecipeService) {}
 
   ngOnInit(): void{
     this.subscriptions.push(
       this.route.params.subscribe(params => {
         if( isNaN(Number(params['id']))){
           this.showErrorToaster('400',`Invalid recipe id '${params['id']}'.`);
-          this.isValid = false
+          this.router.navigateByUrl(PAGE_404).then();
         }
         else{
-          this.isValid = true
           this.getRecipeData(params['id']);
         }
       }
@@ -43,16 +43,18 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   }
 
   getRecipeData(id: string): void{
+    this.recipeObs = this.recipeService.getRecipeById(id);
+
     this.subscriptions.push(
-      this.recipeService.getRecipeById(id).subscribe(
+      this.recipeObs.subscribe(
         response => {
           this.recipe = response;
           this.imageUrl += response.image;
           console.log(this.recipe)
         },
         error => {
-          this.isValid = false
           this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
+          this.router.navigateByUrl(PAGE_404).then();
         },
         () => {
           this.form = this.createForm();

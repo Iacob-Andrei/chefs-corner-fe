@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 import {Recipe} from "../shared/models";
-import {catchError} from "rxjs/operators";
-import {environment} from "../../environment/environment";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getRecipeById(id: string): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiServerUrl}/api/v1/recipe/${id}`)
+    return this.http.get<Recipe>(`${this.apiServerUrl}/api/recipe/${id}`)
       .pipe();
   }
 }
