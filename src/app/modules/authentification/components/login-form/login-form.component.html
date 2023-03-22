@@ -5,11 +5,6 @@
 
     <hr class="underline">
 
-<!--    <div class="google-container">-->
-<!--    <app-google-form></app-google-form>-->
-<!--    </div>-->
-<!--    <div class="text">or</div>-->
-
     <div class="form">
       <form [formGroup]="form"
             autocomplete="off"
@@ -44,11 +39,16 @@
                   class="nav-button"
                   [disabled]="!form.valid"
                   type="submit"
-                  (click)="onSubmit()"
+                  (click)="onClickSubmit()"
                   [style.width.%]="60">Log In</button>
 
      </form>
     </div>
 
+    <hr class="underline">
+    <div class="text">or</div>
+    <button mat-raised-button color="primary"
+            class="nav-button"
+            (click)="onClickGoRegistration()">Go to registration</button>
   </div>
 </div>

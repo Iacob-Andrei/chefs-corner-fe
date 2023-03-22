@@ -7,17 +7,32 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import { AppComponent } from './app.component';
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import { PagenotfoundComponent } from './modules/pagenotfound/pagenotfound.component';
+import {ToastrModule} from "ngx-toastr";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {InterceptorService} from "./services/core/interceptor.service";
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FlexModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
+  declarations: [AppComponent, PagenotfoundComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FlexModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        HttpClientModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-top-left',
+            tapToDismiss: false,
+            closeButton: true
+        }),
+        MatProgressSpinnerModule
+    ],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

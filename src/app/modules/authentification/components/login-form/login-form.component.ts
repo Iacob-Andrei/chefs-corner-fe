@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {WELCOME} from "../../../../shared/constants";
+import {AUTH} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-login-form',
@@ -39,11 +39,14 @@ export class LoginFormComponent {
     return '';
   }
 
-  onSubmit(): void {
+  onClickSubmit(): void {
     // should get data + send
     console.log(this.form.controls['email'].value);
     console.log(this.form.controls['password'].value);
-    this.router.navigateByUrl(`${WELCOME}/register`).then(() => {
+  }
+
+  onClickGoRegistration(): void{
+    this.router.navigateByUrl(`${AUTH}/register`).then(() => {
       window.location.reload();
     });
   }

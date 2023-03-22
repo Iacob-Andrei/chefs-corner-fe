@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {MatchPasswords} from "../../validators/match-passwords";
+import {StepperOrientation} from "@angular/cdk/stepper";
+import {map, Observable} from "rxjs";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
+import {AUTH, HOME} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-register-form',
@@ -9,52 +14,48 @@ import {MatchPasswords} from "../../validators/match-passwords";
   styleUrls: ['./register-form.component.scss']
 })
 export class RegisterFormComponent {
-  form: FormGroup;
-  hide = true;
+  hidePassword = true;
+  hideConfirmPassword = true;
+  getErrorMsgRequired = getErrorMsgRequiredValue;
+  getErrorMsgEmail = getErrorMessageEmail;
+  getErrorMsgPwd = getErrorMessagePassword;
 
-  constructor(private router: Router,
-              private fb: FormBuilder) {
-    this.form = this.fb.group({
-      fullName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', []]
-    },
-      {validators: MatchPasswords});
+  firstFormGroup = this._formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+  });
+  thirdFormGroup = this._formBuilder.group({
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', []],
+  },
+    {validators: MatchPasswords}
+  );
+  stepperOrientation: Observable<StepperOrientation>;
+
+  constructor(private _formBuilder: FormBuilder,
+              private router: Router,
+              breakpointObserver: BreakpointObserver) {
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
 
-  getErrorMessageEmail(): string {
-    if (this.form.controls['email'].hasError('required')) {
-      return 'You must enter an email';
-    }
-
-    return this.form.controls['email'].hasError('email') ? 'Not a valid email' : '';
+  onBackRegister() {
+    this.router.navigateByUrl(HOME).then();
   }
 
-  getErrorMessagePassword(): string{
-    if (this.form.controls['password'].hasError('required')) {
-      return 'You must enter a password';
-    }
-
-    if(this.form.controls['password'].hasError('minlength')){
-      return 'Minimum length is 6';
-    }
-    return '';
+  onConfirmClick() {
+    console.log(this.firstFormGroup.value);
+    console.log(this.secondFormGroup.value);
+    console.log(this.thirdFormGroup.value);
   }
 
-  getErrorMessageRePassword(): string{
-    return this.form.hasError('matchPasswords') ? 'Password does not match' :  '';
-  }
-
-  onSubmit(): void {
-    // should get data + send
-    console.log(this.form.controls['fullName'].value);
-    console.log(this.form.controls['email'].value);
-    console.log(this.form.controls['password'].value);
-    console.log(this.form.controls['rePassword'].value);
-
-    // this.router.navigateByUrl(`${HOME}`).then(() => {
-    //   window.location.reload();
-    // });
+  onClickGoRegistration() {
+    this.router.navigateByUrl(`${AUTH}/login`).then(() => {
+      window.location.reload();
+    });
   }
 }

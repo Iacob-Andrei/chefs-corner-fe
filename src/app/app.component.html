@@ -1,1 +1,5 @@
+<div class="loader-spinner" *ngIf="(loaderService.isLoading | async)">
+  <mat-progress-spinner mode="indeterminate" style="top: 45%; left: 47%"></mat-progress-spinner>
+</div>
+
 <router-outlet></router-outlet>

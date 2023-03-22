@@ -20,15 +20,17 @@
     margin-bottom: 15px;
   }
 
-  .google-container{
-    padding: 20px 0 20px 0;
-    width: 60%;
-  }
-
   .form{
     width: 100%;
   }
 
+  .nav-button {
+    min-height: 3em;
+    min-width: 7em;
+    border-radius: 30px;
+    border: 2px solid $white;
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 1100px) {
