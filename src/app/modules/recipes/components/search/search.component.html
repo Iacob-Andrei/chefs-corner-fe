@@ -1,1 +1,19 @@
-<p>search works!</p>
+<div class="filter-class">
+  <mat-form-field appearance="outline" color="accent" class="filter-dropbox">
+    <mat-label>Category</mat-label>
+    <mat-select
+      [(ngModel)]="selectedCategory"
+      (selectionChange)="changeInSelect()">
+      <mat-option *ngFor="let category of constCategories" [value]="category">{{category.display}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-paginator [length]="maxPages"
+               [pageSize]="1"
+               [hidePageSize]="true"
+               [pageIndex]="page"
+               [showFirstLastButtons]="true"
+               (page)="test($event)"
+               aria-label="Select page">
+</mat-paginator>

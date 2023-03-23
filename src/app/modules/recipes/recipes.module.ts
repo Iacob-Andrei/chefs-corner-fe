@@ -11,7 +11,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 @NgModule({
@@ -20,17 +22,20 @@ import {ReactiveFormsModule} from "@angular/forms";
     RecipePageComponent,
     SearchComponent
   ],
-  imports: [
-    CommonModule,
-    RecipesRoutingModule,
-    FlexModule,
-    MatButtonModule,
-    MatIconModule,
-    ExtendedModule,
-    TopBarModule,
-    MatGridListModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        RecipesRoutingModule,
+        FlexModule,
+        MatButtonModule,
+        MatIconModule,
+        ExtendedModule,
+        TopBarModule,
+        MatGridListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        FormsModule,
+        MatPaginatorModule
+    ]
 })
 export class RecipesModule { }

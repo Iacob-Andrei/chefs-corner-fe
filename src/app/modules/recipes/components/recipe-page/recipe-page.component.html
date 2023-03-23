@@ -19,9 +19,18 @@
       <div class="infos-mobile" fxLayoutAlign="center" fxShow="false" fxShow.xs="true">
         <div class="container-info">
           <img [src]="imageUrl" alt="{{myRecipe.name}}" class="food-image">
-          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Prep time: </b> {{myRecipe.prep_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Cook time: </b> {{myRecipe.cook_time}} minutes</p>
-          <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> <b>Total time: </b> {{myRecipe.prep_time + myRecipe.cook_time}} minutes</p>
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time">
+            <mat-icon> timer</mat-icon>
+            <b>Prep time:</b>{{myRecipe.prep_time}} minutes
+          </p>
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time">
+            <mat-icon> timer</mat-icon>
+            <b>Cook time:</b>{{myRecipe.cook_time}} minutes
+          </p>
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time && myRecipe.cook_time">
+            <mat-icon> timer</mat-icon>
+            <b>Total time:</b>{{myRecipe.prep_time + myRecipe.cook_time}} minutes
+          </p>
           <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
             <input type="number" formControlName = 'number_servings'>
           </p>
@@ -86,9 +95,17 @@
     <div class="infos" fxShow="true" fxShow.xs="false">
       <div class="container-info">
         <img [src]="imageUrl" alt="{{myRecipe.name}}" class="food-image">
-        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Prep time:  {{myRecipe.prep_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Cook time:  {{myRecipe.cook_time}} minutes</p>
-        <p fxLayoutAlign="start center"><mat-icon> timer</mat-icon> Total time:  {{myRecipe.prep_time + myRecipe.cook_time}} minutes</p>
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time">
+          <mat-icon> timer</mat-icon>
+          <b>Prep time:</b> {{myRecipe.prep_time}} minutes
+        </p>
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time">
+          <mat-icon> timer</mat-icon>
+          <b>Cook time:</b> {{myRecipe.cook_time}}minutes</p>
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time && myRecipe.cook_time">
+          <mat-icon> timer</mat-icon>
+          <b>Total time:</b> {{myRecipe.prep_time + myRecipe.cook_time}} minutes
+        </p>
         <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
           <input type="number" formControlName = 'number_servings'>
         </p>

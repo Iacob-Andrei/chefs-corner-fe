@@ -1,10 +1,91 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {Observable, Subscription} from "rxjs";
+import {Page} from "../../../../shared/models/page.model";
+import {PageService} from "../../services/page.service";
+import {CATEGORIES, SEARCH} from "../../../../shared/constants";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit, OnDestroy{
 
+  subscriptions: Subscription[] = []
+  page!: number;
+  maxPages!: number;
+  type!: string;
+  protected pageRecipes!: Page;
+  protected pageObs!: Observable<Page>;
+  constCategories = CATEGORIES;
+  selectedCategory = CATEGORIES[0];
+
+  constructor(private route: ActivatedRoute,
+              private pageService: PageService,
+              private router: Router){}
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.type = params['type'] ? params['type'] : "";
+      })
+    )
+
+    this.subscriptions.push(
+      this.route.queryParams.subscribe(params => {
+        this.page = params['page'] ? params['page'] : 0
+      })
+    );
+
+    for(let index in CATEGORIES){
+      if (this.type == CATEGORIES[index].value){
+        this.selectedCategory = CATEGORIES[index];
+        break;
+      }
+    }
+    this.getRecipesForPage();
+  }
+
+  getRecipesForPage(): void{
+    console.log(this.page, this.type)
+    this.pageObs = this.pageService.getRecipeById(this.page, this.type);
+
+    this.subscriptions.push(
+      this.pageObs.subscribe(
+        response => {
+          this.pageRecipes = response;
+          this.maxPages = response.totalPages;
+
+          console.log(this.pageRecipes);
+        },
+        error => {
+          // TODO:
+        }
+      )
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  }
+
+  changeInSelect() {
+    const newRoute = this.selectedCategory.value == "" ? SEARCH : SEARCH + "/" + this.selectedCategory['value']
+    this.router.navigateByUrl(newRoute).then(() => {
+      window.location.reload();
+    });
+  }
+
+  test(data: PageEvent){
+    const newPage = data.pageIndex;
+    const newRoute = SEARCH + "/" + this.selectedCategory['value'];
+    this.router.navigate(
+      [newRoute],
+      {queryParams:{page:newPage}}
+    ).then(() => {
+      window.location.reload();
+    })
+  }
 }
