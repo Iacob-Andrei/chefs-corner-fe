@@ -2,10 +2,10 @@
   <div class="title" >
     <h1>{{myRecipe.name}}</h1>
     <div class="breadcrumb" fxLayout="row" fxLayoutAlign="end center">
-      <span><a href="#">Menu</a></span>
+      <span><a (click)="goToSearch('')">Menu</a></span>
       <span> > </span>
       <span *ngFor="let category of myRecipe.categories">
-        <span><a href="#">{{category.category}}</a></span>
+        <span><a (click)="goToSearch(category.category)">{{category.category}}</a></span>
       </span>
     </div>
   </div>
@@ -19,15 +19,15 @@
       <div class="infos-mobile" fxLayoutAlign="center" fxShow="false" fxShow.xs="true">
         <div class="container-info">
           <img [src]="imageUrl" alt="{{myRecipe.name}}" class="food-image">
-          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time">
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time !== undefined">
             <mat-icon> timer</mat-icon>
             <b>Prep time:</b>{{myRecipe.prep_time}} minutes
           </p>
-          <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time">
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time !== undefined">
             <mat-icon> timer</mat-icon>
             <b>Cook time:</b>{{myRecipe.cook_time}} minutes
           </p>
-          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time && myRecipe.cook_time">
+          <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time !== undefined && myRecipe.cook_time !== undefined">
             <mat-icon> timer</mat-icon>
             <b>Total time:</b>{{myRecipe.prep_time + myRecipe.cook_time}} minutes
           </p>
@@ -95,14 +95,14 @@
     <div class="infos" fxShow="true" fxShow.xs="false">
       <div class="container-info">
         <img [src]="imageUrl" alt="{{myRecipe.name}}" class="food-image">
-        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time">
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time !== undefined">
           <mat-icon> timer</mat-icon>
           <b>Prep time:</b> {{myRecipe.prep_time}} minutes
         </p>
-        <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time">
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.cook_time !== undefined">
           <mat-icon> timer</mat-icon>
           <b>Cook time:</b> {{myRecipe.cook_time}}minutes</p>
-        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time && myRecipe.cook_time">
+        <p fxLayoutAlign="start center" *ngIf="myRecipe.prep_time !== undefined && myRecipe.cook_time !== undefined">
           <mat-icon> timer</mat-icon>
           <b>Total time:</b> {{myRecipe.prep_time + myRecipe.cook_time}} minutes
         </p>

@@ -3,8 +3,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {Page} from "../../../../shared/models/page.model";
 import {PageService} from "../../services/page.service";
-import {CATEGORIES, SEARCH} from "../../../../shared/constants";
+import {CATEGORIES, PAGE_404, RECIPE, SEARCH} from "../../../../shared/constants";
 import {PageEvent} from "@angular/material/paginator";
+import {ToastrService} from "ngx-toastr";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-search',
@@ -24,7 +26,8 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   constructor(private route: ActivatedRoute,
               private pageService: PageService,
-              private router: Router){}
+              private router: Router,
+              public toaster: ToastrService,){}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -49,19 +52,17 @@ export class SearchComponent implements OnInit, OnDestroy{
   }
 
   getRecipesForPage(): void{
-    console.log(this.page, this.type)
     this.pageObs = this.pageService.getRecipeById(this.page, this.type);
 
     this.subscriptions.push(
       this.pageObs.subscribe(
         response => {
           this.pageRecipes = response;
-          this.maxPages = response.totalPages;
-
-          console.log(this.pageRecipes);
+          this.maxPages = response.totalPages + 1;
         },
         error => {
-          // TODO:
+          this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
+          this.router.navigateByUrl(PAGE_404).then();
         }
       )
     )
@@ -78,7 +79,7 @@ export class SearchComponent implements OnInit, OnDestroy{
     });
   }
 
-  test(data: PageEvent){
+  changePageNavigation(data: PageEvent){
     const newPage = data.pageIndex;
     const newRoute = SEARCH + "/" + this.selectedCategory['value'];
     this.router.navigate(
@@ -87,5 +88,20 @@ export class SearchComponent implements OnInit, OnDestroy{
     ).then(() => {
       window.location.reload();
     })
+  }
+
+  showErrorToaster(title: string, message: string): void{
+    this.toaster.error(message, title, {});
+  }
+
+  getRouteImage(image: string) {
+    return environment.imageUrl + image;
+  }
+
+  goToRecipe(id: number) {
+    const newRoute = RECIPE + id;
+    this.router.navigateByUrl(newRoute).then(() => {
+      window.location.reload();
+    });
   }
 }

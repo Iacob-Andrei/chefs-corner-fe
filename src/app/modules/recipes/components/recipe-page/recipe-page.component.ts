@@ -6,7 +6,7 @@ import {Recipe} from "../../../../shared/models";
 import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {PAGE_404} from "../../../../shared/constants";
+import {PAGE_404, SEARCH} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-recipe-page',
@@ -136,7 +136,10 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 
-  goBack() {
-    window.history.go(-1);
+  goToSearch(category: string) {
+    const newRoute = category.toLowerCase() === '' ? SEARCH :  SEARCH + "/" + category.toLowerCase();
+    this.router.navigateByUrl(newRoute).then(() => {
+      window.location.reload();
+    });
   }
 }

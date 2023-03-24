@@ -2,6 +2,7 @@ export const AUTH = 'auth';
 export const HOME = '';
 export const PAGE_404 = '404';
 export const SEARCH = 'recipe/search'
+export const RECIPE = 'recipe/'
 
 export const CATEGORIES = [
   {
