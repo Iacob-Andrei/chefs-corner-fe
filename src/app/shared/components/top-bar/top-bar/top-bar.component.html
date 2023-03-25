@@ -60,16 +60,15 @@
         <mat-label >Search recipes by name</mat-label>
         <input
           matInput
-          aria-label="State"
           [matAutocomplete]="auto"
           [formControl]="stateCtrl"
           (keydown)="filterOnEnter($event)"
         />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option
-            *ngFor="let state of filteredStates | async" [value]="state.name">
-            <img alt="" class="example-option-img" [src]="state.flag" height="25" />
-            <span>{{state.name}}</span>
+            *ngFor="let recipe of filteredRecipes | async" [value]="recipe.id">
+            <img alt="" class="example-option-img" [src]=getImageUrl(recipe.image) height="25" />
+            <span>{{recipe.name}}</span>
           </mat-option>
         </mat-autocomplete>
         <mat-icon matSuffix class="black-icon" color="accent">search</mat-icon>
@@ -107,16 +106,15 @@
     <mat-label >Search recipes by name</mat-label>
     <input
       matInput
-      aria-label="State"
       [matAutocomplete]="auto"
       [formControl]="stateCtrl"
       (keydown)="filterOnEnter($event)"
     />
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
       <mat-option
-        *ngFor="let state of filteredStates | async" [value]="state.name">
-        <img alt="" class="example-option-img" [src]="state.flag" height="25" />
-        <span>{{state.name}}</span>
+        *ngFor="let recipe of filteredRecipes | async" [value]="recipe.id">
+        <img alt="" class="example-option-img" [src]=getImageUrl(recipe.image) height="25" />
+        <span>{{recipe.name}}</span>
       </mat-option>
     </mat-autocomplete>
     <mat-icon matSuffix class="black-icon" color="accent">search</mat-icon>

@@ -23,4 +23,9 @@ export class ApiService {
     return this.http.get<Page>(`${this.apiServerUrl}/api/category/${type},${page}`)
       .pipe();
   }
+
+  getRecipesByFilter(pattern: string) {
+    return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
+      .pipe();
+  }
 }
