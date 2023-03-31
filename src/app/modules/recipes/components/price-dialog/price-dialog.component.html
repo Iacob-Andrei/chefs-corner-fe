@@ -2,9 +2,25 @@
 
 <div mat-dialog-content>
   <div *ngFor="let ingredient of ingredients">
-    <p><b>{{ingredient.name}}:</b> {{ingredient.amount}} {{ingredient.unit}} * ${{ingredient.price_per_unit}}/unit = ${{getProduct(ingredient.amount, ingredient.price_per_unit)}}</p>
+    <p><b>{{ingredient.name}}:</b> {{getIngredientActualAmount(ingredient.id)}} * ${{ingredient.price_per_unit}} = ${{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit)}}</p>
   </div>
-  <b>Total: ${{totalPrice}}</b>
+
+  <div class="final-prices">
+    <p><b>Total:</b> ${{totalPrice}}</p>
+
+    <span><b>Total with profit:</b> ${{extra}}
+      <mat-form-field appearance="outline" color="accent" style="width: 100px">
+        <mat-label>%</mat-label>
+        <mat-select
+          (selectionChange)="changePercent()"
+          [(ngModel)]="tax">
+          <mat-option *ngFor="let percent of percentages" [value]="percent.procent">
+            {{percent.view}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </span>
+  </div>
 </div>
 
 <div mat-dialog-actions>
