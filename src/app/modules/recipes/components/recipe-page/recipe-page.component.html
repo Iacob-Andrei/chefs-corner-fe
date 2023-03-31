@@ -45,14 +45,14 @@
 
               <div fxFlex="50%" fxFlex.xs="100%" >
                 <div class="grid-item" fxLayout="row" fxFlexAlign="center">
-                  <img [src]="ingredientsUrl+item.ingredient.image" class="ingredient-image" alt="gdf">
-                  <span class="ingredient-name">{{item.ingredient.name}}</span>
+                  <img [src]="ingredientsUrl+item.image" class="ingredient-image" alt="gdf">
+                  <span class="ingredient-name">{{item.name}}</span>
                 </div>
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%" fxShow="true" fxShow.xs="false">
                 <div class="ingredient-amount">
-                  <input type="number" formControlName="{{item.ingredient.id + '_amount'}}">
+                  <input type="number" formControlName="{{item.id + '_amount'}}">
                   {{item.unit}}
                 </div>
               </div>
@@ -63,13 +63,13 @@
 
               <div fxFlex="50%" fxFlex.xs="100%" fxShow="false" fxShow.xs="true">
                 <div class="ingredient-amount">
-                  <input type="number" formControlName="{{item.ingredient.id + '_amount'}}">
+                  <input type="number" formControlName="{{item.id + '_amount'}}">
                   {{item.unit}}  </div>
               </div>
 
               <div fxFlex="50%" fxFlex.xs="100%">
                 <div class="ingredient-amount">
-                  <input type="number" formControlName="{{item.ingredient.id + '_grams'}}">
+                  <input type="number" formControlName="{{item.id + '_grams'}}">
                   grams
                 </div>
               </div>
