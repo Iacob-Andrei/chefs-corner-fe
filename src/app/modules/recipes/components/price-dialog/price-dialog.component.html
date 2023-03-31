@@ -1,0 +1,12 @@
+<h1 mat-dialog-title><b>Estimated prices for ingredients:</b></h1>
+
+<div mat-dialog-content>
+  <div *ngFor="let ingredient of ingredients">
+    <p><b>{{ingredient.name}}:</b> {{ingredient.amount}} {{ingredient.unit}} * ${{ingredient.price_per_unit}}/unit = ${{getProduct(ingredient.amount, ingredient.price_per_unit)}}</p>
+  </div>
+  <b>Total: ${{totalPrice}}</b>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="">Close</button>
+</div>

@@ -8,6 +8,11 @@
         <span><a (click)="goToSearch(category.category)">{{category.category}}</a></span>
       </span>
     </div>
+
+    <div class="buttons">
+      <button mat-button (click)="openDialog()" ><mat-icon class="price-icon">attach_money</mat-icon></button>
+      <button mat-button ><mat-icon class="price-icon">favorite_border</mat-icon></button>
+    </div>
   </div>
 
   <form [formGroup]="form"
@@ -31,7 +36,7 @@
             <mat-icon> timer</mat-icon>
             <b>Total time:</b>{{myRecipe.prep_time + myRecipe.cook_time}} minutes
           </p>
-          <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
+          <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> <b>Servings:</b>
             <input type="number" formControlName = 'number_servings'>
           </p>
         </div>
@@ -106,7 +111,7 @@
           <mat-icon> timer</mat-icon>
           <b>Total time:</b> {{myRecipe.prep_time + myRecipe.cook_time}} minutes
         </p>
-        <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> Servings:
+        <p fxLayoutAlign="start center"><mat-icon> restaurant</mat-icon> <b>Servings:</b>
           <input type="number" formControlName = 'number_servings'>
         </p>
       </div>

@@ -7,6 +7,8 @@ import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PAGE_404, SEARCH} from "../../../../shared/constants";
+import {MatDialog} from "@angular/material/dialog";
+import {PriceDialogComponent} from "../price-dialog/price-dialog.component";
 
 @Component({
   selector: 'app-recipe-page',
@@ -26,7 +28,8 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   constructor(private route: ActivatedRoute,
               private router: Router,
               public toaster: ToastrService,
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              public dialog: MatDialog) {}
 
   ngOnInit(): void{
     this.subscriptions.push(
@@ -140,6 +143,15 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     const newRoute = category.toLowerCase() === '' ? SEARCH :  SEARCH + "/" + category.toLowerCase();
     this.router.navigateByUrl(newRoute).then(() => {
       window.location.reload();
+    });
+  }
+
+  openDialog() {
+    this.dialog.open(PriceDialogComponent,{
+      data: {
+        ingredients: this.recipe?.ingredients,
+        quantities: this.form.controls
+      }
     });
   }
 }
