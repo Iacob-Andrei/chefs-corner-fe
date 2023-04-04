@@ -6,7 +6,9 @@ import {Recipe} from "../../../../shared/models";
 import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {PAGE_404} from "../../../../shared/constants";
+import {PAGE_404, SEARCH} from "../../../../shared/constants";
+import {MatDialog} from "@angular/material/dialog";
+import {PriceDialogComponent} from "../price-dialog/price-dialog.component";
 
 @Component({
   selector: 'app-recipe-page',
@@ -26,7 +28,8 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   constructor(private route: ActivatedRoute,
               private router: Router,
               public toaster: ToastrService,
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              public dialog: MatDialog) {}
 
   ngOnInit(): void{
     this.subscriptions.push(
@@ -65,13 +68,13 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   createForm() {
     const group: any = {};
-    const ingredients = this.recipe ? this.recipe.ingredients : [];
+    const ingredients = this.recipe.ingredients ? this.recipe.ingredients : [];
 
     group['number_servings'] = new FormControl(this.recipe.number_servings);
 
     ingredients.forEach(item => {
-      group[`${item.ingredient.id}_amount`] = new FormControl(item.amount);
-      group[`${item.ingredient.id}_grams`] = new FormControl(item.grams * item.amount);
+      group[`${item.id}_amount`] = new FormControl(item.amount);
+      group[`${item.id}_grams`] = new FormControl(item.grams * item.amount);
     });
 
     return new FormGroup(group);
@@ -92,7 +95,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     let ratio;
 
     if (key === "number_servings"){
-      ratio = value / this.recipe.number_servings ;
+      ratio = this.recipe.number_servings ? value / this.recipe.number_servings : 1;
     }
     else{
       const id = key.split("_")[0];
@@ -104,10 +107,10 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   }
 
   getRatioUpdate(id: number, key: string, value: number){
-    const ingredients = this.recipe ? this.recipe.ingredients : [];
+    const ingredients = this.recipe.ingredients ? this.recipe.ingredients : [];
 
     for( let item of ingredients ){
-      if (item.ingredient.id === id){
+      if (item.id === id){
         if (key === 'amount')
           return value / item.amount;
         return value / ( item.grams * item.amount );
@@ -118,11 +121,13 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   }
 
   updateValues(ratio: number){
-    this.form.controls['number_servings'].setValue(this.recipe.number_servings * ratio, { emitEvent: false });
+    const new_size = this.recipe.number_servings ? this.recipe.number_servings * ratio : 1
+    this.form.controls['number_servings'].setValue(new_size, { emitEvent: false });
+    const ingredients = this.recipe.ingredients ? this.recipe.ingredients : [];
 
-    this.recipe.ingredients.forEach(item => {
-      this.form.controls[`${item.ingredient.id}_amount`].setValue(ratio * item.amount, { emitEvent: false });
-      this.form.controls[`${item.ingredient.id}_grams`].setValue(ratio * item.amount * item.grams, { emitEvent: false });
+    ingredients.forEach(item => {
+      this.form.controls[`${item.id}_amount`].setValue(ratio * item.amount, { emitEvent: false });
+      this.form.controls[`${item.id}_grams`].setValue(ratio * item.amount * item.grams, { emitEvent: false });
     });
   }
 
@@ -134,7 +139,19 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 
-  goBack() {
-    window.history.go(-1);
+  goToSearch(category: string) {
+    const newRoute = category.toLowerCase() === '' ? SEARCH :  SEARCH + "/" + category.toLowerCase();
+    this.router.navigateByUrl(newRoute).then(() => {
+      window.location.reload();
+    });
+  }
+
+  openDialog() {
+    this.dialog.open(PriceDialogComponent,{
+      data: {
+        ingredients: this.recipe?.ingredients,
+        quantities: this.form.controls
+      }
+    });
   }
 }

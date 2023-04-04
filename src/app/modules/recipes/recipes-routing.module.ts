@@ -20,6 +20,11 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'search/:type',
+        component: SearchComponent,
+        pathMatch: 'full'
+      },
+      {
         path: ':id',
         component: RecipePageComponent
       },

@@ -6,6 +6,8 @@ import {ExtendedModule, FlexModule} from "@angular/flex-layout";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 
@@ -23,7 +25,10 @@ import {MatInputModule} from "@angular/material/input";
     MatMenuModule,
     MatIconModule,
     MatInputModule,
-    ExtendedModule
+    ExtendedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ]
 })
 export class TopBarModule { }

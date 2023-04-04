@@ -1,0 +1,29 @@
+<h1 mat-dialog-title><b>Estimated prices for ingredients:</b></h1>
+
+<div mat-dialog-content>
+  <div *ngFor="let ingredient of ingredients" class="ingredient" fxLayout="row" fxLayoutAlign="space-between center">
+    <b>{{ingredient.name}}:</b>
+    {{getIngredientActualAmount(ingredient.id)}} * ${{ingredient.price_per_unit}} = ${{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit)}}
+  </div>
+
+  <div class="final-prices">
+    <p><b>Total:</b> ${{totalPrice}}</p>
+
+    <span><b>Total with profit:</b> ${{extra}}
+      <mat-form-field appearance="outline" color="accent" style="width: 100px">
+        <mat-label>%</mat-label>
+        <mat-select
+          (selectionChange)="changePercent()"
+          [(ngModel)]="tax">
+          <mat-option *ngFor="let percent of percentages" [value]="percent.procent">
+            {{percent.view}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </span>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="">Close</button>
+</div>

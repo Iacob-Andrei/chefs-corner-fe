@@ -1,8 +1,9 @@
-import {Ingredient} from "./ingredient.model";
-
 export interface IngredientUsed{
   id: number;
-  ingredient: Ingredient;
+  name: string;
+  price_per_unit: number;
+  image: string;
+  svg: string;
   amount: number;
   description: string;
   unit: string;
