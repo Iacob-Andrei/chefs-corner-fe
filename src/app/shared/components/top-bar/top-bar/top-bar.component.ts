@@ -7,6 +7,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Recipe} from "../../../models";
 import {FiltersService} from "../services/filters.service";
 import {environment} from "../../../../../environments/environment";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-top-bar',
@@ -15,7 +16,6 @@ import {environment} from "../../../../../environments/environment";
 })
 export class TopBarComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
-  isAuth: boolean = true;
 
   stateCtrl = new FormControl('');
 
@@ -23,10 +23,11 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
 
   constructor( private router: Router,
-               private filterService: FiltersService) {}
+               private filterService: FiltersService,
+               public authService: AuthService) {}
 
   ngOnInit(): void{
-  this.filteredRecipes = this.filterService.getRecipesByFilter('a');
+  //this.filteredRecipes = this.filterService.getRecipesByFilter('a');
 }
 
   onClickGoHome() {
@@ -58,5 +59,9 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  }
+
+  onClickLogout() {
+    this.authService.logout()
   }
 }

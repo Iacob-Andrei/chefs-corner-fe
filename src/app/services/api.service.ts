@@ -28,4 +28,12 @@ export class ApiService {
     return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
       .pipe();
   }
+
+  login(email: string, password: string) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post<any>(`${this.apiServerUrl}/api/auth/token`,
+                                  JSON.stringify({"email": email, "password":password}),
+                                  {'headers': headers})
+      .pipe();
+  }
 }

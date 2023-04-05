@@ -54,8 +54,6 @@ export class RegisterFormComponent {
   }
 
   onClickGoRegistration() {
-    this.router.navigateByUrl(`${AUTH}/login`).then(() => {
-      window.location.reload();
-    });
+    this.router.navigateByUrl(`${AUTH}/login`).then();
   }
 }
