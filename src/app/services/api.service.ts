@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
 import {Page} from "../shared/models/page.model";
+import {User} from "../shared/models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class ApiService {
                                   JSON.stringify({"email": email, "password":password}),
                                   {'headers': headers})
       .pipe();
+  }
+
+  getUsedInfo(email: string) {
+    return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`).pipe();
   }
 }

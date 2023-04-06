@@ -8,6 +8,7 @@ import {Recipe} from "../../../models";
 import {FiltersService} from "../services/filters.service";
 import {environment} from "../../../../../environments/environment";
 import {AuthService} from "../../../../services/auth/auth.service";
+import {User} from "../../../models/user.model";
 
 @Component({
   selector: 'app-top-bar',
@@ -21,6 +22,8 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   filteredRecipes!: Observable<Recipe[]>;
 
+  userDataObs!: Observable<User>;
+  imageUrl!: string;
 
   constructor( private router: Router,
                private filterService: FiltersService,
@@ -28,6 +31,21 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void{
   //this.filteredRecipes = this.filterService.getRecipesByFilter('a');
+
+    let auth = undefined
+    const sub = this.authService.isLoggedIn.subscribe(open => auth = open);
+    sub.unsubscribe();
+
+    if(auth){
+      this.userDataObs = this.authService.getUserInfo();
+      this.subscriptions.push(
+        this.userDataObs.subscribe(
+          response => {
+            this.imageUrl = `data:image/png;base64,${response.image}`;
+          }
+        )
+      )
+    }
 }
 
   onClickGoHome() {

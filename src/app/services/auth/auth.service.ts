@@ -35,6 +35,10 @@ export class AuthService {
     );
   }
 
+  getUserInfo(){
+    return this.api.getUsedInfo(this.getSubjectFromToken());
+  }
+
   logout() {
     localStorage.removeItem(this.TOKEN_NAME);
     this._isLoggedIn$.next(false);
