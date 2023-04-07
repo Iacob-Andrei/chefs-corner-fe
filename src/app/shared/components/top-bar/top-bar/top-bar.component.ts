@@ -41,7 +41,7 @@ export class TopBarComponent implements OnInit, OnDestroy{
       this.subscriptions.push(
         this.userDataObs.subscribe(
           response => {
-            this.imageUrl = `data:image/png;base64,${response.image}`;
+            this.imageUrl = response.image ? `data:image/png;base64,${response.image}` : "./assets/icons/default-profile.jpg";
           }
         )
       )

@@ -45,6 +45,22 @@ export class AuthService {
     window.location.reload();
   }
 
+  register(name: string, email: string, password: string, business = false){
+    return this.api.register(name, email, password, business).pipe(
+      tap((response: any) =>{
+          localStorage.setItem(this.TOKEN_NAME, response['token']);
+          this._isLoggedIn$.next(true);
+        },
+        (error: any) =>{
+          //TODO: add error handler
+        })
+    )
+  }
+
+  patchImage(email: string, image: File){
+    return this.api.patchImage(email, image);
+  }
+
   checkTokenValidate(){
     if(this.token !== null) {
       const expirationTime = jwt_decode<AuthToken>(this.token).exp * 1000;

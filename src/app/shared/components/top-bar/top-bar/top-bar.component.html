@@ -75,7 +75,7 @@
 
     <ng-container *ngIf="authService.isLoggedIn | async">
       <button mat-icon-button [matMenuTriggerFor]="account">
-        <img [src]="imageUrl" alt="./assets/icons/test-profile-img.jpg" class="profile-img" >
+        <img [src]="imageUrl" alt="" class="profile-img" >
       </button>
       <mat-menu #account="matMenu">
         <button mat-menu-item disabled>

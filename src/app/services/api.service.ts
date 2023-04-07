@@ -38,6 +38,23 @@ export class ApiService {
       .pipe();
   }
 
+  register(name: string, email: string, password: string, business: boolean){
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post(
+      `${this.apiServerUrl}/api/auth/register`,
+      JSON.stringify({"name": name, "email": email, "password":password, "business": business}),
+      {'headers': headers}
+    )
+  }
+
+  patchImage(email: string, image: File){
+    const fd = new FormData();
+    fd.append('image', image);
+
+
+    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
+  }
+
   getUsedInfo(email: string) {
     return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`).pipe();
   }

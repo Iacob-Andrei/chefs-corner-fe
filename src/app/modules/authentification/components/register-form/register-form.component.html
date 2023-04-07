@@ -1,5 +1,5 @@
 <div class="register-container" fxLayout="column" fxLayoutAlign="center center">
-  <p>Register your account</p>
+  <p class="register-title">Register your account</p>
 
   <mat-stepper
     class="register-stepper"
@@ -22,6 +22,29 @@
             {{getErrorMsgRequired(this.firstFormGroup.controls.lastName)}}
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Account type</mat-label>
+          <mat-select formControlName="accountType" required>
+            <mat-option [value]="true">Business</mat-option>
+            <mat-option [value]="false">Personal</mat-option>
+          </mat-select>
+          <mat-error *ngIf="this.firstFormGroup.controls.accountType.invalid">
+            {{getErrorMsgRequired(this.firstFormGroup.controls.accountType)}}
+          </mat-error>
+        </mat-form-field>
+
+        <input type="file" class="file-input"
+               accept="image/*"
+               (change)="onFileSelected($event)" #fileUpload required>
+        <div class="file-upload">
+          {{fileName || "No file uploaded yet."}}
+          <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+
         <div>
           <button mat-button (click)="onBackRegister()">Back</button>
           <button mat-button matStepperNext>Next</button>

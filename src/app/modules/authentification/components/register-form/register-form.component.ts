@@ -1,28 +1,32 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {MatchPasswords} from "../../validators/match-passwords";
 import {StepperOrientation} from "@angular/cdk/stepper";
-import {map, Observable} from "rxjs";
+import {map, Observable, Subscription} from "rxjs";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
 import {AUTH, HOME} from "../../../../shared/constants";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss']
 })
-export class RegisterFormComponent {
+export class RegisterFormComponent implements OnDestroy{
+  subscriptions: Subscription[] = []
   hidePassword = true;
   hideConfirmPassword = true;
   getErrorMsgRequired = getErrorMsgRequiredValue;
   getErrorMsgEmail = getErrorMessageEmail;
   getErrorMsgPwd = getErrorMessagePassword;
-
+  fileName = '';
+  image: File | undefined;
   firstFormGroup = this._formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    accountType: [false, Validators.required]
   });
   secondFormGroup = this._formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,7 +41,8 @@ export class RegisterFormComponent {
 
   constructor(private _formBuilder: FormBuilder,
               private router: Router,
-              breakpointObserver: BreakpointObserver) {
+              breakpointObserver: BreakpointObserver,
+              private authService: AuthService) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -51,9 +56,57 @@ export class RegisterFormComponent {
     console.log(this.firstFormGroup.value);
     console.log(this.secondFormGroup.value);
     console.log(this.thirdFormGroup.value);
+    console.log(this.image);
+
+    if(this.firstFormGroup.value.accountType !== null){
+      this.subscriptions.push(
+        this.authService.register(
+          `${this.firstFormGroup.value.firstName} ${this.firstFormGroup.value.lastName}`,
+          `${this.secondFormGroup.value.email}`,
+          `${this.thirdFormGroup.value.password}`,
+          this.firstFormGroup.value.accountType
+        ).subscribe(
+          response => {
+            console.log(response);
+            this.patchImage();
+          },
+          error => {
+            //TODO: show error promt if error shows
+          }
+        )
+      )
+    }
+  }
+
+  patchImage(){
+    if(!this.image) return;
+
+    this.subscriptions.push(
+      this.authService.patchImage(
+        `${this.secondFormGroup.value.email}`,
+        this.image
+      ).subscribe(response => {
+          this.router.navigateByUrl(HOME).then();
+      },
+        error => {
+          console.log(error)
+        //TODO: show error promt if error shows
+        })
+    )
   }
 
   onClickGoRegistration() {
     this.router.navigateByUrl(`${AUTH}/login`).then();
+  }
+
+  onFileSelected(event: any) {
+    this.image = event.target.files[0];
+    if (this.image) {
+      this.fileName = this.image.name;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 }
