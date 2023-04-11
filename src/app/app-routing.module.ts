@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'recipe',
     loadChildren: () => import("./modules/recipes/recipes.module").then((m) => m.RecipesModule),
-    canActivate: [IsAuthGuard]
+    // canActivate: [IsAuthGuard]
   },
   {
     path: '**',
