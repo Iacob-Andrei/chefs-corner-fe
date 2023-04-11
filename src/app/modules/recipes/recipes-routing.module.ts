@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {ContainerComponent} from "./components/container/container.component";
 import {RecipePageComponent} from "./components/recipe-page/recipe-page.component";
 import {SearchComponent} from "./components/search/search.component";
+import {CreateRecipeComponent} from "./components/create-recipe/create-recipe.component";
 
 const routes: Routes = [
   {
@@ -22,6 +23,11 @@ const routes: Routes = [
       {
         path: 'search/:type',
         component: SearchComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'create',
+        component: CreateRecipeComponent,
         pathMatch: 'full'
       },
       {

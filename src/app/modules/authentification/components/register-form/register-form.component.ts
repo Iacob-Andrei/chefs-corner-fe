@@ -8,6 +8,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
 import {AUTH, HOME} from "../../../../shared/constants";
 import {AuthService} from "../../../../services/auth/auth.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register-form',
@@ -42,7 +43,8 @@ export class RegisterFormComponent implements OnDestroy{
   constructor(private _formBuilder: FormBuilder,
               private router: Router,
               breakpointObserver: BreakpointObserver,
-              private authService: AuthService) {
+              private authService: AuthService,
+              public toaster: ToastrService) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -66,12 +68,13 @@ export class RegisterFormComponent implements OnDestroy{
           `${this.thirdFormGroup.value.password}`,
           this.firstFormGroup.value.accountType
         ).subscribe(
-          response => {
-            console.log(response);
+          () => {
             this.patchImage();
           },
           error => {
-            //TODO: show error promt if error shows
+            //TODO: show error toaster if error shows
+            console.log(error)
+            console.log(error.code(), error.body['message'])
           }
         )
       )
@@ -85,14 +88,20 @@ export class RegisterFormComponent implements OnDestroy{
       this.authService.patchImage(
         `${this.secondFormGroup.value.email}`,
         this.image
-      ).subscribe(response => {
+      ).subscribe(() => {
           this.router.navigateByUrl(HOME).then();
       },
         error => {
+          //TODO: show error toaster if error shows
           console.log(error)
-        //TODO: show error promt if error shows
+          console.log(error.code(), error.body['message'])
+          // this.router.navigateByUrl(HOME).then();
         })
     )
+  }
+
+  showErrorToaster(title: string, message: string): void{
+    this.toaster.error(message, title, {});
   }
 
   onClickGoRegistration() {

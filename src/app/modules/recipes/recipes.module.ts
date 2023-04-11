@@ -16,6 +16,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDialogModule} from "@angular/material/dialog";
 import { PriceDialogComponent } from './components/price-dialog/price-dialog.component';
+import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
+import {MatStepperModule} from "@angular/material/stepper";
 
 
 @NgModule({
@@ -24,22 +26,24 @@ import { PriceDialogComponent } from './components/price-dialog/price-dialog.com
     RecipePageComponent,
     SearchComponent,
     PriceDialogComponent,
+    CreateRecipeComponent,
   ],
-  imports: [
-    CommonModule,
-    RecipesRoutingModule,
-    FlexModule,
-    MatButtonModule,
-    MatIconModule,
-    ExtendedModule,
-    TopBarModule,
-    MatGridListModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    FormsModule,
-    MatPaginatorModule,
-    MatDialogModule
-  ]
+    imports: [
+        CommonModule,
+        RecipesRoutingModule,
+        FlexModule,
+        MatButtonModule,
+        MatIconModule,
+        ExtendedModule,
+        TopBarModule,
+        MatGridListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        FormsModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatStepperModule
+    ]
 })
 export class RecipesModule { }
