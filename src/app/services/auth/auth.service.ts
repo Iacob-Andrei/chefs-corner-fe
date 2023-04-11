@@ -28,10 +28,7 @@ export class AuthService {
       tap((response: any) =>{
         localStorage.setItem(this.TOKEN_NAME, response['token']);
         this._isLoggedIn$.next(true);
-      },
-        (error: any) =>{
-          //TODO: add error handler
-        })
+      })
     );
   }
 
@@ -50,9 +47,6 @@ export class AuthService {
       tap((response: any) =>{
           localStorage.setItem(this.TOKEN_NAME, response['token']);
           this._isLoggedIn$.next(true);
-        },
-        (error: any) =>{
-          //TODO: add error handler
         })
     )
   }
