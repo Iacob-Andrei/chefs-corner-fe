@@ -54,41 +54,43 @@
     <form [formGroup]="secondFormGroup"
           fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
           fxLayoutAlign="space-between start">
+
       <mat-form-field appearance="outline" color="accent">
+        <mat-icon *ngIf="ingredientsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeIngredient(index)"></mat-icon>
         <mat-label>Ingredient</mat-label>
         <input matInput formControlName="{{'ingredient'+index}}" required>
-        <mat-error *ngIf="this.getFormControl('ingredient', index).invalid">
-          {{getErrorMsgRequired(getFormControl('ingredient', index))}}
+        <mat-error *ngIf="this.getFormControl('ingredient', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('ingredient', index, secondFormGroup))}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Description</mat-label>
         <input matInput formControlName="{{'description'+index}}" required>
-        <mat-error *ngIf="this.getFormControl('description', index).invalid">
-          {{getErrorMsgRequired(getFormControl('description', index))}}
+        <mat-error *ngIf="this.getFormControl('description', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('description', index, secondFormGroup))}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Units</mat-label>
         <input matInput type="number" formControlName="{{'units'+index}}" required min=0>
-        <mat-error *ngIf="this.getFormControl('units', index).invalid">
-          {{getErrorMsgRequired(getFormControl('units', index))}}
+        <mat-error *ngIf="this.getFormControl('units', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('units', index, secondFormGroup))}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Grams per unit</mat-label>
         <input matInput type="number" formControlName="{{'gramsPerUnit'+index}}" required min=0>
-        <mat-error *ngIf="this.getFormControl('gramsPerUnit', index).invalid">
-          {{getErrorMsgRequired(getFormControl('gramsPerUnit', index))}}
+        <mat-error *ngIf="this.getFormControl('gramsPerUnit', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('gramsPerUnit', index, secondFormGroup))}}
         </mat-error>
       </mat-form-field>
     </form>
     </div>
 
-    <button mat-raised-button color="primary" class="nav-button" (click)="addIngredient()">Add ingredient</button>
+    <button mat-raised-button color="primary" class="add-button" (click)="addIngredient()">Add ingredient</button>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
@@ -96,7 +98,25 @@
     </div>
   </mat-step>
 
-  <mat-step label="Add recipe's instructions">
+  <mat-step [stepControl]="thirdFormGroup" label="Add recipe's instructions">
+
+    <div *ngFor="let index of directionsCount" class="step-gap">
+      <form [formGroup]="thirdFormGroup"
+            fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
+            fxLayoutAlign="space-between start">
+        <mat-form-field appearance="outline" color="accent" class="instruction-input">
+          <mat-icon *ngIf="directionsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeDirection(index)"></mat-icon>
+          <mat-label>Instruction</mat-label>
+          <textarea cdkTextareaAutosize matInput formControlName="{{'direction'+index}}" required>
+          </textarea>
+            <mat-error *ngIf="this.getFormControl('direction', index, thirdFormGroup).invalid">
+            {{getErrorMsgRequired(getFormControl('direction', index, thirdFormGroup))}}
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <button mat-raised-button color="primary" class="add-button" (click)="addDirection()">Add instruction</button>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
