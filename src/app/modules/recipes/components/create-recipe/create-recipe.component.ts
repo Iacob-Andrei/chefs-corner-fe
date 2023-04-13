@@ -7,6 +7,7 @@ import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatStepper} from "@angular/material/stepper";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-recipe',
@@ -21,6 +22,8 @@ export class CreateRecipeComponent{
 
   recipeImageName = '';
   recipeImageFile: File | undefined;
+  directionsVideoName: string[] = [];
+  directionsVideoFile: File[] = [];
 
   firstFormGroup = this._formBuilder.group({
     title: ['', Validators.required],
@@ -43,7 +46,8 @@ export class CreateRecipeComponent{
 
   constructor(
     private _formBuilder: FormBuilder,
-    breakpointObserver: BreakpointObserver
+    breakpointObserver: BreakpointObserver,
+    private toaster: ToastrService
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
@@ -70,7 +74,8 @@ export class CreateRecipeComponent{
 
     console.log("INSTRUCTIONS:")
     this.directionsCount.forEach(index => {
-      console.log(this.thirdFormGroup.get(`direction${index}`)?.value)
+      console.log(this.thirdFormGroup.get(`direction${index}`)?.value);
+      console.log(this.directionsVideoName[index]);
     })
   }
 
@@ -81,9 +86,18 @@ export class CreateRecipeComponent{
     }
   }
 
+  onFileSelectedVideo(event: any, index: number) {
+    this.directionsVideoFile[index] = event.target.files[0];
+    if (this.directionsVideoFile[index]) {
+      this.directionsVideoName[index] = this.directionsVideoFile[index].name;
+    }
+  }
+
   toSecondStepper() {
     if (this.recipeImageName !== '') {
       this.stepper.next();
+    }else{
+      this.showWarningToaster("No file uploaded", "Please upload an image for your recipe!");
     }
   }
 
@@ -131,5 +145,13 @@ export class CreateRecipeComponent{
     this.directionsCount = this.directionsCount.filter(obj => {
       return obj !== index
     });
+  }
+
+  showErrorToaster(title: string, message: string): void{
+    this.toaster.error(message, title, {});
+  }
+
+  showWarningToaster(title: string, message: string): void{
+    this.toaster.warning(message, title, {});
   }
 }

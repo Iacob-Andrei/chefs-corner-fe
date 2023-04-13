@@ -103,7 +103,7 @@
     <div *ngFor="let index of directionsCount" class="step-gap">
       <form [formGroup]="thirdFormGroup"
             fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
-            fxLayoutAlign="space-between start">
+            fxLayoutAlign="start start">
         <mat-form-field appearance="outline" color="accent" class="instruction-input">
           <mat-icon *ngIf="directionsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeDirection(index)"></mat-icon>
           <mat-label>Instruction</mat-label>
@@ -113,6 +113,17 @@
             {{getErrorMsgRequired(getFormControl('direction', index, thirdFormGroup))}}
           </mat-error>
         </mat-form-field>
+
+        <input type="file" class="file-input"
+               accept="video/*"
+               (change)="onFileSelectedVideo($event, index)" #fileUpload required>
+        <div class="file-upload">
+          {{directionsVideoName[index] || "No file uploaded yet."}}
+          <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
       </form>
     </div>
 
