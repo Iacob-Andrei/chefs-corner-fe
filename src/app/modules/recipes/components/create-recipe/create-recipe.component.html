@@ -63,7 +63,7 @@
           fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
           fxLayoutAlign="space-between start">
 
-      <mat-form-field class="search-bar" appearance="outline" color="accent">
+      <mat-form-field appearance="outline" color="accent">
         <mat-label >Search ingredients by name</mat-label>
         <input
           matInput
@@ -89,8 +89,16 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="accent">
-        <mat-label>Units</mat-label>
-        <input matInput type="number" formControlName="{{'units'+index}}" required min=0>
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="{{'amount'+index}}" required min=0>
+        <mat-error *ngIf="this.getFormControl('amount', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('amount', index, secondFormGroup))}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Unit of measurement</mat-label>
+        <input matInput formControlName="{{'units'+index}}" required min=0>
         <mat-error *ngIf="this.getFormControl('units', index, secondFormGroup).invalid">
           {{getErrorMsgRequired(getFormControl('units', index, secondFormGroup))}}
         </mat-error>
@@ -98,7 +106,7 @@
 
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Grams per unit</mat-label>
-        <input matInput type="number" formControlName="{{'gramsPerUnit'+index}}" required min=0>
+        <input matInput type="number" formControlName="{{'gramsPerUnit'+index}}" required min=1>
         <mat-error *ngIf="this.getFormControl('gramsPerUnit', index, secondFormGroup).invalid">
           {{getErrorMsgRequired(getFormControl('gramsPerUnit', index, secondFormGroup))}}
         </mat-error>

@@ -1,6 +1,8 @@
 export interface Ingredient {
-  id: number;
-  name: string;
-  image?: string;
-  svg?: string;
+  id: number,
+  name: string,
+  amount?: number,
+  unit?: string,
+  grams?: number,
+  description?: string
 }

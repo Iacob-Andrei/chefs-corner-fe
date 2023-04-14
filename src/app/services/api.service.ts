@@ -5,6 +5,7 @@ import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
 import {Page} from "../shared/models/page.model";
 import {User} from "../shared/models/user.model";
+import {RecipePost} from "../shared/models/recipePost.model";
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,14 @@ export class ApiService {
 
   getUsedInfo(email: string) {
     return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`).pipe();
+  }
+
+  postRecipe(recipe: RecipePost) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post(
+      `${this.apiServerUrl}/api/recipe`,
+      JSON.stringify(recipe),
+      {'headers': headers}
+    )
   }
 }

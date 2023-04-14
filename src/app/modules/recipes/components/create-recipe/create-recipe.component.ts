@@ -1,7 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {
-  getErrorMsgRequiredValue
-} from "../../../authentification/validators/error-messages";
+import {getErrorMsgRequiredValue} from "../../../authentification/validators/error-messages";
 import {map, Observable} from "rxjs";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver} from "@angular/cdk/layout";
@@ -10,6 +8,10 @@ import {MatStepper} from "@angular/material/stepper";
 import {ToastrService} from "ngx-toastr";
 import {Ingredient} from "../../../../shared/models/ingredient.model";
 import {FiltersService} from "../../../../shared/components/top-bar/services/filters.service";
+import {RecipePost} from "../../../../shared/models/recipePost.model";
+import {AuthService} from "../../../../services/auth/auth.service";
+import {Direction} from "../../../../shared/models/direction.model";
+import {RecipeService} from "../../services/recipe.service";
 
 @Component({
   selector: 'app-create-recipe',
@@ -39,7 +41,8 @@ export class CreateRecipeComponent{
   secondFormGroup = this._formBuilder.record({
     ingredient1: new FormControl('', Validators.required),
     description1: new FormControl('', Validators.required),
-    units1: new FormControl(1, [Validators.required, Validators.min(1)]),
+    amount1: new FormControl(1, [Validators.required, Validators.min(1)]),
+    units1: new FormControl('', [Validators.required]),
     gramsPerUnit1: new FormControl(1, [Validators.required, Validators.min(1)]),
   });
 
@@ -52,36 +55,62 @@ export class CreateRecipeComponent{
     private _formBuilder: FormBuilder,
     breakpointObserver: BreakpointObserver,
     private toaster: ToastrService,
-    private filterService: FiltersService
+    private filterService: FiltersService,
+    private authService: AuthService,
+    private recipeService: RecipeService
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
-
   }
 
   onConfirmClick() {
-    console.log("DETAILS:")
-    console.log(this.firstFormGroup.controls.title.value)
-    console.log(this.firstFormGroup.controls.cookTime.value)
-    console.log(this.firstFormGroup.controls.prepTime.value)
-    console.log(this.recipeImageName)
+    let request = {} as RecipePost;
 
-    console.log("INGREDIENTS:")
-    this.ingredientsCount.forEach(index => {
-      console.log(
-        this.secondFormGroup.get(`ingredient${index}`)?.value,
-        this.secondFormGroup.get(`description${index}`)?.value,
-        this.secondFormGroup.get(`units${index}`)?.value,
-        this.secondFormGroup.get(`gramsPerUnit${index}`)?.value
-      )
-    })
+    request.name = this.firstFormGroup.controls.title.value ? this.firstFormGroup.controls.title.value : ''
+    request.prep_time = this.firstFormGroup.controls.prepTime.value ? this.firstFormGroup.controls.prepTime.value : 1
+    request.cook_time = this.firstFormGroup.controls.cookTime.value ? this.firstFormGroup.controls.cookTime.value : 1
+    request.number_servings = this.firstFormGroup.controls.numberOfServings.value ? this.firstFormGroup.controls.numberOfServings.value : 1
+    request.owner = this.authService.getSubjectFromToken();
 
-    console.log("INSTRUCTIONS:")
+    let directions: Direction[] = [];
     this.directionsCount.forEach(index => {
-      console.log(this.thirdFormGroup.get(`direction${index}`)?.value);
-      console.log(this.directionsVideoName[index]);
+      let instr = this.thirdFormGroup.get(`direction${index}`)?.value
+      directions.push({
+        id: 0,
+        order: index,
+        instruction: instr ? instr : ''
+      })
     })
+    request.directions = directions;
+
+    let ingredients: Ingredient[] = []
+    this.ingredientsCount.forEach(index => {
+      let name = this.secondFormGroup.get(`ingredient${index}`)?.value
+      let direction = this.secondFormGroup.get(`description${index}`)?.value
+      let amount = this.secondFormGroup.get(`amount${index}`)?.value
+      let unit = this.secondFormGroup.get(`units${index}`)?.value
+      let grams = this.secondFormGroup.get(`gramsPerUnit${index}`)?.value
+
+      ingredients.push({
+        id: 0,
+        name: name ? String(name) : '',
+        description: direction ? String(direction) : '',
+        amount: amount ? Number(amount) : 0,
+        unit: unit ? String(unit) : '',
+        grams: grams ? Number(grams) : 0,
+      });
+    })
+    request.ingredients = ingredients;
+
+    // TODO: call BE
+    console.log(request)
+    // this.recipeService.postRecipe(request);
+
+
+    // TODO: add images with PATCH - {id_recipe},file
+    // console.log(this.recipeImageName)
+    // TODO: add videos with PATCH - {id_recipe},{order},file
   }
 
   onFileSelected(event: any) {
@@ -123,7 +152,8 @@ export class CreateRecipeComponent{
       ...this.secondFormGroup.controls,
       [`ingredient${last+1}`]: new FormControl('', Validators.required),
       [`description${last+1}`]: new FormControl('', Validators.required),
-      [`units${last+1}`]: new FormControl(1, [Validators.required, Validators.min(1)]),
+      [`amount${last+1}`]: new FormControl(1, [Validators.required, Validators.min(1)]),
+      [`units${last+1}`]: new FormControl('', [Validators.required]),
       [`gramsPerUnit${last+1}`]: new FormControl(1, [Validators.required, Validators.min(1)]),
     });
   }
