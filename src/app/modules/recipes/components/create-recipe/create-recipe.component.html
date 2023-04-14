@@ -18,7 +18,7 @@
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Prep time (minutes)</mat-label>
         <input matInput type="number" formControlName="prepTime" required min=0>
-        <mat-error *ngIf="this.firstFormGroup.controls.title.invalid">
+        <mat-error *ngIf="this.firstFormGroup.controls.prepTime.invalid">
           {{getErrorMsgRequired(this.firstFormGroup.controls.prepTime)}}
         </mat-error>
       </mat-form-field>
@@ -26,8 +26,16 @@
       <mat-form-field appearance="outline" color="accent">
         <mat-label>Cook time (minutes)</mat-label>
         <input matInput type="number" formControlName="cookTime" required min=0>
-        <mat-error *ngIf="this.firstFormGroup.controls.title.invalid">
+        <mat-error *ngIf="this.firstFormGroup.controls.cookTime.invalid">
           {{getErrorMsgRequired(this.firstFormGroup.controls.cookTime)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Number of servings</mat-label>
+        <input matInput type="number" formControlName="numberOfServings" pattern="\d*" required min=0>
+        <mat-error *ngIf="this.firstFormGroup.controls.numberOfServings.invalid">
+          {{getErrorMsgRequired(this.firstFormGroup.controls.numberOfServings)}}
         </mat-error>
       </mat-form-field>
 
@@ -55,13 +63,21 @@
           fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
           fxLayoutAlign="space-between start">
 
-      <mat-form-field appearance="outline" color="accent">
+      <mat-form-field class="search-bar" appearance="outline" color="accent">
+        <mat-label >Search ingredients by name</mat-label>
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          formControlName="{{'ingredient'+index}}"
+          (keydown)="filterOnEnter($event, index)"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let ingredient of filteredIngredients | async" [value]="ingredient.name">
+            <span>{{ingredient.name}}</span>
+          </mat-option>
+        </mat-autocomplete>
         <mat-icon *ngIf="ingredientsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeIngredient(index)"></mat-icon>
-        <mat-label>Ingredient</mat-label>
-        <input matInput formControlName="{{'ingredient'+index}}" required>
-        <mat-error *ngIf="this.getFormControl('ingredient', index, secondFormGroup).invalid">
-          {{getErrorMsgRequired(getFormControl('ingredient', index, secondFormGroup))}}
-        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" color="accent">

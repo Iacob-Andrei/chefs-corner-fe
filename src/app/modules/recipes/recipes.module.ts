@@ -18,6 +18,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { PriceDialogComponent } from './components/price-dialog/price-dialog.component';
 import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 import {MatStepperModule} from "@angular/material/stepper";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {MatStepperModule} from "@angular/material/stepper";
         FormsModule,
         MatPaginatorModule,
         MatDialogModule,
-        MatStepperModule
+        MatStepperModule,
+        MatAutocompleteModule
     ]
 })
 export class RecipesModule { }

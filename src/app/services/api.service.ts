@@ -30,6 +30,11 @@ export class ApiService {
       .pipe();
   }
 
+  getIngredientsByFilter(pattern: string) {
+    return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/ingredient/${pattern}`)
+      .pipe();
+  }
+
   login(email: string, password: string) {
     const headers = { 'content-type': 'application/json'}
     return this.http.post<any>(`${this.apiServerUrl}/api/auth/token`,

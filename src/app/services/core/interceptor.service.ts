@@ -28,7 +28,7 @@ export class InterceptorService implements HttpInterceptor{
 
           setTimeout( () => {
             this.loaderService.isLoading.next(false);
-          }, 1000 );
+          });
         }
       )
     )

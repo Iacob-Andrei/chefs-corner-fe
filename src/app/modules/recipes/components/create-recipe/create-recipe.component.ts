@@ -8,6 +8,8 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatStepper} from "@angular/material/stepper";
 import {ToastrService} from "ngx-toastr";
+import {Ingredient} from "../../../../shared/models/ingredient.model";
+import {FiltersService} from "../../../../shared/components/top-bar/services/filters.service";
 
 @Component({
   selector: 'app-create-recipe',
@@ -28,9 +30,11 @@ export class CreateRecipeComponent{
   firstFormGroup = this._formBuilder.group({
     title: ['', Validators.required],
     cookTime: [0, [Validators.required, Validators.min(0)]],
-    prepTime: [0, [Validators.required, Validators.min(0)]]
+    prepTime: [0, [Validators.required, Validators.min(0)]],
+    numberOfServings: [1, [Validators.required, Validators.min(1)]]
   });
 
+  filteredIngredients!: Observable<Ingredient[]>;
   ingredientsCount: number[] = [1];
   secondFormGroup = this._formBuilder.record({
     ingredient1: new FormControl('', Validators.required),
@@ -47,7 +51,8 @@ export class CreateRecipeComponent{
   constructor(
     private _formBuilder: FormBuilder,
     breakpointObserver: BreakpointObserver,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private filterService: FiltersService
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
@@ -98,6 +103,14 @@ export class CreateRecipeComponent{
       this.stepper.next();
     }else{
       this.showWarningToaster("No file uploaded", "Please upload an image for your recipe!");
+    }
+  }
+
+  filterOnEnter(event: KeyboardEvent, index: number) {
+    if (event.code === 'Enter' && this.secondFormGroup.get('ingredient'+index)?.value) {
+      this.filteredIngredients = this.filterService.getIngredientsByFilter(
+        this.secondFormGroup.get('ingredient'+index)?.value
+      );
     }
   }
 
