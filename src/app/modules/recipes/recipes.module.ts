@@ -19,6 +19,7 @@ import { PriceDialogComponent } from './components/price-dialog/price-dialog.com
 import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {OwnedComponent} from "./components/owned/owned.component";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     SearchComponent,
     PriceDialogComponent,
     CreateRecipeComponent,
+    OwnedComponent
   ],
     imports: [
         CommonModule,
