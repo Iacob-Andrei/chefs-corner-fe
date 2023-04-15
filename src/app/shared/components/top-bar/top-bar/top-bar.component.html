@@ -5,7 +5,7 @@
   <div fxLayout="row"
        class="logo">
 
-    <button mat-icon-button [matMenuTriggerFor]="menu" fxFlexAlign="center" class="menu-small-width">
+    <button mat-icon-button *ngIf="authService.isLoggedIn | async" [matMenuTriggerFor]="menu" fxFlexAlign="center" class="menu-small-width">
       <mat-icon title="Menu" class="nav-icons">menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -19,22 +19,20 @@
         <span>All recipes</span>
       </button>
 
-      <ng-container *ngIf="isAuth">
-        <button mat-menu-item>
-          <mat-icon>favorite</mat-icon>
-          <span>Favourite</span>
-        </button>
+      <button mat-menu-item>
+        <mat-icon>favorite</mat-icon>
+        <span>Favourite</span>
+      </button>
 
-        <button mat-menu-item>
-          <mat-icon>restaurant_menu</mat-icon>
-          <span>My recipes</span>
-        </button>
+      <button mat-menu-item (click)="onClickGoToMyRecipe()">
+        <mat-icon>restaurant_menu</mat-icon>
+        <span>My recipes</span>
+      </button>
 
-        <button mat-menu-item>
-          <mat-icon>create</mat-icon>
-          <span>Create recipe</span>
-        </button>
-      </ng-container>
+      <button mat-menu-item (click)="onClickGoToCreateRecipe()">
+        <mat-icon>create</mat-icon>
+        <span>Create recipe</span>
+      </button>
     </mat-menu>
 
     <img src="./assets/food-characters/chefhat.svg" alt="hat" class="image" fxFlexAlign="center" (click)="onClickGoHome()">
@@ -47,15 +45,15 @@
        fxLayoutGap="2vw"
        fxLayoutAlign="space-between center">
 
-    <mat-icon title="Home" class="nav-icons" (click)="onClickGoHome()">home</mat-icon>
-    <mat-icon title="All recipes" class="nav-icons" (click)="onClickGoToRecipes()">list_alt</mat-icon>
-    <ng-container *ngIf="isAuth">
+    <ng-container *ngIf="authService.isLoggedIn | async">
+      <mat-icon title="Home" class="nav-icons" (click)="onClickGoHome()">home</mat-icon>
+      <mat-icon title="All recipes" class="nav-icons" (click)="onClickGoToRecipes()">list_alt</mat-icon>
       <mat-icon title="Favourite" class="nav-icons">favorite</mat-icon>
-      <mat-icon title="My recipes" class="nav-icons">restaurant_menu</mat-icon>
-      <mat-icon title="Create recipe" class="nav-icons">create</mat-icon>
+      <mat-icon title="My recipes" class="nav-icons" (click)="onClickGoToMyRecipe()">restaurant_menu</mat-icon>
+      <mat-icon title="Create recipe" class="nav-icons" (click)="onClickGoToCreateRecipe()">create</mat-icon>
     </ng-container>
 
-    <form fxShow="true" fxShow.xs="false" fxLayoutAlign="center">
+    <form *ngIf="authService.isLoggedIn | async" fxShow="true" fxShow.xs="false" fxLayoutAlign="center">
       <mat-form-field class="search-bar" appearance="fill" color="accent">
         <mat-label >Search recipes by name</mat-label>
         <input
@@ -75,14 +73,14 @@
       </mat-form-field>
     </form>
 
-    <ng-container *ngIf="isAuth">
+    <ng-container *ngIf="authService.isLoggedIn | async">
       <button mat-icon-button [matMenuTriggerFor]="account">
-        <img src="./assets/icons/test-profile-img.jpg" alt="profile-img" class="profile-img" >
+        <img [src]="imageUrl" alt="" class="profile-img" >
       </button>
       <mat-menu #account="matMenu">
         <button mat-menu-item disabled>
           <mat-icon>person</mat-icon>
-          <span>John Max</span>
+          <span *ngIf="userDataObs | async as userData">{{userData.name}}</span>
         </button>
 
         <button mat-menu-item>
@@ -90,18 +88,18 @@
           <span>Account settings</span>
         </button>
 
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onClickLogout()">
           <mat-icon>exit_to_app</mat-icon>
           <span>Logout</span>
         </button>
       </mat-menu>
     </ng-container>
 
-    <button *ngIf="!isAuth" mat-raised-button color="primary" class="nav-button" (click)="onClickLogin()">Authenticate</button>
+    <button *ngIf="!(authService.isLoggedIn | async)" mat-raised-button color="primary" class="nav-button" (click)="onClickLogin()">Authenticate</button>
   </div>
 </div>
 
-<form class="search-mobile" fxShow="false" fxShow.xs="true" fxLayoutAlign="center">
+<form *ngIf="authService.isLoggedIn | async" class="search-mobile" fxShow="false" fxShow.xs="true" fxLayoutAlign="center">
   <mat-form-field class="search-bar" appearance="fill" color="accent">
     <mat-label >Search recipes by name</mat-label>
     <input

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {PagenotfoundComponent} from "./modules/pagenotfound/pagenotfound.component";
+import {IsAuthGuard} from "./guard/is-auth.guard";
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import("./modules/home/home.module").then((m)=>m.HomeModule)
+    loadChildren: () => import("./modules/home/home.module").then((m)=>m.HomeModule),
+    canActivate: [IsAuthGuard]
   },
   {
     path: 'auth',
@@ -13,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'recipe',
-    loadChildren: () => import("./modules/recipes/recipes.module").then((m) => m.RecipesModule)
+    loadChildren: () => import("./modules/recipes/recipes.module").then((m) => m.RecipesModule),
+    canActivate: [IsAuthGuard]
   },
   {
     path: '**',

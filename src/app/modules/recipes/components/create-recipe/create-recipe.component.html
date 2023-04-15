@@ -1,0 +1,172 @@
+<mat-stepper
+  #stepper
+  class="register-stepper"
+  [linear]="true"
+  [orientation]="(stepperOrientation | async)!">
+
+  <mat-step  [stepControl]="firstFormGroup" label="Fill in recipe details">
+    <form class="step-gap" [formGroup]="firstFormGroup" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="10">
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Recipe name</mat-label>
+        <input matInput formControlName="title" required>
+        <mat-error *ngIf="this.firstFormGroup.controls.title.invalid">
+          {{getErrorMsgRequired(this.firstFormGroup.controls.title)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Prep time (minutes)</mat-label>
+        <input matInput type="number" formControlName="prepTime" required min=0>
+        <mat-error *ngIf="this.firstFormGroup.controls.prepTime.invalid">
+          {{getErrorMsgRequired(this.firstFormGroup.controls.prepTime)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Cook time (minutes)</mat-label>
+        <input matInput type="number" formControlName="cookTime" required min=0>
+        <mat-error *ngIf="this.firstFormGroup.controls.cookTime.invalid">
+          {{getErrorMsgRequired(this.firstFormGroup.controls.cookTime)}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Number of servings</mat-label>
+        <input matInput type="number" formControlName="numberOfServings" pattern="\d*" required min=0>
+        <mat-error *ngIf="this.firstFormGroup.controls.numberOfServings.invalid">
+          {{getErrorMsgRequired(this.firstFormGroup.controls.numberOfServings)}}
+        </mat-error>
+      </mat-form-field>
+
+      <input type="file" class="file-input"
+             accept="image/*"
+             max="10485760"
+             (change)="onFileSelected($event)" #fileUpload required>
+      <div class="file-upload">
+        {{recipeImageName || "No file uploaded yet."}}
+        <button mat-mini-fab color="primary" class="upload-btn"
+                (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <button mat-button (click)="toSecondStepper()">Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" label="Add needed ingredients">
+
+    <div *ngFor="let index of ingredientsCount" class="step-gap">
+    <form [formGroup]="secondFormGroup"
+          fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
+          fxLayoutAlign="space-between start">
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label >Search ingredients by name</mat-label>
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          formControlName="{{'ingredient'+index}}"
+          (keydown)="filterOnEnter($event, index)"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let ingredient of filteredIngredients | async" [value]="ingredient.name">
+            <span>{{ingredient.name}}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon *ngIf="ingredientsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeIngredient(index)"></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="{{'description'+index}}" required>
+        <mat-error *ngIf="this.getFormControl('description', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('description', index, secondFormGroup))}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="{{'amount'+index}}" required min=0>
+        <mat-error *ngIf="this.getFormControl('amount', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('amount', index, secondFormGroup))}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Unit of measurement</mat-label>
+        <input matInput formControlName="{{'units'+index}}" required min=0>
+        <mat-error *ngIf="this.getFormControl('units', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('units', index, secondFormGroup))}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>Grams per unit</mat-label>
+        <input matInput type="number" formControlName="{{'gramsPerUnit'+index}}" required min=1>
+        <mat-error *ngIf="this.getFormControl('gramsPerUnit', index, secondFormGroup).invalid">
+          {{getErrorMsgRequired(getFormControl('gramsPerUnit', index, secondFormGroup))}}
+        </mat-error>
+      </mat-form-field>
+    </form>
+    </div>
+
+    <button mat-raised-button color="primary" class="add-button" (click)="addIngredient()">Add ingredient</button>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" label="Add recipe's instructions">
+
+    <div *ngFor="let index of directionsCount" class="step-gap">
+      <form [formGroup]="thirdFormGroup"
+            fxLayout="row" fxLayout.sm="column" fxLayout.xs="column"
+            fxLayoutAlign="start start">
+        <mat-form-field appearance="outline" color="accent" class="instruction-input">
+          <mat-icon *ngIf="directionsCount.length != 1" aria-hidden="false" fontIcon="remove_circle" matSuffix (click)="removeDirection(index)"></mat-icon>
+          <mat-label>Instruction</mat-label>
+          <textarea cdkTextareaAutosize matInput formControlName="{{'direction'+index}}" required>
+          </textarea>
+            <mat-error *ngIf="this.getFormControl('direction', index, thirdFormGroup).invalid">
+            {{getErrorMsgRequired(getFormControl('direction', index, thirdFormGroup))}}
+          </mat-error>
+        </mat-form-field>
+
+        <input type="file" class="file-input"
+               accept="video/*"
+               max="10485760"
+               (change)="onFileSelectedVideo($event, index)" #fileUpload required>
+        <div class="file-upload">
+          {{directionsVideoName[index] || "No file uploaded yet."}}
+          <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <button mat-raised-button color="primary" class="add-button" (click)="addDirection()">Add instruction</button>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Confirmation">
+    <p>Confirm registering your account.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="onConfirmClick()">Confirm?</button>
+    </div>
+  </mat-step>
+
+</mat-stepper>

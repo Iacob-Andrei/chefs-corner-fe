@@ -1,0 +1,26 @@
+.file-input {
+  display: none;
+}
+.file-upload{
+  padding-left: 10px;
+}
+
+.step-gap{
+  margin-top: 20px;
+}
+
+.add-button{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.instruction-input{
+  width: 50% !important;
+}
+
+
+@media screen and (max-width: 600px) {
+  .instruction-input{
+    width: 80% !important;
+  }
+}

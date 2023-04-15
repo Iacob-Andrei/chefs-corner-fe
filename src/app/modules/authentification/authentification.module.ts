@@ -13,6 +13,8 @@ import {RegisterFormComponent} from "./components/register-form/register-form.co
 import {MatMenuModule} from "@angular/material/menu";
 import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
 import {MatStepperModule} from "@angular/material/stepper";
+import {MatSelectModule} from "@angular/material/select";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import {MatStepperModule} from "@angular/material/stepper";
     ExtendedModule,
     MatMenuModule,
     TopBarModule,
-    MatStepperModule
+    MatStepperModule,
+    MatSelectModule,
+    MatProgressBarModule
   ]
 })
 export class AuthentificationModule { }

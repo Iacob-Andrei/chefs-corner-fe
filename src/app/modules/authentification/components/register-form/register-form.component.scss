@@ -3,16 +3,27 @@
 .register-container {
   border-radius: 20px;
   margin:  2% 15% 0 15%;
-  background-color: rgba(232, 201, 162, 0.75);
+  background-color: rgba(255, 255, 255, 0.75);
   padding: 20px;
+
+  .register-title{
+    font-size: 2em;
+  }
 
   .register-stepper {
     background-color: transparent;
     width: 90%;
+    .file-input {
+      display: none;
+    }
+    .file-upload{
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
   }
 
   p{
-    color: $white;
+    color: black;
     font-size: 2em;
     margin: 10px;
     text-align: center;

@@ -13,4 +13,8 @@ export class FiltersService {
   getRecipesByFilter(pattern: string){
     return this.api.getRecipesByFilter(pattern);
   }
+
+  getIngredientsByFilter(pattern: string) {
+    return this.api.getIngredientsByFilter(pattern);
+  }
 }

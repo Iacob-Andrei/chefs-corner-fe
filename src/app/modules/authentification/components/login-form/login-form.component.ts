@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {AUTH} from "../../../../shared/constants";
+import {AUTH, HOME} from "../../../../shared/constants";
+import {AuthService} from "../../../../services/auth/auth.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +15,9 @@ export class LoginFormComponent {
   hide = true;
 
   constructor(private router: Router,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private service: AuthService,
+              private toaster: ToastrService) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -40,14 +44,24 @@ export class LoginFormComponent {
   }
 
   onClickSubmit(): void {
-    // should get data + send
-    console.log(this.form.controls['email'].value);
-    console.log(this.form.controls['password'].value);
+    this.service.login(
+      this.form.controls['email'].value,
+      this.form.controls['password'].value
+    ).subscribe(() => {
+        this.router.navigateByUrl(HOME).then();
+      },
+      error => {
+        //TODO: show error toaster
+        console.log(error)
+      }
+    );
+  }
+
+  showErrorToaster(title: string, message: string): void{
+    this.toaster.error(message, title, {});
   }
 
   onClickGoRegistration(): void{
-    this.router.navigateByUrl(`${AUTH}/register`).then(() => {
-      window.location.reload();
-    });
+    this.router.navigateByUrl(`${AUTH}/register`).then();
   }
 }
