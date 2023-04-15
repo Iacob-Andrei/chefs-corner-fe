@@ -41,6 +41,7 @@
 
       <input type="file" class="file-input"
              accept="image/*"
+             max="10485760"
              (change)="onFileSelected($event)" #fileUpload required>
       <div class="file-upload">
         {{recipeImageName || "No file uploaded yet."}}
@@ -140,6 +141,7 @@
 
         <input type="file" class="file-input"
                accept="video/*"
+               max="10485760"
                (change)="onFileSelectedVideo($event, index)" #fileUpload required>
         <div class="file-upload">
           {{directionsVideoName[index] || "No file uploaded yet."}}

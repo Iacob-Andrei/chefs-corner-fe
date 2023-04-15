@@ -17,4 +17,12 @@ export class RecipeService {
   postRecipe(recipe: RecipePost){
     return this.api.postRecipe(recipe);
   }
+
+  patchImage(idRecipe: number, image: File){
+    return this.api.patchRecipeImage(idRecipe, image);
+  }
+
+  uploadVideoRecipe(idRecipe: number, orderDirection: number, video: File){
+    return this.api.uploadVideoRecipe(idRecipe, orderDirection, video);
+  }
 }

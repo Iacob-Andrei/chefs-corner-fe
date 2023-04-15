@@ -1,6 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {getErrorMsgRequiredValue} from "../../../authentification/validators/error-messages";
-import {map, Observable} from "rxjs";
+import {map, Observable, Subscription} from "rxjs";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -12,15 +12,18 @@ import {RecipePost} from "../../../../shared/models/recipePost.model";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {Direction} from "../../../../shared/models/direction.model";
 import {RecipeService} from "../../services/recipe.service";
+import {HOME} from "../../../../shared/constants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-recipe',
   templateUrl: './create-recipe.component.html',
   styleUrls: ['./create-recipe.component.scss']
 })
-export class CreateRecipeComponent{
+export class CreateRecipeComponent implements OnDestroy{
   @ViewChild('stepper') stepper!: MatStepper   ;
 
+  subscriptions: Subscription[] = [];
   getErrorMsgRequired = getErrorMsgRequiredValue;
   stepperOrientation: Observable<StepperOrientation>;
 
@@ -57,7 +60,8 @@ export class CreateRecipeComponent{
     private toaster: ToastrService,
     private filterService: FiltersService,
     private authService: AuthService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private router: Router
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
@@ -65,7 +69,7 @@ export class CreateRecipeComponent{
   }
 
   onConfirmClick() {
-    let request = {} as RecipePost;
+    let request: RecipePost = {} as RecipePost;
 
     request.name = this.firstFormGroup.controls.title.value ? this.firstFormGroup.controls.title.value : ''
     request.prep_time = this.firstFormGroup.controls.prepTime.value ? this.firstFormGroup.controls.prepTime.value : 1
@@ -74,13 +78,15 @@ export class CreateRecipeComponent{
     request.owner = this.authService.getSubjectFromToken();
 
     let directions: Direction[] = [];
+    let order: number = 1;
     this.directionsCount.forEach(index => {
       let instr = this.thirdFormGroup.get(`direction${index}`)?.value
       directions.push({
         id: 0,
-        order: index,
+        order: order,
         instruction: instr ? instr : ''
       })
+      order += 1;
     })
     request.directions = directions;
 
@@ -103,14 +109,20 @@ export class CreateRecipeComponent{
     })
     request.ingredients = ingredients;
 
-    // TODO: call BE
-    console.log(request)
-    // this.recipeService.postRecipe(request);
+    this.subscriptions.push(
+      this.recipeService.postRecipe(request).subscribe(
+        (response: any) => {
+          console.log(response.id)
+          this.uploadImage(response.id);
+          this.uploadVideos(response.id);
 
-
-    // TODO: add images with PATCH - {id_recipe},file
-    // console.log(this.recipeImageName)
-    // TODO: add videos with PATCH - {id_recipe},{order},file
+          this.router.navigateByUrl(HOME).then();
+        },
+        (error) => {
+          //TODO:
+        }
+      )
+    );
   }
 
   onFileSelected(event: any) {
@@ -190,11 +202,45 @@ export class CreateRecipeComponent{
     });
   }
 
+  private uploadImage(id: number) {
+    if(!this.recipeImageFile) return;
+
+    this.subscriptions.push(
+      this.recipeService.patchImage(id,this.recipeImageFile).subscribe(
+        () => {},
+        (error) => {
+          //TODO: do error
+        }
+      )
+    )
+  }
+
+  private uploadVideos(id: number) {
+    let order = 1;
+    this.directionsCount.forEach((index: number) => {
+      if(this.directionsVideoFile[index] === undefined)
+        return
+      this.subscriptions.push(
+        this.recipeService.uploadVideoRecipe(id, order, this.directionsVideoFile[index]).subscribe(
+          () => {},
+          (error) => {
+            //TODO: do error
+          }
+        )
+      );
+      order += 1;
+    });
+  }
+
   showErrorToaster(title: string, message: string): void{
     this.toaster.error(message, title, {});
   }
 
   showWarningToaster(title: string, message: string): void{
     this.toaster.warning(message, title, {});
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 }

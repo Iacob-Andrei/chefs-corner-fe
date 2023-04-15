@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AUTH, HOME, RECIPE, SEARCH} from "../../../constants";
+import {AUTH, CREATE, HOME, MYRECIPE, RECIPE, SEARCH} from "../../../constants";
 import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
@@ -56,8 +56,20 @@ export class TopBarComponent implements OnInit, OnDestroy{
     this.router.navigateByUrl(SEARCH).then();
   }
 
+  onClickGoToCreateRecipe() {
+    this.router.navigateByUrl(CREATE).then();
+  }
+
+  onClickGoToMyRecipe() {
+    this.router.navigateByUrl(MYRECIPE).then();
+  }
+
   onClickLogin() {
     this.router.navigateByUrl(AUTH).then();
+  }
+
+  onClickLogout() {
+    this.authService.logout()
   }
 
   filterOnEnter(event: KeyboardEvent) {
@@ -77,9 +89,5 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
-  }
-
-  onClickLogout() {
-    this.authService.logout()
   }
 }

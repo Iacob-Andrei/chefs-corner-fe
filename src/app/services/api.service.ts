@@ -57,7 +57,6 @@ export class ApiService {
     const fd = new FormData();
     fd.append('image', image);
 
-
     return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
   }
 
@@ -72,5 +71,19 @@ export class ApiService {
       JSON.stringify(recipe),
       {'headers': headers}
     )
+  }
+
+  patchRecipeImage(idRecipe: number, image: File) {
+    const fd: FormData = new FormData();
+    fd.append('image', image);
+
+    return this.http.patch(`${this.apiServerUrl}/api/recipe/image/${idRecipe}`, fd)
+  }
+
+  uploadVideoRecipe(idRecipe: number, orderDirection: number, video: File) {
+    const fd: FormData = new FormData();
+    fd.append('video', video);
+
+    return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
   }
 }

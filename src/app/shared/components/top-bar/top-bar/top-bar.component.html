@@ -24,12 +24,12 @@
         <span>Favourite</span>
       </button>
 
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onClickGoToMyRecipe()">
         <mat-icon>restaurant_menu</mat-icon>
         <span>My recipes</span>
       </button>
 
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onClickGoToCreateRecipe()">
         <mat-icon>create</mat-icon>
         <span>Create recipe</span>
       </button>
@@ -49,8 +49,8 @@
       <mat-icon title="Home" class="nav-icons" (click)="onClickGoHome()">home</mat-icon>
       <mat-icon title="All recipes" class="nav-icons" (click)="onClickGoToRecipes()">list_alt</mat-icon>
       <mat-icon title="Favourite" class="nav-icons">favorite</mat-icon>
-      <mat-icon title="My recipes" class="nav-icons">restaurant_menu</mat-icon>
-      <mat-icon title="Create recipe" class="nav-icons">create</mat-icon>
+      <mat-icon title="My recipes" class="nav-icons" (click)="onClickGoToMyRecipe()">restaurant_menu</mat-icon>
+      <mat-icon title="Create recipe" class="nav-icons" (click)="onClickGoToCreateRecipe()">create</mat-icon>
     </ng-container>
 
     <form *ngIf="authService.isLoggedIn | async" fxShow="true" fxShow.xs="false" fxLayoutAlign="center">
