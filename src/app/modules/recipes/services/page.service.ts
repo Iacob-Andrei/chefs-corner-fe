@@ -13,4 +13,8 @@ export class PageService {
   getRecipeById(page: number, type: string) {
     return this.api.getRecipesForPage(page, type);
   }
+
+  getMyRecipes() {
+    return this.api.getMyRecipes();
+  }
 }

@@ -1,0 +1,33 @@
+@import "src/styles";
+
+ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.recipe-container{
+  background: white;
+  border: 5px solid $white;
+  margin: 0 15%;
+  cursor: pointer;
+  img{
+    max-width: 200px;
+    max-height: 100%;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  .recipe-info{
+    .recipe-name{
+      font-size: 1.5em;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .recipe-container{
+    margin: 0 3%;
+  }
+}
