@@ -91,4 +91,8 @@ export class ApiService {
 
     return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
   }
+
+  deleteRecipe(idRecipe: number) {
+    return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`);
+  }
 }

@@ -20,24 +20,23 @@
   <div class="recipes">
     <ul *ngFor="let item of myRecipes">
 
-      <div class="recipe-container" fxLayout="row" fxLayoutGap="50" fxLayoutGap.xs="20" (click)="goToRecipe(item.id)">
+      <div class="recipe-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between start">
+        <div fxLayout="row" fxLayoutGap="50" fxLayoutGap.xs="20" (click)="goToRecipe(item.id)">
+          <img [src]=getRouteImage(item.file) [alt]=item.name>
+          <div class="recipe-info" fxLayout="column">
+            <p class="recipe-name">{{item.name}}</p>
+            <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
+              <mat-icon> timer</mat-icon>
+              Prep time: {{item.prep_time}} minutes
+            </p>
+            <p fxLayoutAlign="start center" *ngIf="item.cook_time !== undefined">
+              <mat-icon> timer</mat-icon>
+              Cook time: {{item.cook_time}} minutes
+            </p>
+          </div>
+      </div>
 
-        <img [src]=getRouteImage(item.file) [alt]=item.name>
-
-        <div class="recipe-info" fxLayout="column">
-          <p class="recipe-name">{{item.name}}</p>
-
-          <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
-            <mat-icon> timer</mat-icon>
-            Prep time: {{item.prep_time}} minutes
-          </p>
-
-          <p fxLayoutAlign="start center" *ngIf="item.cook_time !== undefined">
-            <mat-icon> timer</mat-icon>
-            Cook time: {{item.cook_time}} minutes
-          </p>
-        </div>
-
+        <button mat-button (click)="onClickDelete(item.id)"><mat-icon class="price-icon">remove_circle</mat-icon></button>
       </div>
 
     </ul>

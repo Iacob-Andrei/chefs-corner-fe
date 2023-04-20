@@ -1,0 +1,11 @@
+<h1 mat-dialog-title><b>Confirm your delete option</b></h1>
+
+
+<div mat-dialog-content>
+  <p>This action will permanently delete this recipe. Are you sure?</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="">Close</button>
+  <button mat-button [mat-dialog-close]="true" (click)="onClickDelete()">Delete</button>
+</div>

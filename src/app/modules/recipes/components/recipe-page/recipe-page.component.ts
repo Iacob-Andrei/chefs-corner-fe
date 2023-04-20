@@ -8,7 +8,8 @@ import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
-import {PriceDialogComponent} from "../price-dialog/price-dialog.component";
+import {PriceDialogComponent} from "../dialog/price-dialog/price-dialog.component";
+import {DeleteConfDialogComponent} from "../dialog/delete-conf-dialog/delete-conf-dialog.component";
 
 
 @Component({
@@ -157,6 +158,18 @@ export class RecipePageComponent implements OnInit, OnDestroy{
       data: {
         ingredients: this.recipe?.ingredients,
         quantities: this.form.controls
+      }
+    });
+  }
+
+  sort(){
+    return this.recipe.directions?.sort((a,b) => a.order > b.order ? 0 : -1);
+  }
+
+  onClickDelete() {
+    this.dialog.open(DeleteConfDialogComponent,{
+      data: {
+        idRecipe: this.recipe?.id,
       }
     });
   }

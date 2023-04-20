@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {CATEGORIES, CREATE, RECIPE} from "@app-shared/constants";
+import {CREATE, RECIPE} from "@app-shared/constants";
 import {Recipe} from "@app-shared/models";
 import {PageService} from "../../services/page.service";
+import {RecipeService} from "../../services/recipe.service";
 
 @Component({
   selector: 'app-owned',
@@ -15,7 +16,8 @@ export class OwnedComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = [];
   myRecipesObs!: Observable<Recipe[]>;
   constructor(private router: Router,
-              private pageService: PageService){}
+              private pageService: PageService,
+              private recipeService: RecipeService){}
 
   ngOnInit(): void {
     this.myRecipesObs = this.pageService.getMyRecipes();
@@ -34,9 +36,16 @@ export class OwnedComponent implements OnInit, OnDestroy{
     return image ? `data:image/png;base64,${image}` : "./assets/icons/default-profile.jpg";
   }
 
-  protected readonly CATEGORIES = CATEGORIES;
-
   onClickGoToGenerate() {
     this.router.navigateByUrl(CREATE).then();
+  }
+
+  onClickDelete(id: number) {
+    this.subscriptions.push(
+    this.recipeService.deleteRecipe(id).subscribe(
+      () => {
+        window.location.reload();
+      }
+    ));
   }
 }
