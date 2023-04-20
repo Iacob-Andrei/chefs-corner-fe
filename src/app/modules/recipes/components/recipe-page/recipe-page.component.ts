@@ -2,13 +2,14 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {ToastrService} from "ngx-toastr";
-import {Recipe} from "../../../../shared/models";
+import {Recipe} from "@app-shared/models";
 import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {PAGE_404, SEARCH} from "../../../../shared/constants";
+import {MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceDialogComponent} from "../price-dialog/price-dialog.component";
+
 
 @Component({
   selector: 'app-recipe-page',
@@ -21,9 +22,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   protected ingredientsUrl = environment.imageUrl;
   protected recipe!: Recipe;
   protected recipeObs!: Observable<Recipe>;
-
   form! : FormGroup;
-
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -34,7 +33,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   ngOnInit(): void{
     this.subscriptions.push(
       this.route.params.subscribe(params => {
-        if( isNaN(Number(params['id']))){
+        if(isNaN(Number(params['id']))){
           this.showErrorToaster('400',`Invalid recipe id '${params['id']}'.`);
           this.router.navigateByUrl(PAGE_404).then();
         }
@@ -52,8 +51,12 @@ export class RecipePageComponent implements OnInit, OnDestroy{
       this.recipeObs.subscribe(
         response => {
           this.recipe = response;
-          this.imageUrl += response.image;
-          console.log(this.recipe)
+
+          if(response.owner === "public") {
+            this.imageUrl += response.image;
+          }else{
+            this.imageUrl = response.file ? `data:image/png;base64,${response.file}` : "./assets/icons/default-profile.jpg";
+          }
         },
         error => {
           this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
@@ -141,9 +144,12 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   goToSearch(category: string) {
     const newRoute = category.toLowerCase() === '' ? SEARCH :  SEARCH + "/" + category.toLowerCase();
-    this.router.navigateByUrl(newRoute).then(() => {
-      window.location.reload();
-    });
+    this.router.navigateByUrl(newRoute).then();
+  }
+
+
+  goToMyRecipes() {
+    this.router.navigateByUrl(MYRECIPE).then();
   }
 
   openDialog() {

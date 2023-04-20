@@ -7,8 +7,14 @@ ul{
 
 .filter-class{
   background: white;
-  .filter-dropbox{
-    padding: 30px;
+  padding: 10px 30px;
+  .filter-title{
+    color: $brick;
+  }
+  .underline{
+    border: 2px solid $brick;
+    width: 100%;
+    margin-bottom: 15px;
   }
 }
 

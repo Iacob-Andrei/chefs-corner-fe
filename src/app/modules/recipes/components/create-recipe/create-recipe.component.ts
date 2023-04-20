@@ -6,13 +6,13 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatStepper} from "@angular/material/stepper";
 import {ToastrService} from "ngx-toastr";
-import {Ingredient} from "../../../../shared/models/ingredient.model";
-import {FiltersService} from "../../../../shared/components/top-bar/services/filters.service";
-import {RecipePost} from "../../../../shared/models/recipePost.model";
+import {Ingredient} from "@app-shared/models/ingredient.model";
+import {FiltersService} from "@app-shared/components/top-bar/services/filters.service";
+import {RecipePost} from "@app-shared/models/recipePost.model";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {Direction} from "../../../../shared/models/direction.model";
+import {Direction} from "@app-shared/models/direction.model";
 import {RecipeService} from "../../services/recipe.service";
-import {HOME} from "../../../../shared/constants";
+import {HOME} from "@app-shared/constants";
 import {Router} from "@angular/router";
 
 @Component({
@@ -112,14 +112,13 @@ export class CreateRecipeComponent implements OnDestroy{
     this.subscriptions.push(
       this.recipeService.postRecipe(request).subscribe(
         (response: any) => {
-          console.log(response.id)
           this.uploadImage(response.id);
           this.uploadVideos(response.id);
 
           this.router.navigateByUrl(HOME).then();
         },
         (error) => {
-          //TODO:
+          this.showWarningToaster("Invalid arguments",error.message)
         }
       )
     );
@@ -208,8 +207,8 @@ export class CreateRecipeComponent implements OnDestroy{
     this.subscriptions.push(
       this.recipeService.patchImage(id,this.recipeImageFile).subscribe(
         () => {},
-        (error) => {
-          //TODO: do error
+        () => {
+          this.showWarningToaster("Error while loading image", "Re-upload video in recipe page.")
         }
       )
     )
@@ -223,8 +222,8 @@ export class CreateRecipeComponent implements OnDestroy{
       this.subscriptions.push(
         this.recipeService.uploadVideoRecipe(id, order, this.directionsVideoFile[index]).subscribe(
           () => {},
-          (error) => {
-            //TODO: do error
+          () => {
+            this.showWarningToaster(`Error while loading video ${order}`, "Re-upload video in recipe page.")
           }
         )
       );

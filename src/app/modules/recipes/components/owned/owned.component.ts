@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {RECIPE} from "@app-shared/constants";
+import {CATEGORIES, CREATE, RECIPE} from "@app-shared/constants";
 import {Recipe} from "@app-shared/models";
 import {PageService} from "../../services/page.service";
 
@@ -32,5 +32,11 @@ export class OwnedComponent implements OnInit, OnDestroy{
 
   getRouteImage(image: any) {
     return image ? `data:image/png;base64,${image}` : "./assets/icons/default-profile.jpg";
+  }
+
+  protected readonly CATEGORIES = CATEGORIES;
+
+  onClickGoToGenerate() {
+    this.router.navigateByUrl(CREATE).then();
   }
 }

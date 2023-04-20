@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {AUTH, HOME} from "../../../../shared/constants";
+import {AUTH, HOME} from "@app-shared/constants";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -50,9 +50,8 @@ export class LoginFormComponent {
     ).subscribe(() => {
         this.router.navigateByUrl(HOME).then();
       },
-      error => {
-        //TODO: show error toaster
-        console.log(error)
+      () => {
+        this.showErrorToaster("Login failed!", "Verify your credential");
       }
     );
   }

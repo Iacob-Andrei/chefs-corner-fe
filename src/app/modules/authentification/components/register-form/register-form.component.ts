@@ -6,7 +6,7 @@ import {StepperOrientation} from "@angular/cdk/stepper";
 import {map, Observable, Subscription} from "rxjs";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
-import {AUTH, HOME} from "../../../../shared/constants";
+import {AUTH, HOME} from "@app-shared/constants";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -55,11 +55,6 @@ export class RegisterFormComponent implements OnDestroy{
   }
 
   onConfirmClick() {
-    console.log(this.firstFormGroup.value);
-    console.log(this.secondFormGroup.value);
-    console.log(this.thirdFormGroup.value);
-    console.log(this.image);
-
     if(this.firstFormGroup.value.accountType !== null){
       this.subscriptions.push(
         this.authService.register(
@@ -72,9 +67,7 @@ export class RegisterFormComponent implements OnDestroy{
             this.patchImage();
           },
           error => {
-            //TODO: show error toaster if error shows
-            console.log(error)
-            console.log(error.code(), error.body['message'])
+            this.showErrorToaster("Error while registering.", error.body['message']);
           }
         )
       )
@@ -91,11 +84,9 @@ export class RegisterFormComponent implements OnDestroy{
       ).subscribe(() => {
           this.router.navigateByUrl(HOME).then();
       },
-        error => {
-          //TODO: show error toaster if error shows
-          console.log(error)
-          console.log(error.code(), error.body['message'])
-          // this.router.navigateByUrl(HOME).then();
+        () => {
+          this.showErrorToaster("Error while uploading image", "Re-upload image in the user settings.");
+          this.router.navigateByUrl(HOME).then();
         })
     )
   }
