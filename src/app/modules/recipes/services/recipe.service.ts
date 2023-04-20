@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ApiService} from "../../../services/api.service";
-import {RecipePost} from "../../../shared/models/recipePost.model";
+import {RecipePost} from "@app-shared/models/recipePost.model";
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +24,9 @@ export class RecipeService {
 
   uploadVideoRecipe(idRecipe: number, orderDirection: number, video: File){
     return this.api.uploadVideoRecipe(idRecipe, orderDirection, video);
+  }
+
+  deleteRecipe(idRecipe: number) {
+    return this.api.deleteRecipe(idRecipe);
   }
 }

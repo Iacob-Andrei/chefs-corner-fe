@@ -1,7 +1,7 @@
 <div *ngIf="recipeObs | async as myRecipe">
   <div class="title" >
     <h1>{{myRecipe.name}}</h1>
-    <div class="breadcrumb" fxLayout="row" fxLayoutAlign="end center">
+    <div *ngIf="myRecipe.owner === 'public'" class="breadcrumb" fxLayout="row" fxLayoutAlign="end center">
       <span><a (click)="goToSearch('')">Menu</a></span>
       <span> > </span>
       <span *ngFor="let category of myRecipe.categories">
@@ -9,9 +9,13 @@
       </span>
     </div>
 
+    <div *ngIf="myRecipe.owner !== 'public'" class="breadcrumb">
+      <span><a (click)="goToMyRecipes()">my recipes</a></span>
+    </div>
+
     <div class="buttons">
       <button mat-button (click)="openDialog()" ><mat-icon class="price-icon">attach_money</mat-icon></button>
-      <button mat-button ><mat-icon class="price-icon">favorite_border</mat-icon></button>
+      <button *ngIf="recipe.owner !== 'public'" mat-button (click)="onClickDelete()"><mat-icon class="price-icon">remove_circle</mat-icon></button>
     </div>
   </div>
 
@@ -87,10 +91,17 @@
         <h2>Directions:</h2>
         <p class="note">Note: Directions are based on the original recipe of {{myRecipe.number_servings}} servings.</p>
         <ul>
-          <li *ngFor="let item of myRecipe.directions">
+          <li *ngFor="let item of sort()">
             <div class="row-instruction" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
               <div class="order">{{ item.order }}</div>
               <span class="instruction"> {{ item.instruction }}</span>
+            </div>
+
+            <div *ngIf="item.video_data" fxLayout="column" fxLayoutAlign="center center" >
+              <video class="instruction-video" width="400" controls preload="none"
+                     poster="https://media.istockphoto.com/id/961618684/photo/metal-restaurant-bell-3d.jpg?s=612x612&w=0&k=20&c=peF5oVjgQ66QsdmMwMmYxYDte9UAgeeAgz8ikTFfCHk=">
+                <source [src]="'data:video/mp4;base64,' + item.video_data" type="video/mp4">
+              </video>
             </div>
           </li>
         </ul>

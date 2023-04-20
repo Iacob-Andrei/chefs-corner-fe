@@ -9,6 +9,8 @@ export interface Recipe {
   prep_time?: number;
   cook_time?: number;
   number_servings?: number;
+  file?: Blob | string;
+  owner?: string;
   directions?: Direction[];
   ingredients?: IngredientUsed[];
   categories?: Category[]

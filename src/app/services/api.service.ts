@@ -26,6 +26,11 @@ export class ApiService {
       .pipe();
   }
 
+  getMyRecipes() {
+    return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/for-user`)
+      .pipe();
+  }
+
   getRecipesByFilter(pattern: string) {
     return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
       .pipe();
@@ -85,5 +90,9 @@ export class ApiService {
     fd.append('video', video);
 
     return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
+  }
+
+  deleteRecipe(idRecipe: number) {
+    return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`);
   }
 }

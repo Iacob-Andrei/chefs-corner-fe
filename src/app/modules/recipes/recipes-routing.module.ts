@@ -4,6 +4,7 @@ import {ContainerComponent} from "./components/container/container.component";
 import {RecipePageComponent} from "./components/recipe-page/recipe-page.component";
 import {SearchComponent} from "./components/search/search.component";
 import {CreateRecipeComponent} from "./components/create-recipe/create-recipe.component";
+import {OwnedComponent} from "./components/owned/owned.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,11 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateRecipeComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'owned',
+        component: OwnedComponent,
         pathMatch: 'full'
       },
       {
