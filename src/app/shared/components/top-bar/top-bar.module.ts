@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import {MatButtonModule} from "@angular/material/button";
 import {ExtendedModule, FlexModule} from "@angular/flex-layout";
@@ -28,7 +28,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ExtendedModule,
     FormsModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NgOptimizedImage
   ]
 })
 export class TopBarModule { }

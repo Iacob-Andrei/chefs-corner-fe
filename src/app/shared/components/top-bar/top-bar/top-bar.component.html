@@ -30,7 +30,7 @@
       </button>
 
       <button mat-menu-item>
-        <mat-icon>playlist_add</mat-icon>
+        <mat-icon>shopping_basket</mat-icon>
         <span>Current menu</span>
       </button>
     </mat-menu>
@@ -50,7 +50,7 @@
       <mat-icon title="My recipes" class="nav-icons" (click)="onClickGoToMyRecipe()">restaurant_menu</mat-icon>
       <mat-icon title="My menus" class="nav-icons">library_books</mat-icon>
       <mat-icon title="Create recipe" class="nav-icons" (click)="onClickGoToCreateRecipe()">create</mat-icon>
-      <mat-icon title="Current menu" class="nav-icons">playlist_add</mat-icon>
+      <mat-icon title="Current menu" class="nav-icons">shopping_basket</mat-icon>
     </ng-container>
 
     <form *ngIf="authService.isLoggedIn | async" fxShow="true" fxShow.xs="false" fxLayoutAlign="center">

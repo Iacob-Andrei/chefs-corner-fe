@@ -5,6 +5,7 @@ import {CREATE, RECIPE} from "@app-shared/constants";
 import {Recipe} from "@app-shared/models";
 import {PageService} from "../../services/page.service";
 import {RecipeService} from "../../services/recipe.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-owned',
@@ -17,7 +18,8 @@ export class OwnedComponent implements OnInit, OnDestroy{
   myRecipesObs!: Observable<Recipe[]>;
   constructor(private router: Router,
               private pageService: PageService,
-              private recipeService: RecipeService){}
+              private recipeService: RecipeService,
+              public authService: AuthService){}
 
   ngOnInit(): void {
     this.myRecipesObs = this.pageService.getMyRecipes();

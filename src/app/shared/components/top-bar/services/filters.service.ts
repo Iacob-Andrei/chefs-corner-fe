@@ -17,4 +17,8 @@ export class FiltersService {
   getIngredientsByFilter(pattern: string) {
     return this.api.getIngredientsByFilter(pattern);
   }
+
+  getEmailsByFilter(pattern: string) {
+    return this.api.getUsersByFilter(pattern);
+  }
 }

@@ -13,9 +13,11 @@
       <span><a (click)="goToMyRecipes()">my recipes</a></span>
     </div>
 
-    <div class="buttons">
-      <button mat-button (click)="openDialog()" ><mat-icon class="price-icon">attach_money</mat-icon></button>
-      <button *ngIf="recipe.owner !== 'public'" mat-button (click)="onClickDelete()"><mat-icon class="price-icon">remove_circle</mat-icon></button>
+    <div class="buttons" fxLayoutGap="20">
+      <mat-icon class="func-icon" title="Show prices" (click)="onClickShowPrices()">attach_money</mat-icon>
+      <mat-icon class="func-icon" title="Add to menu" (click)="onClickAddToMenu()">add</mat-icon>
+      <mat-icon *ngIf="recipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Give permission" (click)="onClickGivePermission()">person_add</mat-icon>
+      <mat-icon *ngIf="recipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Remove recipe" (click)="onClickDelete()">remove_circle</mat-icon>
     </div>
   </div>
 

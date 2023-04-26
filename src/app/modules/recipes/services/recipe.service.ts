@@ -7,8 +7,7 @@ import {RecipePost} from "@app-shared/models/recipePost.model";
   providedIn: 'root'
 })
 export class RecipeService {
-  constructor(private http: HttpClient,
-              private api: ApiService) { }
+  constructor(private api: ApiService) { }
 
   getRecipeById(id: string) {
     return this.api.getRecipeById(id);

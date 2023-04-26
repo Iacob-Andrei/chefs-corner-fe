@@ -36,7 +36,7 @@
           </div>
       </div>
 
-        <button mat-button (click)="onClickDelete(item.id)"><mat-icon class="price-icon">remove_circle</mat-icon></button>
+        <button mat-button *ngIf="item.owner === authService.getSubjectFromToken()" (click)="onClickDelete(item.id)"><mat-icon class="price-icon">remove_circle</mat-icon></button>
       </div>
 
     </ul>

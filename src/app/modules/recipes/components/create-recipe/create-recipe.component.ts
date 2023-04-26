@@ -215,10 +215,13 @@ export class CreateRecipeComponent implements OnDestroy{
   }
 
   private uploadVideos(id: number) {
-    let order = 1;
+    let order = 0;
     this.directionsCount.forEach((index: number) => {
+      order += 1;
+
       if(this.directionsVideoFile[index] === undefined)
         return
+
       this.subscriptions.push(
         this.recipeService.uploadVideoRecipe(id, order, this.directionsVideoFile[index]).subscribe(
           () => {},
@@ -227,7 +230,6 @@ export class CreateRecipeComponent implements OnDestroy{
           }
         )
       );
-      order += 1;
     });
   }
 

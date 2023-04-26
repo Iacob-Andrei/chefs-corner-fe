@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
@@ -39,6 +39,10 @@ export class ApiService {
   getIngredientsByFilter(pattern: string) {
     return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/ingredient/${pattern}`)
       .pipe();
+  }
+
+  getUsersByFilter(pattern: string) {
+    return this.http.get<string[]>(`${this.apiServerUrl}/api/user/data/${pattern}`)
   }
 
   login(email: string, password: string) {
@@ -94,5 +98,30 @@ export class ApiService {
 
   deleteRecipe(idRecipe: number) {
     return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`);
+  }
+
+  addPermission(id: number, email: string) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post<any>(`${this.apiServerUrl}/api/permission/add`,
+      JSON.stringify({"email": email, "idRecipe":id}),
+      {'headers': headers})
+  }
+
+  getCurrentPermission(id: number) {
+    return this.http.get<string[]>(`${this.apiServerUrl}/api/permission/${id}`)
+  }
+
+  removePermission(idRecipe: number, email: string) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        email: email,
+        idRecipe: idRecipe,
+      },
+    };
+
+    return this.http.delete(`${this.apiServerUrl}/api/permission/remove`,options);
   }
 }
