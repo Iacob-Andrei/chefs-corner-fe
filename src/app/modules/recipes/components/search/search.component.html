@@ -18,10 +18,14 @@
 
   <div class="recipes">
     <ul *ngFor="let item of myPage.recipes">
-      <div class="recipe-container" fxLayout="row" fxLayoutGap="50" fxLayoutGap.xs="20" (click)="goToRecipe(item.id)">
-        <img [src]=getRouteImage(item.image) [alt]=item.name>
+      <div class="recipe-container" fxLayout="row" fxLayoutGap="50" fxLayoutGap.xs="20">
+        <img [src]=getRouteImage(item.image) [alt]=item.name (click)="goToRecipe(item.id)">
         <div class="recipe-info" fxLayout="column">
-          <p class="recipe-name">{{item.name}}</p>
+
+          <p class="recipe-name">
+            <mat-icon *ngIf="!(checkIfInCart(item) | async)" (click)="onClickAddToCart(item)" style="color:green">add_shopping_cart</mat-icon>
+            <mat-icon *ngIf="(checkIfInCart(item) | async)" (click)="onClickRemoveFromCart(item)" style="color:red">remove_shopping_cart</mat-icon>
+            {{item.name}}</p>
 
           <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
             <mat-icon> timer</mat-icon>
@@ -33,7 +37,6 @@
             Cook time: {{item.cook_time}} minutes
           </p>
         </div>
-
       </div>
     </ul>
   </div>

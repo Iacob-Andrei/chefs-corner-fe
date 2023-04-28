@@ -12,6 +12,9 @@ import {PriceDialogComponent} from "../dialog/price-dialog/price-dialog.componen
 import {DeleteConfDialogComponent} from "../dialog/delete-conf-dialog/delete-conf-dialog.component";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {AddPermissionDialogComponent} from "../dialog/add-permission-dialog/add-permission-dialog.component";
+import {Store} from "@ngrx/store";
+import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
+import {selectCartObject} from "../../../../services/store/cart.selectors";
 
 
 @Component({
@@ -25,6 +28,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   protected ingredientsUrl = environment.imageUrl;
   protected recipe!: Recipe;
   protected recipeObs!: Observable<Recipe>;
+  sortedDirections!: any;
   form! : FormGroup;
 
   constructor(private route: ActivatedRoute,
@@ -32,6 +36,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
               public toaster: ToastrService,
               public authService: AuthService,
               private recipeService: RecipeService,
+              private store: Store,
               public dialog: MatDialog) {}
 
   ngOnInit(): void{
@@ -54,6 +59,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.subscriptions.push(
       this.recipeObs.subscribe(
         response => {
+          this.sortedDirections = response.directions?.sort((a,b) => a.order > b.order ? 0 : -1)
           this.recipe = response;
 
           if(response.owner === "public") {
@@ -147,13 +153,8 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.router.navigateByUrl(newRoute).then();
   }
 
-
   goToMyRecipes() {
     this.router.navigateByUrl(MYRECIPE).then();
-  }
-
-  sort(){
-    return this.recipe.directions?.sort((a,b) => a.order > b.order ? 0 : -1);
   }
 
   onClickShowPrices() {
@@ -165,8 +166,16 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     });
   }
 
-  onClickAddToMenu() {
+  onClickAddToCart() {
+    this.store.dispatch(addRecipe(this.recipe));
+  }
 
+  onClickRemoveFromCart() {
+    this.store.dispatch(removeRecipe(this.recipe));
+  }
+
+  checkIfInCart(){
+    return this.store.select(selectCartObject, this.recipe);
   }
 
   onClickGivePermission() {

@@ -8,6 +8,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatBadgeModule} from "@angular/material/badge";
 
 
 
@@ -18,18 +19,19 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
   exports: [
     TopBarComponent
   ],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    FlexModule,
-    MatMenuModule,
-    MatIconModule,
-    MatInputModule,
-    ExtendedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    NgOptimizedImage
-  ]
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        FlexModule,
+        MatMenuModule,
+        MatIconModule,
+        MatInputModule,
+        ExtendedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        NgOptimizedImage,
+        MatBadgeModule
+    ]
 })
 export class TopBarModule { }

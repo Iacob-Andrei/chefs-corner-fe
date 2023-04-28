@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApiService} from "../api.service";
 import {BehaviorSubject, tap} from "rxjs";
 import jwt_decode from "jwt-decode";
-import {AuthToken} from "../../shared/models/authToken.model";
+import {AuthToken} from "@app-shared/models/authToken.model";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.TOKEN_NAME);
+    localStorage.removeItem('state')
     this._isLoggedIn$.next(false);
     window.location.reload();
   }

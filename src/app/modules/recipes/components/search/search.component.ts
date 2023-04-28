@@ -1,12 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
-import {Page} from "../../../../shared/models/page.model";
+import {Page} from "@app-shared/models/page.model";
 import {PageService} from "../../services/page.service";
-import {CATEGORIES, PAGE_404, RECIPE, SEARCH} from "../../../../shared/constants";
+import {CATEGORIES, PAGE_404, RECIPE, SEARCH} from "@app-shared/constants";
 import {PageEvent} from "@angular/material/paginator";
 import {ToastrService} from "ngx-toastr";
 import {environment} from "../../../../../environments/environment";
+import {Store} from "@ngrx/store";
+import {Recipe} from "@app-shared/models";
+import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
+import {selectCartEntries, selectCartObject} from "../../../../services/store/cart.selectors";
 
 @Component({
   selector: 'app-search',
@@ -24,10 +28,15 @@ export class SearchComponent implements OnInit, OnDestroy{
   constCategories = CATEGORIES;
   selectedCategory = CATEGORIES[0];
 
+  cartEntries$: Observable<Recipe[]>;
+
   constructor(private route: ActivatedRoute,
               private pageService: PageService,
               private router: Router,
-              public toaster: ToastrService,){}
+              public toaster: ToastrService,
+              private store: Store){
+    this.cartEntries$ = this.store.select(selectCartEntries);
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -68,8 +77,16 @@ export class SearchComponent implements OnInit, OnDestroy{
     )
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  onClickAddToCart(item: Recipe) {
+    this.store.dispatch(addRecipe(item));
+  }
+
+  onClickRemoveFromCart(item: Recipe) {
+    this.store.dispatch(removeRecipe(item));
+  }
+
+  checkIfInCart(item: Recipe){
+    return this.store.select(selectCartObject, item);
   }
 
   changeInSelect() {
@@ -103,5 +120,9 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.router.navigateByUrl(newRoute).then(() => {
       window.location.reload();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 }

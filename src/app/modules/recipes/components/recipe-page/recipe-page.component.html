@@ -15,7 +15,8 @@
 
     <div class="buttons" fxLayoutGap="20">
       <mat-icon class="func-icon" title="Show prices" (click)="onClickShowPrices()">attach_money</mat-icon>
-      <mat-icon class="func-icon" title="Add to menu" (click)="onClickAddToMenu()">add</mat-icon>
+      <mat-icon *ngIf="!(checkIfInCart() | async)" (click)="onClickAddToCart()" class="func-icon" style="color:green">add_shopping_cart</mat-icon>
+      <mat-icon *ngIf="(checkIfInCart() | async)" (click)="onClickRemoveFromCart()" class="func-icon" style="color:red">remove_shopping_cart</mat-icon>
       <mat-icon *ngIf="recipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Give permission" (click)="onClickGivePermission()">person_add</mat-icon>
       <mat-icon *ngIf="recipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Remove recipe" (click)="onClickDelete()">remove_circle</mat-icon>
     </div>
@@ -93,7 +94,7 @@
         <h2>Directions:</h2>
         <p class="note">Note: Directions are based on the original recipe of {{myRecipe.number_servings}} servings.</p>
         <ul>
-          <li *ngFor="let item of sort()">
+          <li *ngFor="let item of sortedDirections">
             <div class="row-instruction" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
               <div class="order">{{ item.order }}</div>
               <span class="instruction"> {{ item.instruction }}</span>
