@@ -19,6 +19,11 @@ const routes: Routes = [
     canActivate: [IsAuthGuard]
   },
   {
+    path: 'menu',
+    loadChildren: () => import("./modules/menu/menu.module").then((m) => m.MenuModule),
+    canActivate: [IsAuthGuard]
+  },
+  {
     path: '**',
     pathMatch: "full",
     component: PagenotfoundComponent
