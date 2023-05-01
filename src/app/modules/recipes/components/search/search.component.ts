@@ -10,7 +10,7 @@ import {environment} from "../../../../../environments/environment";
 import {Store} from "@ngrx/store";
 import {Recipe} from "@app-shared/models";
 import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
-import {selectCartEntries, selectCartObject} from "../../../../services/store/cart.selectors";
+import {selectCartObject} from "../../../../services/store/cart.selectors";
 
 @Component({
   selector: 'app-search',
@@ -28,15 +28,11 @@ export class SearchComponent implements OnInit, OnDestroy{
   constCategories = CATEGORIES;
   selectedCategory = CATEGORIES[0];
 
-  cartEntries$: Observable<Recipe[]>;
-
   constructor(private route: ActivatedRoute,
               private pageService: PageService,
               private router: Router,
               public toaster: ToastrService,
-              private store: Store){
-    this.cartEntries$ = this.store.select(selectCartEntries);
-  }
+              private store: Store){}
 
   ngOnInit(): void {
     this.subscriptions.push(

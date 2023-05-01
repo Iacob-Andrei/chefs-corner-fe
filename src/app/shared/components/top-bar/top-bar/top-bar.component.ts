@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AUTH, CREATE, HOME, MYRECIPE, RECIPE, SEARCH} from "../../../constants";
+import {AUTH, CART, CREATE, HOME, MYRECIPE, RECIPE, SEARCH} from "../../../constants";
 import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
@@ -65,6 +65,10 @@ export class TopBarComponent implements OnInit, OnDestroy{
 
   onClickGoToMyRecipe() {
     this.router.navigateByUrl(MYRECIPE).then();
+  }
+
+  onClickGoToCart(){
+    this.router.navigateByUrl(CART).then();
   }
 
   onClickLogin() {

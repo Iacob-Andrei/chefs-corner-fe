@@ -29,7 +29,7 @@
         <span>Create recipe</span>
       </button>
 
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onClickGoToCart()">
         <mat-icon>shopping_basket</mat-icon>
         <span matBadge="{{countProduct$ | async}}" matBadgeOverlap="false">Current menu</span>
       </button>
@@ -49,7 +49,7 @@
       <mat-icon title="My recipes" class="nav-icons" (click)="onClickGoToMyRecipe()">restaurant_menu</mat-icon>
       <mat-icon title="My menus" class="nav-icons">library_books</mat-icon>
       <mat-icon title="Create recipe" class="nav-icons" (click)="onClickGoToCreateRecipe()">create</mat-icon>
-      <div matBadge="{{countProduct$ | async}}" class="nav-icons"><mat-icon title="Current menu">shopping_basket</mat-icon></div>
+      <div matBadge="{{countProduct$ | async}}" class="nav-icons" (click)="onClickGoToCart()"><mat-icon title="Current menu">shopping_basket</mat-icon></div>
     </ng-container>
 
     <form *ngIf="authService.isLoggedIn | async" fxShow="true" fxShow.xs="false" fxLayoutAlign="center">

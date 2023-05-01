@@ -124,4 +124,11 @@ export class ApiService {
 
     return this.http.delete(`${this.apiServerUrl}/api/permission/remove`,options);
   }
+
+  getRecipesByIds(ids: number[]) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post<any>(`${this.apiServerUrl}/api/recipe/list`,
+      JSON.stringify(ids),
+      {'headers': headers})
+  }
 }

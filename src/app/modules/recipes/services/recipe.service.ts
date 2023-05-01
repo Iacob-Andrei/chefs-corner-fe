@@ -12,6 +12,10 @@ export class RecipeService {
     return this.api.getRecipeById(id);
   }
 
+  getRecipesByIds(ids: number[]){
+    return this.api.getRecipesByIds(ids);
+  }
+
   postRecipe(recipe: RecipePost){
     return this.api.postRecipe(recipe);
   }
