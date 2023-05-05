@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit, OnDestroy{
   }
 
   checkIfInCart(item: Recipe){
-    return this.store.select(selectCartObject, item);
+    return this.store.select(selectCartObject, item.id);
   }
 
   changeInSelect() {

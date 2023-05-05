@@ -175,7 +175,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   }
 
   checkIfInCart(){
-    return this.store.select(selectCartObject, this.recipe);
+    return this.store.select(selectCartObject, this.recipe.id);
   }
 
   onClickGivePermission() {

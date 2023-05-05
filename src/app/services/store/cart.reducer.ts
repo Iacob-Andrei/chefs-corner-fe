@@ -1,28 +1,22 @@
-import {Recipe} from "@app-shared/models";
 import {ActionReducer, createReducer, INIT, on, UPDATE} from "@ngrx/store";
 import {addRecipe, clearCart, removeRecipe} from "./cart.actions";
 
-export const initialCartEntries: Recipe[] = [];
+export const initialCartEntries: number[] = [];
 
 export const cartReducer = createReducer(
   initialCartEntries,
   on(clearCart, _ => []),
-  on(addRecipe, (entries, recipe) => {
-    const entriesClone: Recipe[] = JSON.parse(JSON.stringify(entries));
-    const found = entriesClone.find(element => element.id === recipe.id);
+  on(addRecipe, (entries , recipe) => {
+    const entriesClone: number[] = JSON.parse(JSON.stringify(entries));
+    const found = entriesClone.find(element => element === recipe.id);
     if(!found){
-      const copyRecipe: Recipe = {
-        id: recipe.id,
-        name: recipe.name,
-        image: recipe.image
-      }
-      entriesClone.push(copyRecipe);
+      entriesClone.push(recipe.id);
     }
     return entriesClone;
   }),
   on(removeRecipe, (entries, recipe) => {
-    const entriesClone: Recipe[] = JSON.parse(JSON.stringify(entries));
-    const found = entriesClone.find(element => element.id === recipe.id);
+    const entriesClone: number[] = JSON.parse(JSON.stringify(entries));
+    const found = entriesClone.find(element => element === recipe.id);
     if(found){
       entriesClone.splice(entriesClone.indexOf(found), 1);
     }

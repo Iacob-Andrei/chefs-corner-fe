@@ -35,7 +35,7 @@ export class CartComponent implements OnInit{
       }else {
         this.isEmpty = false;
         let cartIds: number[] = [];
-        recipes.forEach(recipe => cartIds.push(recipe.id));
+        recipes.forEach(recipe => cartIds.push(recipe));
         this.getRecipeData(cartIds);
       }
     });
