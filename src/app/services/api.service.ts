@@ -131,4 +131,11 @@ export class ApiService {
       JSON.stringify(ids),
       {'headers': headers})
   }
+
+  getRecipesForMenu(currentMenu: any, requested: any) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post<any>(`${this.apiServerUrl}/api/category/complete-menu`,
+      JSON.stringify({currentMenu: currentMenu, requested: requested}),
+      {'headers': headers})
+  }
 }

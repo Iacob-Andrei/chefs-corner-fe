@@ -31,4 +31,8 @@ export class RecipeService {
   deleteRecipe(idRecipe: number) {
     return this.api.deleteRecipe(idRecipe);
   }
+
+  getRecipesForMenu(currentMenu: any, requested: any) {
+    return this.api.getRecipesForMenu(currentMenu, requested);
+  }
 }

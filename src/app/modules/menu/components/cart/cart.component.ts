@@ -5,11 +5,12 @@ import {Observable, take} from "rxjs";
 import {RecipeService} from "../../../recipes/services/recipe.service";
 import {Recipe} from "@app-shared/models";
 import {environment} from "../../../../../environments/environment";
-import {RECIPE} from "@app-shared/constants";
+import {RECIPE, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
-import {getErrorMsgRequiredValue} from "../../../authentification/validators/error-messages";
+import {GetRecipesDialogComponent} from "../dialog/get-recipes-dialog/get-recipes-dialog.component";
+import {addRecipe} from "../../../../services/store/cart.actions";
 
 @Component({
   selector: 'app-cart',
@@ -21,7 +22,7 @@ export class CartComponent implements OnInit{
   isEmpty!: boolean;
   recipesObs!: Observable<Recipe[]>;
   currentForm: any = {};
-  addOns: number = 15;
+  addOns: number = 50;
 
   constructor(private store: Store,
               private router: Router,
@@ -56,7 +57,31 @@ export class CartComponent implements OnInit{
     })
   }
 
-  onClickGoToMenu() {
+  getNewRecipesData(requested: any){
+    let newMenu: any = {}
+    Object.keys(this.currentForm).forEach((category:any) => {
+      newMenu[category] = this.currentForm[category].map((recipe:Recipe) => recipe.id);
+    })
+
+    this.recipesObs = this.recipeService.getRecipesForMenu(newMenu, requested);
+    this.recipesObs.pipe(take(1)).subscribe(recipes => {
+      this.currentForm = {};
+      recipes.forEach(recipe => {
+        this.store.dispatch(addRecipe(recipe))
+        if(recipe.categories) {
+          if(this.currentForm[recipe.categories[0]]){
+            this.currentForm[recipe.categories[0]].push(recipe)
+          }else{
+            this.currentForm[recipe.categories[0]] = [recipe]
+          }
+        }
+      })
+    })
+
+  }
+
+  onClickGoToRecipes() {
+    this.router.navigateByUrl(SEARCH).then();
   }
 
   getKeys() {
@@ -121,9 +146,12 @@ export class CartComponent implements OnInit{
     return price;
   }
 
-  protected readonly getErrorMsgRequiredValue = getErrorMsgRequiredValue;
-
   onClickRequestRecipes() {
-
+    const dialogRef: any = this.dialog.open(GetRecipesDialogComponent);
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: any) => {
+      if(result.total !== 0){
+        this.getNewRecipesData(result.requested);
+      }
+    })
   }
 }

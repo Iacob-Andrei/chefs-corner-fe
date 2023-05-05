@@ -53,7 +53,7 @@ export const CATEGORIES = [
   },
   {
     display: 'SideDishes',
-    value: 'sideDishes'
+    value: 'sidedishes'
   },
   {
     display: 'Soups',

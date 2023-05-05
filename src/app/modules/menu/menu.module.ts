@@ -13,13 +13,15 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PriceMenuDialogComponent } from './components/dialog/price-menu-dialog/price-menu-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { GetRecipesDialogComponent } from './components/dialog/get-recipes-dialog/get-recipes-dialog.component';
 
 
 @NgModule({
   declarations: [
     CartComponent,
     ContainerComponent,
-    PriceMenuDialogComponent
+    PriceMenuDialogComponent,
+    GetRecipesDialogComponent
   ],
   imports: [
     CommonModule,
