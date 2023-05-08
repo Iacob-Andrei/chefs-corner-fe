@@ -9,15 +9,18 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatBadgeModule} from "@angular/material/badge";
+import { DrawerComponent } from './drawer/drawer.component';
 
 
 
 @NgModule({
   declarations: [
-    TopBarComponent
+    TopBarComponent,
+    DrawerComponent
   ],
   exports: [
-    TopBarComponent
+    TopBarComponent,
+    DrawerComponent
   ],
     imports: [
         CommonModule,

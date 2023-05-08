@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PriceMenuDialogComponent } from './components/dialog/price-menu-dialog/price-menu-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { GetRecipesDialogComponent } from './components/dialog/get-recipes-dialog/get-recipes-dialog.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -23,18 +24,19 @@ import { GetRecipesDialogComponent } from './components/dialog/get-recipes-dialo
     PriceMenuDialogComponent,
     GetRecipesDialogComponent
   ],
-  imports: [
-    CommonModule,
-    MenuRoutingModule,
-    TopBarModule,
-    MatIconModule,
-    MatButtonModule,
-    FlexModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatDialogModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        MenuRoutingModule,
+        TopBarModule,
+        MatIconModule,
+        MatButtonModule,
+        FlexModule,
+        MatInputModule,
+        MatSelectModule,
+        FormsModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatSidenavModule
+    ]
 })
 export class MenuModule { }

@@ -23,6 +23,7 @@ import {OwnedComponent} from "./components/owned/owned.component";
 import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialog/delete-conf-dialog.component';
 import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
         MatDialogModule,
         MatStepperModule,
         MatAutocompleteModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatSidenavModule
     ]
 })
 export class RecipesModule { }

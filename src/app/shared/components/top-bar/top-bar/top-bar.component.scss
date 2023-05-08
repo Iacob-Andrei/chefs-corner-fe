@@ -7,10 +7,6 @@
   .logo{
     padding-left: 1vw;
 
-    .menu-small-width{
-      display: none;
-    }
-
     .image{
       max-height: 4em;
       max-width: 4em;
@@ -44,27 +40,6 @@
         cursor: pointer;
       }
     }
-
-    .profile-img {
-      transform: scale(2);
-      border-radius: 50%;
-      -webkit-user-drag: none;
-      user-select: none;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    .nav-button{
-      min-height: 3em;
-      min-width: 7em;
-      border-radius: 30px;
-      border: 2px solid $white;
-      font-size: 16px;
-    }
   }
 }
 
@@ -77,10 +52,6 @@
   .top-bg {
     .logo {
       padding-left: 0;
-
-      .menu-small-width {
-        display: inline;
-      }
     }
     .navigation {
       .nav-icons {

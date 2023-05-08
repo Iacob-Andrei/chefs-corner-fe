@@ -11,10 +11,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {LoginFormComponent} from "./components/login-form/login-form.component";
 import {RegisterFormComponent} from "./components/register-form/register-form.component";
 import {MatMenuModule} from "@angular/material/menu";
-import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
+import {TopBarModule} from "@app-shared/components/top-bar/top-bar.module";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     TopBarModule,
     MatStepperModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSidenavModule
   ]
 })
 export class AuthentificationModule { }
