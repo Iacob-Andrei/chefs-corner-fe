@@ -3,15 +3,11 @@
     <mat-icon>shopping_basket</mat-icon>
     <h2>Current cart</h2>
   </div>
-  <hr class="underline">
-
   <div *ngIf="!isEmpty">
-    <mat-form-field appearance="fill" color="accent" class="extra-input">
-      <mat-label>Tax</mat-label>
-      <span matSuffix>%</span>
-      <input matInput type="number" [(ngModel)]="addOns" required min=5 max=500>
-    </mat-form-field>
+    <span matSuffix style="color: green">%</span>
+    <input matInput type="number" class="addOn" [(ngModel)]="addOns" required min=5 max=500>
   </div>
+  <hr class="underline">
 
   <div *ngIf="isEmpty" class="no-recipes" fxLayout="column" fxLayoutAlign="center center">
     <h3>Unfortunately you have no recipes in your cart.</h3>
@@ -75,7 +71,8 @@
             (click)="onClickRequestRecipes()">Get recipes</button>
 
     <button mat-raised-button color="primary"
-            class="nav-button">Complete</button>
+            class="nav-button"
+            (click)="onClickSubmitMenu()">Complete</button>
   </div>
 </div>
 

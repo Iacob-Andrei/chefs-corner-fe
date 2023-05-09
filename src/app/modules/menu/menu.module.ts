@@ -18,6 +18,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import { MenuPageComponent } from './components/menu-page/menu-page.component';
+import { CompleteMenuDialogComponent } from './components/dialog/complete-menu-dialog/complete-menu-dialog.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { MenuPageComponent } from './components/menu-page/menu-page.component';
     PriceMenuDialogComponent,
     GetRecipesDialogComponent,
     MenuListComponent,
-    MenuPageComponent
+    MenuPageComponent,
+    CompleteMenuDialogComponent
   ],
   imports: [
     CommonModule,

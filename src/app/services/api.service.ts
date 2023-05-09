@@ -147,4 +147,11 @@ export class ApiService {
   getMenuById(id: number) {
     return this.http.get<Menu>(`${this.apiServerUrl}/api/menu/${id}`);
   }
+
+  postMenu(name: string, description: string, currentMenu: any) {
+    const headers = { 'content-type': 'application/json'}
+    return this.http.post<any>(`${this.apiServerUrl}/api/menu`,
+      JSON.stringify({name: name, description: description, currentMenu: currentMenu}),
+      {'headers': headers});
+  }
 }

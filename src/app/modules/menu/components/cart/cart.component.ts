@@ -5,12 +5,14 @@ import {Observable, take} from "rxjs";
 import {RecipeService} from "../../../recipes/services/recipe.service";
 import {Recipe} from "@app-shared/models";
 import {environment} from "../../../../../environments/environment";
-import {RECIPE, SEARCH} from "@app-shared/constants";
+import {MENUS, RECIPE, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
 import {GetRecipesDialogComponent} from "../dialog/get-recipes-dialog/get-recipes-dialog.component";
-import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
+import {addRecipe, clearCart, removeRecipe} from "../../../../services/store/cart.actions";
+import {CompleteMenuDialogComponent} from "../dialog/complete-menu-dialog/complete-menu-dialog.component";
+import {MenuService} from "../../services/menu.service";
 
 @Component({
   selector: 'app-cart',
@@ -27,7 +29,8 @@ export class CartComponent implements OnInit{
   constructor(private store: Store,
               private router: Router,
               private recipeService: RecipeService,
-              public dialog: MatDialog) {};
+              public dialog: MatDialog,
+              public menuService: MenuService) {};
 
   ngOnInit(): void {
     this.store.select(selectCartEntries).pipe(take(1)).subscribe(recipes => {
@@ -149,8 +152,30 @@ export class CartComponent implements OnInit{
   onClickRequestRecipes() {
     const dialogRef: any = this.dialog.open(GetRecipesDialogComponent);
     dialogRef.afterClosed().pipe(take(1)).subscribe((result: any) => {
-      if(result.total !== 0){
-        this.getNewRecipesData(result.requested);
+      if(result)
+        if(result.total !== 0){
+          this.getNewRecipesData(result.requested);
+        }
+    })
+  }
+
+  onClickSubmitMenu(){
+    const dialogRef: any = this.dialog.open(CompleteMenuDialogComponent);
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: any) => {
+      if(result){
+        let currentMenu: any = {};
+        Object.keys(this.currentForm).forEach(category => {
+          let list: number[] = [];
+          this.currentForm[category].forEach((recipe: Recipe) => list.push(recipe.id));
+          currentMenu[category] = list;
+        })
+
+        this.menuService.postMenu(result.name, result.description, currentMenu).subscribe(
+          () => {
+            this.store.dispatch(clearCart());
+            this.router.navigateByUrl(MENUS).then();
+          }
+        );
       }
     })
   }

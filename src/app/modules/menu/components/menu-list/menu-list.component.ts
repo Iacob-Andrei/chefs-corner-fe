@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MENUS, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {Observable, take} from "rxjs";
-import {MenuService} from "../services/menu.service";
+import {MenuService} from "../../services/menu.service";
 import {Menu} from "@app-shared/models/menu.model";
 
 @Component({

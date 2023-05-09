@@ -4,7 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {PAGE_404, RECIPE} from "@app-shared/constants";
 import {ToastrService} from "ngx-toastr";
 import {Menu} from "@app-shared/models/menu.model";
-import {MenuService} from "../services/menu.service";
+import {MenuService} from "../../services/menu.service";
 import {environment} from "../../../../../environments/environment";
 import {Recipe} from "@app-shared/models";
 import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
