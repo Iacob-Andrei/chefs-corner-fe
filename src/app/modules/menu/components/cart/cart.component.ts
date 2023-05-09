@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
 import {GetRecipesDialogComponent} from "../dialog/get-recipes-dialog/get-recipes-dialog.component";
-import {addRecipe} from "../../../../services/store/cart.actions";
+import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 
 @Component({
   selector: 'app-cart',
@@ -102,7 +102,7 @@ export class CartComponent implements OnInit{
 
   onClickRemoveFromCart(recipe: Recipe, category: string) {
     this.currentForm[category] = this.currentForm[category].filter((item: Recipe) => item.id !== recipe.id);
-    // this.store.dispatch(removeRecipe(recipe));
+    this.store.dispatch(removeRecipe(recipe));
   }
 
   goToRecipe(id: number) {

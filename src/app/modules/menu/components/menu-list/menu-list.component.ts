@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SEARCH} from "@app-shared/constants";
+import {MENUS, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {Observable, take} from "rxjs";
 import {MenuService} from "../services/menu.service";
@@ -36,7 +36,7 @@ export class MenuListComponent implements OnInit{
   }
 
   onClickGoToMenu(id: number) {
-    console.log(id)
+    this.router.navigateByUrl(MENUS + "/" + id).then();
   }
 
   getNumberRecipes(menu: Menu) {

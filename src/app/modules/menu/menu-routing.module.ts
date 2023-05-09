@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {CartComponent} from "./components/cart/cart.component";
 import {ContainerComponent} from "./components/container/container.component";
 import {MenuListComponent} from "./components/menu-list/menu-list.component";
+import {MenuPageComponent} from "./components/menu-page/menu-page.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
         path: '',
         component: MenuListComponent,
         pathMatch: 'full',
+      },
+      {
+        path: ':id',
+        component: MenuPageComponent
       }
     ]
   }

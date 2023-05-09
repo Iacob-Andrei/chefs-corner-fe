@@ -6,6 +6,7 @@ import {environment} from "../../environments/environment";
 import {Page} from "../shared/models/page.model";
 import {User} from "../shared/models/user.model";
 import {RecipePost} from "../shared/models/recipePost.model";
+import {Menu} from "@app-shared/models/menu.model";
 
 @Injectable({
   providedIn: 'root'
@@ -141,5 +142,9 @@ export class ApiService {
 
   getMenus() {
     return this.http.get<any>(`${this.apiServerUrl}/api/menu/owned`);
+  }
+
+  getMenuById(id: number) {
+    return this.http.get<Menu>(`${this.apiServerUrl}/api/menu/${id}`);
   }
 }

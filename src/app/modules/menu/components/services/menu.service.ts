@@ -11,4 +11,8 @@ export class MenuService {
   getMenus() {
     return this.api.getMenus();
   }
+
+  getMenuById(id: number) {
+    return this.api.getMenuById(id);
+  }
 }
