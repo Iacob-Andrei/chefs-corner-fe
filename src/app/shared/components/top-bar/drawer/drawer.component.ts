@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CART, CREATE, MYRECIPE, SEARCH} from "@app-shared/constants";
+import {CART, CREATE, MENUS, MYRECIPE, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {Store} from "@ngrx/store";
@@ -54,6 +54,9 @@ export class DrawerComponent implements OnInit, OnDestroy{
     this.router.navigateByUrl(MYRECIPE).then();
   }
 
+  onClickGoToMenuList() {
+    this.router.navigateByUrl(MENUS).then();
+  }
   onClickGoToCart(){
     this.router.navigateByUrl(CART).then();
   }

@@ -16,14 +16,14 @@
     <span>My recipes</span>
   </button>
 
-  <button mat-button>
-    <mat-icon>library_books</mat-icon>
-    <span>My menus</span>
-  </button>
-
   <button mat-button (click)="onClickGoToCreateRecipe()">
     <mat-icon>create</mat-icon>
     <span>Create recipe</span>
+  </button>
+
+  <button mat-button (click)="onClickGoToMenuList()">
+    <mat-icon>library_books</mat-icon>
+    <span>My menus</span>
   </button>
 
   <button mat-button (click)="onClickGoToCart()">
