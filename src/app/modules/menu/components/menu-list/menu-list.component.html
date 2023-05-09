@@ -1,0 +1,46 @@
+<div class="filter-class">
+  <div class="filter-title" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
+    <mat-icon>library_books</mat-icon>
+    <h2>My menus</h2>
+  </div>
+  <hr class="underline">
+
+  <div *ngIf="isEmpty" class="no-recipes" fxLayout="column" fxLayoutAlign="center center">
+    <h3>Unfortunately you have no menus created.</h3>
+    <h3>Click the button bellow to search some recipes to create your own:</h3>
+    <button mat-raised-button color="primary"
+            class="nav-button"
+            (click)="onClickGoToRecipes()">Search recipes</button>
+  </div>
+</div>
+
+<div *ngIf="menuObs | async as recipes">
+  <div *ngFor="let menu of menuObs | async" class="menu">
+
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+
+          <mat-panel-title>
+            <p>{{menu.name}}</p>
+          </mat-panel-title>
+
+          <mat-panel-description>
+            <p>{{getNumberRecipes(menu)}} recipes in this menu.</p>
+          </mat-panel-description>
+
+        </mat-expansion-panel-header>
+
+        <p>{{menu.description}}</p>
+        <ul>This menu contains recipes from:
+        <li *ngFor="let category of getCategoriesMenu(menu)">
+          {{category}}
+        </li></ul>
+
+        <button mat-button (click)="onClickGoToMenu(menu.id)">Check this menu</button>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+  </div>
+</div>

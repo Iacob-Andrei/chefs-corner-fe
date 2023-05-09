@@ -16,6 +16,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { GetRecipesDialogComponent } from './components/dialog/get-recipes-dialog/get-recipes-dialog.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { MenuListComponent } from './components/menu-list/menu-list.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
@@ -26,19 +27,20 @@ import { MenuListComponent } from './components/menu-list/menu-list.component';
     GetRecipesDialogComponent,
     MenuListComponent
   ],
-    imports: [
-        CommonModule,
-        MenuRoutingModule,
-        TopBarModule,
-        MatIconModule,
-        MatButtonModule,
-        FlexModule,
-        MatInputModule,
-        MatSelectModule,
-        FormsModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatSidenavModule
-    ]
+  imports: [
+    CommonModule,
+    MenuRoutingModule,
+    TopBarModule,
+    MatIconModule,
+    MatButtonModule,
+    FlexModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatSidenavModule,
+    MatExpansionModule
+  ]
 })
 export class MenuModule { }

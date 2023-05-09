@@ -138,4 +138,8 @@ export class ApiService {
       JSON.stringify({currentMenu: currentMenu, requested: requested}),
       {'headers': headers})
   }
+
+  getMenus() {
+    return this.http.get<any>(`${this.apiServerUrl}/api/menu/owned`);
+  }
 }
