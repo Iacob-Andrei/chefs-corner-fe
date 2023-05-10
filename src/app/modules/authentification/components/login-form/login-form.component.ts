@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AUTH, HOME} from "@app-shared/constants";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login-form',
@@ -16,8 +15,7 @@ export class LoginFormComponent {
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private service: AuthService,
-              private toaster: ToastrService) {
+              private service: AuthService) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -47,17 +45,9 @@ export class LoginFormComponent {
     this.service.login(
       this.form.controls['email'].value,
       this.form.controls['password'].value
-    ).subscribe(() => {
-        this.router.navigateByUrl(HOME).then();
-      },
-      () => {
-        this.showErrorToaster("Login failed!", "Verify your credential");
-      }
+    ).subscribe(() =>
+        this.router.navigateByUrl(HOME).then()
     );
-  }
-
-  showErrorToaster(title: string, message: string): void{
-    this.toaster.error(message, title, {});
   }
 
   onClickGoRegistration(): void{

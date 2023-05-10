@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable, of} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
 import {Page} from "../shared/models/page.model";
 import {User} from "../shared/models/user.model";
 import {RecipePost} from "../shared/models/recipePost.model";
 import {Menu} from "@app-shared/models/menu.model";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,25 @@ import {Menu} from "@app-shared/models/menu.model";
 export class ApiService {
 
   private apiServerUrl = environment.apiBaseUrl;
+  private _OPTIONS = {'headers': { 'content-type': 'application/json'}};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private toasterService: ToastrService) { }
 
+  private handleErrorForToaster(
+    message: string = 'Oops, something went wrong.',
+    title: string = 'Error')
+  {
+    return catchError((httpErr) => {
+      if(message === 'Oops, something went wrong.')
+        message = httpErr.error ? httpErr.error['message'] : message;
+
+      this.toasterService.error(message, title);
+      return of(null);
+    });
+  }
+
+  // ---- RECIPE ----
   getRecipeById(id: string): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiServerUrl}/api/recipe/${id}`)
       .pipe();
@@ -30,6 +47,11 @@ export class ApiService {
   getMyRecipes() {
     return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/for-user`)
       .pipe();
+  }
+
+  getRecipesByIds(ids: number[]) {
+    const body: string = JSON.stringify(ids);
+    return this.http.post<any>(`${this.apiServerUrl}/api/recipe/list`, body, this._OPTIONS);
   }
 
   getRecipesByFilter(pattern: string) {
@@ -46,41 +68,9 @@ export class ApiService {
     return this.http.get<string[]>(`${this.apiServerUrl}/api/user/data/${pattern}`)
   }
 
-  login(email: string, password: string) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/auth/token`,
-                                  JSON.stringify({"email": email, "password":password}),
-                                  {'headers': headers})
-      .pipe();
-  }
-
-  register(name: string, email: string, password: string, business: boolean){
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post(
-      `${this.apiServerUrl}/api/auth/register`,
-      JSON.stringify({"name": name, "email": email, "password":password, "business": business}),
-      {'headers': headers}
-    )
-  }
-
-  patchImage(email: string, image: File){
-    const fd = new FormData();
-    fd.append('image', image);
-
-    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
-  }
-
-  getUsedInfo(email: string) {
-    return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`).pipe();
-  }
-
   postRecipe(recipe: RecipePost) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post(
-      `${this.apiServerUrl}/api/recipe`,
-      JSON.stringify(recipe),
-      {'headers': headers}
-    )
+    const body: string = JSON.stringify(recipe)
+    return this.http.post(`${this.apiServerUrl}/api/recipe`, body);
   }
 
   patchRecipeImage(idRecipe: number, image: File) {
@@ -101,11 +91,36 @@ export class ApiService {
     return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`);
   }
 
+  // ---- AUTHENTICATE + USER ----
+
+  login(email: string, password: string) {
+    const body: string = JSON.stringify({"email": email, "password":password});
+    return this.http.post<any>(`${this.apiServerUrl}/api/auth/token`, body)
+      .pipe(this.handleErrorForToaster("Invalid credentials!"));
+  }
+
+  register(name: string, email: string, password: string, business: boolean){
+    const body: string = JSON.stringify({"name": name, "email": email, "password":password, "business": business})
+    return this.http.post(`${this.apiServerUrl}/api/auth/register`, body, this._OPTIONS)
+      .pipe(this.handleErrorForToaster());
+  }
+
+  patchImage(email: string, image: File){
+    const fd = new FormData();
+    fd.append('image', image);
+    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
+      .pipe(this.handleErrorForToaster());
+  }
+
+  getUsedInfo(email: string) {
+    return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`);
+  }
+
+  // ---- RECIPES PERMISSIONS ----
+
   addPermission(id: number, email: string) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/permission/add`,
-      JSON.stringify({"email": email, "idRecipe":id}),
-      {'headers': headers})
+    const body: string = JSON.stringify({"email": email, "idRecipe":id});
+    return this.http.post<any>(`${this.apiServerUrl}/api/permission/add`, body);
   }
 
   getCurrentPermission(id: number) {
@@ -126,19 +141,7 @@ export class ApiService {
     return this.http.delete(`${this.apiServerUrl}/api/permission/remove`,options);
   }
 
-  getRecipesByIds(ids: number[]) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/recipe/list`,
-      JSON.stringify(ids),
-      {'headers': headers})
-  }
-
-  getRecipesForMenu(currentMenu: any, requested: any) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/category/complete-menu`,
-      JSON.stringify({currentMenu: currentMenu, requested: requested}),
-      {'headers': headers})
-  }
+  // ---- MENU ----
 
   getMenus() {
     return this.http.get<any>(`${this.apiServerUrl}/api/menu/owned`);
@@ -148,10 +151,13 @@ export class ApiService {
     return this.http.get<Menu>(`${this.apiServerUrl}/api/menu/${id}`);
   }
 
+  getRecipesForMenu(currentMenu: any, requested: any) {
+    const body: string = JSON.stringify({currentMenu: currentMenu, requested: requested});
+    return this.http.post<any>(`${this.apiServerUrl}/api/category/complete-menu`, body, this._OPTIONS);
+  }
+
   postMenu(name: string, description: string, currentMenu: any) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/menu`,
-      JSON.stringify({name: name, description: description, currentMenu: currentMenu}),
-      {'headers': headers});
+    const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
+    return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS);
   }
 }
