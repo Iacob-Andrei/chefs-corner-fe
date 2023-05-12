@@ -3,8 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of, take} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
-import {Page} from "../shared/models/page.model";
-import {User} from "../shared/models/user.model";
 import {RecipePost} from "../shared/models/recipePost.model";
 import {Menu} from "@app-shared/models/menu.model";
 import {ToastrService} from "ngx-toastr";
