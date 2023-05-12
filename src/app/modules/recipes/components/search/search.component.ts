@@ -3,9 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
 import {Page} from "@app-shared/models/page.model";
 import {PageService} from "../../services/page.service";
-import {CATEGORIES, PAGE_404, RECIPE, SEARCH} from "@app-shared/constants";
+import {CATEGORIES, RECIPE, SEARCH} from "@app-shared/constants";
 import {PageEvent} from "@angular/material/paginator";
-import {ToastrService} from "ngx-toastr";
 import {environment} from "../../../../../environments/environment";
 import {Store} from "@ngrx/store";
 import {Recipe} from "@app-shared/models";
@@ -31,7 +30,6 @@ export class SearchComponent implements OnInit, OnDestroy{
   constructor(private route: ActivatedRoute,
               private pageService: PageService,
               private router: Router,
-              public toaster: ToastrService,
               private store: Store){}
 
   ngOnInit(): void {
@@ -64,10 +62,6 @@ export class SearchComponent implements OnInit, OnDestroy{
         response => {
           this.pageRecipes = response;
           this.maxPages = response.totalPages + 1;
-        },
-        error => {
-          this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
-          this.router.navigateByUrl(PAGE_404).then();
         }
       )
     )
@@ -101,10 +95,6 @@ export class SearchComponent implements OnInit, OnDestroy{
     ).then(() => {
       window.location.reload();
     })
-  }
-
-  showErrorToaster(title: string, message: string): void{
-    this.toaster.error(message, title, {});
   }
 
   getRouteImage(image: string) {

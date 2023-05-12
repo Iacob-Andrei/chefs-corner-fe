@@ -119,9 +119,6 @@ export class CreateRecipeComponent implements OnDestroy{
           this.uploadVideos(response.id);
 
           this.router.navigateByUrl(HOME).then();
-        },
-        (error) => {
-          this.showWarningToaster("Invalid arguments",error.message)
         }
       )
     );
@@ -209,10 +206,7 @@ export class CreateRecipeComponent implements OnDestroy{
 
     this.subscriptions.push(
       this.recipeService.patchImage(id,this.recipeImageFile).subscribe(
-        () => {},
-        () => {
-          this.showWarningToaster("Error while loading image", "Re-upload video in recipe page.")
-        }
+        () => {}
       )
     )
   }

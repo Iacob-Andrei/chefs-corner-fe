@@ -59,22 +59,19 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.subscriptions.push(
       this.recipeObs.subscribe(
         response => {
-          this.sortedDirections = response.directions?.sort((a,b) => a.order > b.order ? 0 : -1)
-          this.recipe = response;
+          if(response) {
+            this.sortedDirections = response.directions?.sort((a, b) => a.order > b.order ? 0 : -1)
+            this.recipe = response;
 
-          if(response.owner === "public") {
-            this.imageUrl += response.image;
-          }else{
-            this.imageUrl = response.file ? `data:image/png;base64,${response.file}` : "./assets/icons/default-profile.jpg";
+            if (response.owner === "public") {
+              this.imageUrl += response.image;
+            } else {
+              this.imageUrl = response.file ? `data:image/png;base64,${response.file}` : "./assets/icons/default-profile.jpg";
+            }
+
+            this.form = this.createForm();
+            this.getValueChanges();
           }
-        },
-        error => {
-          this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
-          this.router.navigateByUrl(PAGE_404).then();
-        },
-        () => {
-          this.form = this.createForm();
-          this.getValueChanges();
         }
     ));
   }

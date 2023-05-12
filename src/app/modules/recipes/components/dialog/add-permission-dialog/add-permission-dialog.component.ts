@@ -40,7 +40,7 @@ export class AddPermissionDialogComponent implements OnInit, OnDestroy{
     if (event.code === 'Enter' && this.stateCtrl.value) {
       this.filteredEmails = this.filterService.getEmailsByFilter(this.stateCtrl.value).pipe(
         map(emails => {
-          return emails.filter(email => email !== this.authService.getSubjectFromToken() && !this.currentPermissions.includes(email));
+          return emails.filter((email:any) => email !== this.authService.getSubjectFromToken() && !this.currentPermissions.includes(email));
         })
       );
     }
