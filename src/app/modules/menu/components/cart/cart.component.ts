@@ -99,8 +99,8 @@ export class CartComponent implements OnInit{
     });
   }
 
-  getRouteImage(image: string) {
-    return environment.imageUrl + image;
+  getRouteImage(item: Recipe) {
+    return item.file? `data:image/png;base64,${item.file}` : environment.imageUrl + item.image;
   }
 
   onClickRemoveFromCart(recipe: Recipe, category: string) {

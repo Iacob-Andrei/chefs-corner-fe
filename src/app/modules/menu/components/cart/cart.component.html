@@ -33,7 +33,7 @@
            fxLayout="row" fxLayout.xs="column"
            fxLayoutAlign="none center"
            fxLayoutGap="50" fxLayoutGap.xs="0">
-        <img [src]=getRouteImage(item.image) [alt]=item.name (click)="goToRecipe(item.id)">
+        <img [src]=getRouteImage(item) [alt]=item.name (click)="goToRecipe(item.id)">
         <div class="recipe-info" fxLayout="column">
 
           <p class="recipe-name">
