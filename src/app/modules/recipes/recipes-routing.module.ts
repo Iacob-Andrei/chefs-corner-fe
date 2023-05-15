@@ -5,6 +5,7 @@ import {RecipePageComponent} from "./components/recipe-page/recipe-page.componen
 import {SearchComponent} from "./components/search/search.component";
 import {CreateRecipeComponent} from "./components/create-recipe/create-recipe.component";
 import {OwnedComponent} from "./components/owned/owned.component";
+import {RecommendationComponent} from "./components/recommendation/recommendation.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
       {
         path: 'owned',
         component: OwnedComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'surprise',
+        component: RecommendationComponent,
         pathMatch: 'full'
       },
       {

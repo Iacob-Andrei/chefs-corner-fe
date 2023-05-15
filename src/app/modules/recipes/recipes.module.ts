@@ -24,6 +24,7 @@ import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialo
 import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     CreateRecipeComponent,
     OwnedComponent,
     DeleteConfDialogComponent,
-    AddPermissionDialogComponent
+    AddPermissionDialogComponent,
+    RecommendationComponent
   ],
     imports: [
         CommonModule,

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CART, CREATE, MENUS, MYRECIPE, SEARCH} from "@app-shared/constants";
+import {CART, CREATE, MENUS, MYRECIPE, SEARCH, SURPRISE} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {Store} from "@ngrx/store";
@@ -48,6 +48,10 @@ export class DrawerComponent implements OnInit, OnDestroy{
 
   onClickGoToCreateRecipe() {
     this.router.navigateByUrl(CREATE).then();
+  }
+
+  onClickGoToSurprise() {
+    this.router.navigateByUrl(SURPRISE).then();
   }
 
   onClickGoToMyRecipe() {
