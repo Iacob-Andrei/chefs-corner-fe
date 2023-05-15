@@ -25,6 +25,7 @@ import { AddPermissionDialogComponent } from './components/dialog/add-permission
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -39,25 +40,26 @@ import { RecommendationComponent } from './components/recommendation/recommendat
     AddPermissionDialogComponent,
     RecommendationComponent
   ],
-    imports: [
-        CommonModule,
-        RecipesRoutingModule,
-        FlexModule,
-        MatButtonModule,
-        MatIconModule,
-        ExtendedModule,
-        TopBarModule,
-        MatGridListModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        FormsModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatStepperModule,
-        MatAutocompleteModule,
-        MatExpansionModule,
-        MatSidenavModule
-    ]
+  imports: [
+    CommonModule,
+    RecipesRoutingModule,
+    FlexModule,
+    MatButtonModule,
+    MatIconModule,
+    ExtendedModule,
+    TopBarModule,
+    MatGridListModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    FormsModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatSidenavModule,
+    MatChipsModule
+  ]
 })
 export class RecipesModule { }

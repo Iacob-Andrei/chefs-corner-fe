@@ -1,1 +1,39 @@
-<p>recommendation works!</p>
+<div class="header">
+
+  <div class="title">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
+      <mat-icon>new_releases</mat-icon>
+      <h2>Surprise recipes</h2>
+    </div>
+    <hr class="underline">
+  </div>
+
+  <div class="chip-container">
+  <form>
+    <mat-form-field class="ingredients-chip" appearance="outline" color="accent">
+      <mat-label>Contains ingredients </mat-label>
+      <mat-chip-grid #chipGrid aria-label="Fruit selection">
+        <mat-chip-row *ngFor="let ingredient of selectedIngredients" (removed)="remove(ingredient)">
+          {{ingredient.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + ingredient">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input placeholder="New Ingredient..." #ingrdInput
+             [matChipInputFor]="chipGrid"
+             [matAutocomplete]="auto"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="getNewIngredients($event)"/>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let ingredient of filteredIngrObs | async" [value]="ingredient">
+          {{ingredient.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  </div>
+
+  <button mat-raised-button color="primary" class="nav-button" (click)="onClickGetRecipes()">Get recipes</button>
+
+</div>

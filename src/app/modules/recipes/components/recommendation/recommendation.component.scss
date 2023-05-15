@@ -1,0 +1,33 @@
+@import "src/styles";
+
+.header{
+
+  background-color: white;
+
+  .title {
+    padding: 10px 30px 30px 30px;
+    color: $brick;
+
+    .underline {
+      border: 2px solid $brick;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+
+  .chip-container{
+    margin: 10px 30px 10px 30px;
+    .ingredients-chip {
+      width: 100%;
+    }
+  }
+
+  .nav-button {
+    min-height: 3em;
+    min-width: 7em;
+    border-radius: 30px;
+    border: 2px solid $white;
+    font-size: 16px;
+    margin: 10px 30px 10px 30px;
+  }
+}
