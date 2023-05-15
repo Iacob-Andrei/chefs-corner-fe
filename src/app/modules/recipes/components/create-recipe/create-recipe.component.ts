@@ -12,7 +12,7 @@ import {RecipePost} from "@app-shared/models/recipePost.model";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {Direction} from "@app-shared/models/direction.model";
 import {RecipeService} from "../../services/recipe.service";
-import {HOME} from "@app-shared/constants";
+import {CATEGORIES, HOME} from "@app-shared/constants";
 import {Router} from "@angular/router";
 
 @Component({
@@ -32,8 +32,10 @@ export class CreateRecipeComponent implements OnDestroy{
   directionsVideoName: string[] = [];
   directionsVideoFile: File[] = [];
 
+  categoriesList = CATEGORIES.slice(1);
   firstFormGroup = this._formBuilder.group({
     title: ['', Validators.required],
+    categories: [[], Validators.required],
     cookTime: [0, [Validators.required, Validators.min(0)]],
     prepTime: [0, [Validators.required, Validators.min(0)]],
     numberOfServings: [1, [Validators.required, Validators.min(1)]]
@@ -76,6 +78,7 @@ export class CreateRecipeComponent implements OnDestroy{
     request.cook_time = this.firstFormGroup.controls.cookTime.value ? this.firstFormGroup.controls.cookTime.value : 1
     request.number_servings = this.firstFormGroup.controls.numberOfServings.value ? this.firstFormGroup.controls.numberOfServings.value : 1
     request.owner = this.authService.getSubjectFromToken();
+    request.categories = this.firstFormGroup.controls.categories.value ? this.firstFormGroup.controls.categories.value : []
 
     let directions: Direction[] = [];
     let order: number = 1;
@@ -116,9 +119,6 @@ export class CreateRecipeComponent implements OnDestroy{
           this.uploadVideos(response.id);
 
           this.router.navigateByUrl(HOME).then();
-        },
-        (error) => {
-          this.showWarningToaster("Invalid arguments",error.message)
         }
       )
     );
@@ -206,19 +206,19 @@ export class CreateRecipeComponent implements OnDestroy{
 
     this.subscriptions.push(
       this.recipeService.patchImage(id,this.recipeImageFile).subscribe(
-        () => {},
-        () => {
-          this.showWarningToaster("Error while loading image", "Re-upload video in recipe page.")
-        }
+        () => {}
       )
     )
   }
 
   private uploadVideos(id: number) {
-    let order = 1;
+    let order = 0;
     this.directionsCount.forEach((index: number) => {
+      order += 1;
+
       if(this.directionsVideoFile[index] === undefined)
         return
+
       this.subscriptions.push(
         this.recipeService.uploadVideoRecipe(id, order, this.directionsVideoFile[index]).subscribe(
           () => {},
@@ -227,7 +227,6 @@ export class CreateRecipeComponent implements OnDestroy{
           }
         )
       );
-      order += 1;
     });
   }
 

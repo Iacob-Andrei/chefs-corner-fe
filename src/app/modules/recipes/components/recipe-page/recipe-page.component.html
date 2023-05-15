@@ -5,7 +5,7 @@
       <span><a (click)="goToSearch('')">Menu</a></span>
       <span> > </span>
       <span *ngFor="let category of myRecipe.categories">
-        <span><a (click)="goToSearch(category.category)">{{category.category}}</a></span>
+        <span><a (click)="goToSearch(category)">{{category}}</a></span>
       </span>
     </div>
 
@@ -13,9 +13,12 @@
       <span><a (click)="goToMyRecipes()">my recipes</a></span>
     </div>
 
-    <div class="buttons">
-      <button mat-button (click)="openDialog()" ><mat-icon class="price-icon">attach_money</mat-icon></button>
-      <button *ngIf="recipe.owner !== 'public'" mat-button (click)="onClickDelete()"><mat-icon class="price-icon">remove_circle</mat-icon></button>
+    <div class="buttons" fxLayoutGap="20">
+      <mat-icon class="func-icon" title="Show prices" (click)="onClickShowPrices()">attach_money</mat-icon>
+      <mat-icon *ngIf="!(checkIfInCart() | async)" (click)="onClickAddToCart()" class="func-icon" style="color:green">add_shopping_cart</mat-icon>
+      <mat-icon *ngIf="(checkIfInCart() | async)" (click)="onClickRemoveFromCart()" class="func-icon" style="color:red">remove_shopping_cart</mat-icon>
+      <mat-icon *ngIf="myRecipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Give permission" (click)="onClickGivePermission()">person_add</mat-icon>
+      <mat-icon *ngIf="myRecipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Remove recipe" (click)="onClickDelete()">remove_circle</mat-icon>
     </div>
   </div>
 
@@ -91,7 +94,7 @@
         <h2>Directions:</h2>
         <p class="note">Note: Directions are based on the original recipe of {{myRecipe.number_servings}} servings.</p>
         <ul>
-          <li *ngFor="let item of sort()">
+          <li *ngFor="let item of sortedDirections">
             <div class="row-instruction" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
               <div class="order">{{ item.order }}</div>
               <span class="instruction"> {{ item.instruction }}</span>

@@ -1,2 +1,9 @@
-<app-top-bar></app-top-bar>
-<router-outlet></router-outlet>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer mode="push">
+    <app-drawer></app-drawer>
+  </mat-drawer>
+  <div>
+    <app-top-bar (sidenav)="drawer.toggle()"></app-top-bar>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -8,7 +8,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatMenuModule} from "@angular/material/menu";
-import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
+import {TopBarModule} from "@app-shared/components/top-bar/top-bar.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {TopBarModule} from "../../shared/components/top-bar/top-bar.module";
         MatButtonModule,
         MatMenuModule,
         TopBarModule,
+        MatSidenavModule,
     ]
 })
 export class HomeModule { }

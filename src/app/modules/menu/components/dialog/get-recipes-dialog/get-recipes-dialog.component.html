@@ -1,0 +1,19 @@
+<h1 mat-dialog-title><b>Get more recipes for your menu:</b></h1>
+
+<div mat-dialog-content>
+  Bellow you can select your desired number of recipes from each category:
+
+  <form [formGroup]="form">
+    <div *ngFor="let category of CATEGORIES">
+      <mat-form-field *ngIf="category.display !== 'Others' && category.display !== 'Everything'" appearance="fill" color="accent">
+        <mat-label>{{category.display}}</mat-label>
+        <input matInput type="number" [formControlName]="category.display" min=0 max=10 pattern="\d*">
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onClickGetRequest()">Add</button>
+  <button mat-button mat-dialog-close="">Close</button>
+</div>

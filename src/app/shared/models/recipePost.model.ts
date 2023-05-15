@@ -8,5 +8,6 @@ export interface RecipePost{
   number_servings: number,
   owner: string,
   directions: Direction[],
-  ingredients: Ingredient[]
+  ingredients: Ingredient[],
+  categories: string[]
 }

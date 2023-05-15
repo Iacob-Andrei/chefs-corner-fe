@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {ApiService} from "../../../services/api.service";
 import {RecipePost} from "@app-shared/models/recipePost.model";
 
@@ -7,11 +6,14 @@ import {RecipePost} from "@app-shared/models/recipePost.model";
   providedIn: 'root'
 })
 export class RecipeService {
-  constructor(private http: HttpClient,
-              private api: ApiService) { }
+  constructor(private api: ApiService) { }
 
   getRecipeById(id: string) {
     return this.api.getRecipeById(id);
+  }
+
+  getRecipesByIds(ids: number[]){
+    return this.api.getRecipesByIds(ids);
   }
 
   postRecipe(recipe: RecipePost){
@@ -28,5 +30,9 @@ export class RecipeService {
 
   deleteRecipe(idRecipe: number) {
     return this.api.deleteRecipe(idRecipe);
+  }
+
+  getRecipesForMenu(currentMenu: any, requested: any) {
+    return this.api.getRecipesForMenu(currentMenu, requested);
   }
 }

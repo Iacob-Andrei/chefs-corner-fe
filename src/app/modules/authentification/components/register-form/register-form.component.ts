@@ -63,12 +63,8 @@ export class RegisterFormComponent implements OnDestroy{
           `${this.thirdFormGroup.value.password}`,
           this.firstFormGroup.value.accountType
         ).subscribe(
-          () => {
-            this.patchImage();
-          },
-          error => {
-            this.showErrorToaster("Error while registering.", error.body['message']);
-          }
+          () =>
+            this.patchImage()
         )
       )
     }

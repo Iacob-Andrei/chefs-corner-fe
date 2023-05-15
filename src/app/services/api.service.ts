@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {catchError, Observable, of, take} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
-import {Page} from "../shared/models/page.model";
-import {User} from "../shared/models/user.model";
 import {RecipePost} from "../shared/models/recipePost.model";
+import {Menu} from "@app-shared/models/menu.model";
+import {ToastrService} from "ngx-toastr";
+import {PAGE_404} from "@app-shared/constants";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,86 +15,181 @@ import {RecipePost} from "../shared/models/recipePost.model";
 export class ApiService {
 
   private apiServerUrl = environment.apiBaseUrl;
+  private _OPTIONS = {'headers': { 'content-type': 'application/json'}};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private toasterService: ToastrService,
+              private router: Router) { }
 
-  getRecipeById(id: string): Observable<Recipe> {
-    return this.http.get<Recipe>(`${this.apiServerUrl}/api/recipe/${id}`)
-      .pipe();
+  private handleErrorForToaster(
+    message: string = '',
+    title: string = 'Error')
+  {
+    return catchError((httpErr) => {
+      if(message === '')
+        message = httpErr.error ? httpErr.error : message;
+
+      if(httpErr.status === 404){
+        this.router.navigateByUrl(PAGE_404).then();
+      }
+
+      this.toasterService.error(message, title);
+      return of(null);
+    });
   }
 
-  getRecipesForPage(page: number, type: string): Observable<Page>{
-    return this.http.get<Page>(`${this.apiServerUrl}/api/category/${type},${page}`)
-      .pipe();
+  private handleWarningForToaster(
+    message: string = '',
+    title: string = 'Error')
+  {
+    return catchError((httpErr) => {
+      if(message === '')
+        message = httpErr.error ? httpErr.error : message;
+
+      this.toasterService.warning(message, title);
+      return of(null);
+    });
   }
 
-  getMyRecipes() {
-    return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/for-user`)
-      .pipe();
+  // ---- RECIPE ----
+  getRecipeById(id: string): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/recipe/${id}`)
+      .pipe(take(1), this.handleErrorForToaster());
   }
 
-  getRecipesByFilter(pattern: string) {
-    return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
-      .pipe();
+  getRecipesForPage(page: number, type: string): Observable<any>{
+    return this.http.get(`${this.apiServerUrl}/api/category/${type},${page}`)
+      .pipe(take(1), this.handleErrorForToaster());
   }
 
-  getIngredientsByFilter(pattern: string) {
+  getMyRecipes(): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/recipe/for-user`)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
+  }
+
+  getRecipesByIds(ids: number[]): Observable<any> {
+    const body: string = JSON.stringify(ids);
+    return this.http.post(`${this.apiServerUrl}/api/recipe/list`, body, this._OPTIONS)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
+  }
+
+  getRecipesByFilter(pattern: string): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
+  }
+
+  getIngredientsByFilter(pattern: string): Observable<any> {
     return this.http.get<Recipe[]>(`${this.apiServerUrl}/api/ingredient/${pattern}`)
-      .pipe();
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
   }
 
-  login(email: string, password: string) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post<any>(`${this.apiServerUrl}/api/auth/token`,
-                                  JSON.stringify({"email": email, "password":password}),
-                                  {'headers': headers})
-      .pipe();
+  getUsersByFilter(pattern: string): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/user/data/${pattern}`)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
   }
 
-  register(name: string, email: string, password: string, business: boolean){
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post(
-      `${this.apiServerUrl}/api/auth/register`,
-      JSON.stringify({"name": name, "email": email, "password":password, "business": business}),
-      {'headers': headers}
-    )
+  postRecipe(recipe: RecipePost): Observable<any> {
+    const body: string = JSON.stringify(recipe)
+    return this.http.post(`${this.apiServerUrl}/api/recipe`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Invalid arguments.'));
   }
 
-  patchImage(email: string, image: File){
-    const fd = new FormData();
-    fd.append('image', image);
-
-    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
-  }
-
-  getUsedInfo(email: string) {
-    return this.http.get<User>(`${this.apiServerUrl}/api/user/${email}`).pipe();
-  }
-
-  postRecipe(recipe: RecipePost) {
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post(
-      `${this.apiServerUrl}/api/recipe`,
-      JSON.stringify(recipe),
-      {'headers': headers}
-    )
-  }
-
-  patchRecipeImage(idRecipe: number, image: File) {
+  patchRecipeImage(idRecipe: number, image: File): Observable<any> {
     const fd: FormData = new FormData();
     fd.append('image', image);
 
     return this.http.patch(`${this.apiServerUrl}/api/recipe/image/${idRecipe}`, fd)
+      .pipe(take(1), this.handleWarningForToaster('Error while uploading image. Retry in recipe page.'));
   }
 
-  uploadVideoRecipe(idRecipe: number, orderDirection: number, video: File) {
+  uploadVideoRecipe(idRecipe: number, orderDirection: number, video: File): Observable<any> {
     const fd: FormData = new FormData();
     fd.append('video', video);
 
     return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
+      .pipe(take(1), this.handleWarningForToaster(`Error while uploading video for instruction no. ${orderDirection}. Retry in recipe page.`));
   }
 
-  deleteRecipe(idRecipe: number) {
-    return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`);
+  deleteRecipe(idRecipe: number): Observable<any> {
+    return this.http.delete(`${this.apiServerUrl}/api/recipe/${idRecipe}`)
+      .pipe(take(1), this.handleErrorForToaster(`Error while deleting. Recipe not found.`));
+  }
+
+  // ---- AUTHENTICATE + USER ----
+
+  login(email: string, password: string): Observable<any> {
+    const body: string = JSON.stringify({"email": email, "password":password});
+    return this.http.post(`${this.apiServerUrl}/api/auth/token`, body, this._OPTIONS)
+      .pipe(take(1), this.handleErrorForToaster("Invalid credentials!"));
+  }
+
+  register(name: string, email: string, password: string, business: boolean): Observable<any>{
+    const body: string = JSON.stringify({"name": name, "email": email, "password":password, "business": business})
+    return this.http.post(`${this.apiServerUrl}/api/auth/register`, body, this._OPTIONS)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
+  patchImage(email: string, image: File): Observable<any>{
+    const fd = new FormData();
+    fd.append('image', image);
+    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
+  getUsedInfo(email: string): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/user/${email}`)
+      .pipe(take(1), this.handleWarningForToaster("Error while getting user data. Please re-authenticate."));
+  }
+
+  // ---- RECIPES PERMISSIONS ----
+
+  addPermission(id: number, email: string): Observable<any> {
+    const body: string = JSON.stringify({"email": email, "idRecipe":id});
+    return this.http.post(`${this.apiServerUrl}/api/permission/add`, body)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  getCurrentPermission(id: number): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/permission/${id}`)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  removePermission(idRecipe: number, email: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        email: email,
+        idRecipe: idRecipe,
+      },
+    };
+
+    return this.http.delete(`${this.apiServerUrl}/api/permission/remove`,options)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  // ---- MENU ----
+
+  getMenus(): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/menu/owned`)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  getMenuById(id: number): Observable<any> {
+    return this.http.get<Menu>(`${this.apiServerUrl}/api/menu/${id}`)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
+  getRecipesForMenu(currentMenu: any, requested: any): Observable<any> {
+    const body: string = JSON.stringify({currentMenu: currentMenu, requested: requested});
+    return this.http.post(`${this.apiServerUrl}/api/category/complete-menu`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  postMenu(name: string, description: string, currentMenu: any): Observable<any> {
+    const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
+    return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 }

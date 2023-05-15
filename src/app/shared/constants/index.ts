@@ -5,6 +5,8 @@ export const SEARCH = 'recipe/search'
 export const RECIPE = 'recipe/'
 export const CREATE = 'recipe/create'
 export const MYRECIPE = 'recipe/owned'
+export const CART = 'menu/cart'
+export const MENUS = 'menu'
 export const CATEGORIES = [
   {
     display: 'Everything',
@@ -52,7 +54,7 @@ export const CATEGORIES = [
   },
   {
     display: 'SideDishes',
-    value: 'sideDishes'
+    value: 'sidedishes'
   },
   {
     display: 'Soups',

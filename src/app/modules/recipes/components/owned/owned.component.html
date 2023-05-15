@@ -14,7 +14,6 @@
               class="nav-button"
               (click)="onClickGoToGenerate()">Create recipe</button>
     </div>
-
   </div>
 
   <div class="recipes">
@@ -36,7 +35,7 @@
           </div>
       </div>
 
-        <button mat-button (click)="onClickDelete(item.id)"><mat-icon class="price-icon">remove_circle</mat-icon></button>
+        <button mat-button *ngIf="item.owner === authService.getSubjectFromToken()" (click)="onClickDelete(item.id)"><mat-icon class="price-icon">remove_circle</mat-icon></button>
       </div>
 
     </ul>

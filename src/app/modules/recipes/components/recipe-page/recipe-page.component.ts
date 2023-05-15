@@ -10,6 +10,11 @@ import {MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceDialogComponent} from "../dialog/price-dialog/price-dialog.component";
 import {DeleteConfDialogComponent} from "../dialog/delete-conf-dialog/delete-conf-dialog.component";
+import {AuthService} from "../../../../services/auth/auth.service";
+import {AddPermissionDialogComponent} from "../dialog/add-permission-dialog/add-permission-dialog.component";
+import {Store} from "@ngrx/store";
+import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
+import {selectCartObject} from "../../../../services/store/cart.selectors";
 
 
 @Component({
@@ -23,12 +28,15 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   protected ingredientsUrl = environment.imageUrl;
   protected recipe!: Recipe;
   protected recipeObs!: Observable<Recipe>;
+  sortedDirections!: any;
   form! : FormGroup;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public toaster: ToastrService,
+              public authService: AuthService,
               private recipeService: RecipeService,
+              private store: Store,
               public dialog: MatDialog) {}
 
   ngOnInit(): void{
@@ -51,21 +59,19 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.subscriptions.push(
       this.recipeObs.subscribe(
         response => {
-          this.recipe = response;
+          if(response) {
+            this.sortedDirections = response.directions?.sort((a, b) => a.order > b.order ? 0 : -1)
+            this.recipe = response;
 
-          if(response.owner === "public") {
-            this.imageUrl += response.image;
-          }else{
-            this.imageUrl = response.file ? `data:image/png;base64,${response.file}` : "./assets/icons/default-profile.jpg";
+            if (response.owner === "public") {
+              this.imageUrl += response.image;
+            } else {
+              this.imageUrl = response.file ? `data:image/png;base64,${response.file}` : "./assets/icons/default-profile.jpg";
+            }
+
+            this.form = this.createForm();
+            this.getValueChanges();
           }
-        },
-        error => {
-          this.showErrorToaster(error['error']['statusCode'],error['error']['message']);
-          this.router.navigateByUrl(PAGE_404).then();
-        },
-        () => {
-          this.form = this.createForm();
-          this.getValueChanges();
         }
     ));
   }
@@ -139,21 +145,16 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.toaster.error(message, title, {});
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
-  }
-
   goToSearch(category: string) {
     const newRoute = category.toLowerCase() === '' ? SEARCH :  SEARCH + "/" + category.toLowerCase();
     this.router.navigateByUrl(newRoute).then();
   }
 
-
   goToMyRecipes() {
     this.router.navigateByUrl(MYRECIPE).then();
   }
 
-  openDialog() {
+  onClickShowPrices() {
     this.dialog.open(PriceDialogComponent,{
       data: {
         ingredients: this.recipe?.ingredients,
@@ -162,8 +163,24 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     });
   }
 
-  sort(){
-    return this.recipe.directions?.sort((a,b) => a.order > b.order ? 0 : -1);
+  onClickAddToCart() {
+    this.store.dispatch(addRecipe(this.recipe));
+  }
+
+  onClickRemoveFromCart() {
+    this.store.dispatch(removeRecipe(this.recipe));
+  }
+
+  checkIfInCart(){
+    return this.store.select(selectCartObject, this.recipe.id);
+  }
+
+  onClickGivePermission() {
+    this.dialog.open(AddPermissionDialogComponent,{
+      data: {
+        idRecipe: this.recipe?.id,
+      }
+    });
   }
 
   onClickDelete() {
@@ -172,5 +189,9 @@ export class RecipePageComponent implements OnInit, OnDestroy{
         idRecipe: this.recipe?.id,
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 }

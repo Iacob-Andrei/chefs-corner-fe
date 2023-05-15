@@ -1,6 +1,5 @@
 import {Direction} from "./direction.model";
 import {IngredientUsed} from "./ingredientused.model";
-import {Category} from "./category.model";
 
 export interface Recipe {
   id: number;
@@ -13,5 +12,5 @@ export interface Recipe {
   owner?: string;
   directions?: Direction[];
   ingredients?: IngredientUsed[];
-  categories?: Category[]
+  categories?: string[]
 }

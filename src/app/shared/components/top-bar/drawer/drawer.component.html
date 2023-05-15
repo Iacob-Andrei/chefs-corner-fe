@@ -1,0 +1,39 @@
+<ng-container *ngIf="userDataObs | async as userData">
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img [src]="imageUrl" alt="" class="profile-img" >
+    <h3 style="padding-right: 10px">{{userData.name}}</h3>
+  </div>
+
+  <div fxLayout="column" class="navigation">
+  <button mat-button (click)="onClickGoToRecipes()">
+    <mat-icon>list_alt</mat-icon>
+    <span>All recipes</span>
+  </button>
+
+  <button mat-button (click)="onClickGoToMyRecipe()">
+    <mat-icon>restaurant_menu</mat-icon>
+    <span>My recipes</span>
+  </button>
+
+  <button mat-button (click)="onClickGoToCreateRecipe()">
+    <mat-icon>create</mat-icon>
+    <span>Create recipe</span>
+  </button>
+
+  <button mat-button (click)="onClickGoToMenuList()">
+    <mat-icon>library_books</mat-icon>
+    <span>My menus</span>
+  </button>
+
+  <button mat-button (click)="onClickGoToCart()">
+    <mat-icon>shopping_basket</mat-icon>
+    <span matBadge="{{countProduct$ | async}}" matBadgeOverlap="false">Current menu</span>
+  </button>
+
+    <button mat-button (click)="onClickLogout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+</ng-container>

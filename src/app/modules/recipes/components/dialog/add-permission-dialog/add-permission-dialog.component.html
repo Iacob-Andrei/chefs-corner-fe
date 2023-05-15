@@ -1,0 +1,45 @@
+<h1 mat-dialog-title><b>Add people to see this recipe.</b></h1>
+
+
+<div mat-dialog-content>
+  <p>Search the user by their email in order to give them permission.</p>
+
+  <mat-accordion class="permissions">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Check current permissions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul *ngFor="let email of currentPermissions">
+        <li fxLayout="row" fxLayoutAlign="space-between center">
+          {{email}}
+          <mat-icon (click)="onClickRemovePermission(email)">remove_circle</mat-icon>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <form class="search-email">
+    <mat-form-field appearance="fill" color="accent">
+      <mat-label>Search by email</mat-label>
+      <input
+        matInput
+        [matAutocomplete]="auto"
+        [formControl]="stateCtrl"
+        (keydown)="filterOnEnter($event)"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option
+          *ngFor="let user of filteredEmails | async" [value]="user">
+          <span>{{user}}</span>
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix class="black-icon" color="accent">search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="">Close</button>
+</div>

@@ -21,6 +21,9 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OwnedComponent} from "./components/owned/owned.component";
 import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialog/delete-conf-dialog.component';
+import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -31,7 +34,8 @@ import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialo
     PriceDialogComponent,
     CreateRecipeComponent,
     OwnedComponent,
-    DeleteConfDialogComponent
+    DeleteConfDialogComponent,
+    AddPermissionDialogComponent
   ],
     imports: [
         CommonModule,
@@ -49,7 +53,9 @@ import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialo
         MatPaginatorModule,
         MatDialogModule,
         MatStepperModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatExpansionModule,
+        MatSidenavModule
     ]
 })
 export class RecipesModule { }
