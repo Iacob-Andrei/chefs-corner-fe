@@ -37,3 +37,33 @@
   <button mat-raised-button color="primary" class="nav-button" (click)="onClickGetRecipes()">Get recipes</button>
 
 </div>
+
+<div class="recipes-container" *ngIf="recipesObs | async as recipes">
+  <div *ngFor="let item of recipes">
+    <div class="recipe-container"
+         fxLayout="row" fxLayout.xs="column"
+         fxLayoutAlign="none center" fxLayoutAlign.xs="center center"
+         fxLayoutGap="50" fxLayoutGap.xs="0">
+
+      <img [src]=getRouteImage(item) [alt]=item.name (click)="goToRecipe(item.id)">
+
+      <div class="recipe-info" fxLayout="column">
+        <p class="recipe-name">
+          <mat-icon *ngIf="!(checkIfInCart(item) | async)" (click)="onClickAddToCart(item)" style="color:green">add_shopping_cart</mat-icon>
+          <mat-icon *ngIf="(checkIfInCart(item) | async)" (click)="onClickRemoveFromCart(item)" style="color:red">remove_shopping_cart</mat-icon>
+          {{item.name}}</p>
+
+        <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
+          <mat-icon> timer</mat-icon>
+          Prep time: {{item.prep_time}} minutes
+        </p>
+
+        <p fxLayoutAlign="start center" *ngIf="item.cook_time !== undefined">
+          <mat-icon> timer</mat-icon>
+          Cook time: {{item.cook_time}} minutes
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>

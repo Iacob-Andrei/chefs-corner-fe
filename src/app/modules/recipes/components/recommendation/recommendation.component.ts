@@ -6,6 +6,14 @@ import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/a
 import {FiltersService} from "@app-shared/components/top-bar/services/filters.service";
 import {Ingredient} from "@app-shared/models/ingredient.model";
 import {ToastrService} from "ngx-toastr";
+import {Recipe} from "@app-shared/models";
+import {RecipeService} from "../../services/recipe.service";
+import {environment} from "../../../../../environments/environment";
+import {RECIPE} from "@app-shared/constants";
+import {Router} from "@angular/router";
+import {selectCartObject} from "../../../../services/store/cart.selectors";
+import {Store} from "@ngrx/store";
+import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 
 @Component({
   selector: 'app-recommendation',
@@ -16,11 +24,15 @@ export class RecommendationComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredIngrObs!: Observable<Ingredient[]>;
   selectedIngredients: Ingredient[] = [];
+  recipesObs!: Observable<Recipe[]>;
 
   @ViewChild('ingrdInput') ingrdInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('auto') matAutocomplete: MatAutocomplete | undefined;
 
   constructor(private ingredientService: FiltersService,
+              private recipeService: RecipeService,
+              private router: Router,
+              private store: Store,
               private toaster: ToastrService) {}
 
   getNewIngredients(event: MatChipInputEvent): void {
@@ -54,7 +66,35 @@ export class RecommendationComponent {
       this.toaster.warning("Please select at least 2 ingredients!", "Warning");
     }
     else {
-      //TODO: get recipes
+      const ids: number[] = [];
+      this.selectedIngredients.forEach(ingredient => ids.push(ingredient.id));
+      this.recipesObs = this.recipeService.getRecipesByIngredients(ids);
+      this.recipesObs.pipe(take(1)).subscribe(recipes => {
+        if(recipes.length === 0){
+          this.toaster.warning("No recipes found! Please retry with different ingredients.", "Warning");
+        }
+      })
     }
+  }
+
+  getRouteImage(item: Recipe) {
+    return item.file? `data:image/png;base64,${item.file}` : environment.imageUrl + item.image;
+  }
+
+  goToRecipe(id: number) {
+    const newRoute = RECIPE + id;
+    this.router.navigateByUrl(newRoute).then();
+  }
+
+  checkIfInCart(item: Recipe){
+    return this.store.select(selectCartObject, item.id);
+  }
+
+  onClickAddToCart(item: Recipe) {
+    this.store.dispatch(addRecipe(item));
+  }
+
+  onClickRemoveFromCart(item: Recipe) {
+    this.store.dispatch(removeRecipe(item));
   }
 }

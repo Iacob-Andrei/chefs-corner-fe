@@ -73,6 +73,12 @@ export class ApiService {
       .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
   }
 
+  getRecipesByIngredients(ids: number[]): Observable<any>{
+    const body: string = JSON.stringify(ids);
+    return this.http.post(`${this.apiServerUrl}/api/recipe/recommendation`, body, this._OPTIONS)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
+  }
+
   getRecipesByFilter(pattern: string): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/recipe/name/${pattern}`)
       .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
