@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {AuthentificationContainer} from "./components/container/authentification-container.component";
 import {LoginFormComponent} from "./components/login-form/login-form.component";
 import {RegisterFormComponent} from "./components/register-form/register-form.component";
+import {ConfirmationComponent} from "./components/confirmation/confirmation.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'register',
         component: RegisterFormComponent
+      },
+      {
+        path: 'confirmation',
+        component: ConfirmationComponent
       }
     ]
   }

@@ -139,7 +139,7 @@ export class ApiService {
     const fd = new FormData();
     fd.append('image', image);
     return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
-      .pipe(take(1), this.handleErrorForToaster());
+      .pipe(take(1), this.handleWarningForToaster("Error while uploading image. Retry in setting panel."));
   }
 
   getUsedInfo(email: string): Observable<any> {

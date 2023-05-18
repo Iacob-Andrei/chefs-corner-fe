@@ -6,7 +6,7 @@ import {StepperOrientation} from "@angular/cdk/stepper";
 import {map, Observable, Subscription} from "rxjs";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {getErrorMessageEmail, getErrorMessagePassword, getErrorMsgRequiredValue} from "../../validators/error-messages";
-import {AUTH, HOME} from "@app-shared/constants";
+import {AUTH, CONFIRMATION, HOME} from "@app-shared/constants";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -78,12 +78,8 @@ export class RegisterFormComponent implements OnDestroy{
         `${this.secondFormGroup.value.email}`,
         this.image
       ).subscribe(() => {
-          this.router.navigateByUrl(HOME).then();
-      },
-        () => {
-          this.showErrorToaster("Error while uploading image", "Re-upload image in the user settings.");
-          this.router.navigateByUrl(HOME).then();
-        })
+          this.router.navigateByUrl(CONFIRMATION).then();
+      })
     )
   }
 

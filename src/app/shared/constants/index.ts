@@ -1,4 +1,5 @@
 export const AUTH = 'auth';
+export const CONFIRMATION = 'auth/confirmation';
 export const HOME = '';
 export const PAGE_404 = '404';
 export const SEARCH = 'recipe/search'
