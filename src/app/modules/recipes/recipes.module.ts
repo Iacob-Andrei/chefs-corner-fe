@@ -26,6 +26,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import {MatChipsModule} from "@angular/material/chips";
+import { AskPermissionDialogComponent } from './components/dialog/ask-permission-dialog/ask-permission-dialog.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {MatChipsModule} from "@angular/material/chips";
     OwnedComponent,
     DeleteConfDialogComponent,
     AddPermissionDialogComponent,
-    RecommendationComponent
+    RecommendationComponent,
+    AskPermissionDialogComponent
   ],
   imports: [
     CommonModule,

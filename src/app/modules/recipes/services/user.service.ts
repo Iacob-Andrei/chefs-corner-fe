@@ -19,4 +19,12 @@ export class UserService {
   removePermission(idRecipe: number, email: string) {
     return this.api.removePermission(idRecipe, email);
   }
+
+  askPermission(id: number){
+    return this.api.askPermission(id);
+  }
+
+  confirmPermission(token: string){
+    return this.api.confirmPermission(token);
+  }
 }

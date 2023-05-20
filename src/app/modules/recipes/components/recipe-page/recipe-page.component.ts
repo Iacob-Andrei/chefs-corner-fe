@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, take} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {Recipe} from "@app-shared/models";
 import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
+import {HOME, MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
 import {PriceDialogComponent} from "../dialog/price-dialog/price-dialog.component";
 import {DeleteConfDialogComponent} from "../dialog/delete-conf-dialog/delete-conf-dialog.component";
@@ -15,6 +15,10 @@ import {AddPermissionDialogComponent} from "../dialog/add-permission-dialog/add-
 import {Store} from "@ngrx/store";
 import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 import {selectCartObject} from "../../../../services/store/cart.selectors";
+import {AskPermissionDialogComponent} from "../dialog/ask-permission-dialog/ask-permission-dialog.component";
+import {
+  GetRecipesDialogComponent
+} from "../../../menu/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
 
 
 @Component({
@@ -71,6 +75,15 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
             this.form = this.createForm();
             this.getValueChanges();
+          }
+        }, (error) => {
+          if(error.status === 403) {
+            const dialogRef: any = this.dialog.open(AskPermissionDialogComponent,{
+              data: { id: id }
+            });
+            dialogRef.afterClosed().pipe(take(1)).subscribe(
+              () => this.router.navigateByUrl(HOME)
+            )
           }
         }
     ));

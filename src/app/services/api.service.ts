@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, Observable, of, take} from "rxjs";
+import {catchError, Observable, of, take, throwError} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
 import {RecipePost} from "../shared/models/recipePost.model";
@@ -51,10 +51,32 @@ export class ApiService {
     });
   }
 
+  private handleErrorRecipe(title: string = 'Error'){
+    return catchError((httpErr) => {
+
+      if(httpErr.status === 403){
+        return throwError(httpErr);
+      }
+      else{
+        const message = httpErr.error;
+
+        if(httpErr.status === 404){
+          this.router.navigateByUrl(PAGE_404).then();
+        }
+
+        this.toasterService.error(message, title);
+        return of(null);
+      }
+    })
+  }
+
   // ---- RECIPE ----
   getRecipeById(id: string): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/recipe/${id}`)
-      .pipe(take(1), this.handleErrorForToaster());
+      .pipe(
+        take(1),
+        this.handleErrorRecipe()
+      );
   }
 
   getRecipesForPage(page: number, type: string): Observable<any>{
@@ -173,6 +195,16 @@ export class ApiService {
 
     return this.http.delete(`${this.apiServerUrl}/api/permission/remove`,options)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  askPermission(id: number): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/permission/ask/${id}`)
+      .pipe(this.handleWarningForToaster());
+  }
+
+  confirmPermission(token: string): Observable<any>{
+    return this.http.get(`${this.apiServerUrl}/api/permission/confirm?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster());
   }
 
   // ---- MENU ----
