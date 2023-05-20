@@ -27,4 +27,12 @@ export class UserService {
   confirmPermission(token: string){
     return this.api.confirmPermission(token);
   }
+
+  deletePermissionRequest(token: string){
+    return this.api.deletePermissionRequest(token);
+  }
+
+  getDataPermissionRequest(token: string) {
+    return this.api.getDataPermissionRequest(token);
+  }
 }

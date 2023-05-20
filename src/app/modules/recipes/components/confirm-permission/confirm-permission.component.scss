@@ -1,0 +1,17 @@
+@import "src/styles";
+
+.content{
+  background: white;
+  padding: 30px;
+  p{
+    font-size: 1.15em;
+  }
+  .nav-button {
+    min-height: 3em;
+    min-width: 7em;
+    border-radius: 30px;
+    border: 2px solid $white;
+    font-size: 16px;
+    margin-top: 30px;
+  }
+}

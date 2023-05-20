@@ -207,6 +207,17 @@ export class ApiService {
       .pipe(take(1), this.handleErrorForToaster());
   }
 
+  deletePermissionRequest(token: string) {
+    //TODO:
+    return this.http.delete(`${this.apiServerUrl}/api/permission/delete?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster())
+  }
+
+  getDataPermissionRequest(token: string) {
+    return this.http.get(`${this.apiServerUrl}/api/permission/request?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
   // ---- MENU ----
 
   getMenus(): Observable<any> {
