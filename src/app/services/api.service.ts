@@ -208,7 +208,6 @@ export class ApiService {
   }
 
   deletePermissionRequest(token: string) {
-    //TODO:
     return this.http.delete(`${this.apiServerUrl}/api/permission/delete?token=${token}`)
       .pipe(take(1), this.handleErrorForToaster())
   }
