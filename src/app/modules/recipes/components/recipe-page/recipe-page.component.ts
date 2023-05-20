@@ -16,9 +16,6 @@ import {Store} from "@ngrx/store";
 import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 import {selectCartObject} from "../../../../services/store/cart.selectors";
 import {AskPermissionDialogComponent} from "../dialog/ask-permission-dialog/ask-permission-dialog.component";
-import {
-  GetRecipesDialogComponent
-} from "../../../menu/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
 
 
 @Component({
