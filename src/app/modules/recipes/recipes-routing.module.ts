@@ -5,6 +5,8 @@ import {RecipePageComponent} from "./components/recipe-page/recipe-page.componen
 import {SearchComponent} from "./components/search/search.component";
 import {CreateRecipeComponent} from "./components/create-recipe/create-recipe.component";
 import {OwnedComponent} from "./components/owned/owned.component";
+import {RecommendationComponent} from "./components/recommendation/recommendation.component";
+import {ConfirmPermissionComponent} from "./components/confirm-permission/confirm-permission.component";
 
 const routes: Routes = [
   {
@@ -37,9 +39,19 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'surprise',
+        component: RecommendationComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'confirm',
+        component: ConfirmPermissionComponent,
+        pathMatch: 'full'
+      },
+      {
         path: ':id',
         component: RecipePageComponent
-      },
+      }
     ]
   }
 ];

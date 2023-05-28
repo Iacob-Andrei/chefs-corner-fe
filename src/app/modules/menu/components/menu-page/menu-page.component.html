@@ -7,6 +7,17 @@
     </div>
     <span matSuffix style="color: green">%</span>
     <input matInput type="number" class="addOn" [(ngModel)]="addOns" required min=5 max=500>
+
+    <mat-form-field appearance="outline" color="accent" >
+      <mat-label>Currency</mat-label>
+      <mat-select
+        [(ngModel)]="currency">
+        <mat-option *ngFor="let curency of currencies" [value]="curency">
+          {{curency.currency}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <hr class="underline">
     <p class="description">{{menu.description}}</p>
   </div>
@@ -29,7 +40,7 @@
 
           <div class="recipe-info" fxLayout="column">
             <p class="recipe-name">{{item.name}}</p>
-            <p class="show-price" title="Show prices" (click)="onClickShowPrices(item)">Price without tax: ${{computePriceRecipe(item) | number: '1.2-2'}} / Price with tax: ${{computePriceRecipe(item) * (1 + addOns/100) | number: '1.2-2'}}</p>
+            <p class="show-price" title="Show prices" (click)="onClickShowPrices(item)">Price without tax: {{computePriceRecipe(item) * currency.rate| number: '1.2-2'}} {{currency.currency}}/ Price with tax: {{computePriceRecipe(item) * (1 + addOns/100) * currency.rate| number: '1.2-2'}} {{currency.currency}}</p>
           </div>
         </div>
       </ul>

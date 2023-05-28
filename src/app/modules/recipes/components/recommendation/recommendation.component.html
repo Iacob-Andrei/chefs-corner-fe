@@ -1,0 +1,69 @@
+<div class="header">
+
+  <div class="title">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
+      <mat-icon>new_releases</mat-icon>
+      <h2>Surprise recipes</h2>
+    </div>
+    <hr class="underline">
+  </div>
+
+  <div class="chip-container">
+  <form>
+    <mat-form-field class="ingredients-chip" appearance="outline" color="accent">
+      <mat-label>Contains ingredients </mat-label>
+      <mat-chip-grid #chipGrid aria-label="Fruit selection">
+        <mat-chip-row *ngFor="let ingredient of selectedIngredients" (removed)="remove(ingredient)">
+          {{ingredient.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + ingredient">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input placeholder="New Ingredient..." #ingrdInput
+             [matChipInputFor]="chipGrid"
+             [matAutocomplete]="auto"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             (matChipInputTokenEnd)="getNewIngredients($event)"/>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let ingredient of filteredIngrObs | async" [value]="ingredient">
+          {{ingredient.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  </div>
+
+  <button mat-raised-button color="primary" class="nav-button" (click)="onClickGetRecipes()">Get recipes</button>
+
+</div>
+
+<div class="recipes-container" *ngIf="recipesObs | async as recipes">
+  <div *ngFor="let item of recipes">
+    <div class="recipe-container"
+         fxLayout="row" fxLayout.xs="column"
+         fxLayoutAlign="none center" fxLayoutAlign.xs="center center"
+         fxLayoutGap="50" fxLayoutGap.xs="0">
+
+      <img [src]=getRouteImage(item) [alt]=item.name (click)="goToRecipe(item.id)">
+
+      <div class="recipe-info" fxLayout="column">
+        <p class="recipe-name">
+          <mat-icon *ngIf="!(checkIfInCart(item) | async)" (click)="onClickAddToCart(item)" style="color:green">add_shopping_cart</mat-icon>
+          <mat-icon *ngIf="(checkIfInCart(item) | async)" (click)="onClickRemoveFromCart(item)" style="color:red">remove_shopping_cart</mat-icon>
+          {{item.name}}</p>
+
+        <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
+          <mat-icon> timer</mat-icon>
+          Prep time: {{item.prep_time}} minutes
+        </p>
+
+        <p fxLayoutAlign="start center" *ngIf="item.cook_time !== undefined">
+          <mat-icon> timer</mat-icon>
+          Cook time: {{item.cook_time}} minutes
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>

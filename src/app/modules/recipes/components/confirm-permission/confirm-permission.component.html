@@ -1,0 +1,11 @@
+<div *ngIf="requestData | async as data" class="content">
+  <p>{{data.requesterName}} ({{data.requesterEmail}}) would like to access `{{data.recipeName}}`.</p>
+  <p>Click the button bellow to allow access or deny it.</p>
+
+  <button mat-raised-button color="primary"
+          class="nav-button"
+          (click)="onClickAcceptRequest()">Accept</button>
+  <button mat-raised-button color="primary"
+          class="nav-button"
+          (click)="onClickGoDenyRequest()">Deny</button>
+</div>

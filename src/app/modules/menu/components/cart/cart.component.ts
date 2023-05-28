@@ -25,6 +25,12 @@ export class CartComponent implements OnInit{
   recipesObs!: Observable<Recipe[]>;
   currentForm: any = {};
   addOns: number = 50;
+  currency!: any;
+  currencies = [
+    {"currency": 'RON', "rate": 1},
+    {"currency": 'EUR', "rate": 1},
+    {"currency": 'USD', "rate": 1},
+  ]
 
   constructor(private store: Store,
               private router: Router,
@@ -42,6 +48,13 @@ export class CartComponent implements OnInit{
         recipes.forEach(recipe => cartIds.push(recipe));
         this.getRecipeData(cartIds);
       }
+    });
+
+    this.recipeService.getCurrencyData().pipe(take(1)).subscribe(data => {
+      this.currencies[0].rate = data.data.RON;
+      this.currencies[1].rate = data.data.EUR;
+      this.currencies[2].rate = data.data.USD;
+      this.currency = this.currencies[0];
     });
   }
 
@@ -135,7 +148,9 @@ export class CartComponent implements OnInit{
     this.dialog.open(PriceMenuDialogComponent,{
       data: {
         ingredients: recipe?.ingredients,
-        addOns: this.addOns
+        addOns: this.addOns,
+        currencyRate: this.currency.rate,
+        currency: this.currency.currency
       }
     });
   }

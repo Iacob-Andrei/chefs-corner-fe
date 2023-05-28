@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, Observable, of, take} from "rxjs";
+import {catchError, Observable, of, take, throwError} from "rxjs";
 import {Recipe} from "../shared/models";
 import {environment} from "../../environments/environment";
 import {RecipePost} from "../shared/models/recipePost.model";
@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 })
 export class ApiService {
 
+  private currencyAPI = environment.currencyAPI;
   private apiServerUrl = environment.apiBaseUrl;
   private _OPTIONS = {'headers': { 'content-type': 'application/json'}};
 
@@ -51,10 +52,32 @@ export class ApiService {
     });
   }
 
+  private handleErrorRecipe(title: string = 'Error'){
+    return catchError((httpErr) => {
+
+      if(httpErr.status === 403){
+        return throwError(httpErr);
+      }
+      else{
+        const message = httpErr.error;
+
+        if(httpErr.status === 404){
+          this.router.navigateByUrl(PAGE_404).then();
+        }
+
+        this.toasterService.error(message, title);
+        return of(null);
+      }
+    })
+  }
+
   // ---- RECIPE ----
   getRecipeById(id: string): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/recipe/${id}`)
-      .pipe(take(1), this.handleErrorForToaster());
+      .pipe(
+        take(1),
+        this.handleErrorRecipe()
+      );
   }
 
   getRecipesForPage(page: number, type: string): Observable<any>{
@@ -70,6 +93,12 @@ export class ApiService {
   getRecipesByIds(ids: number[]): Observable<any> {
     const body: string = JSON.stringify(ids);
     return this.http.post(`${this.apiServerUrl}/api/recipe/list`, body, this._OPTIONS)
+      .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
+  }
+
+  getRecipesByIngredients(ids: number[]): Observable<any>{
+    const body: string = JSON.stringify(ids);
+    return this.http.post(`${this.apiServerUrl}/api/recipe/recommendation`, body, this._OPTIONS)
       .pipe(take(1), this.handleErrorForToaster('Oops, something went wrong.'));
   }
 
@@ -133,7 +162,7 @@ export class ApiService {
     const fd = new FormData();
     fd.append('image', image);
     return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
-      .pipe(take(1), this.handleErrorForToaster());
+      .pipe(take(1), this.handleWarningForToaster("Error while uploading image. Retry in setting panel."));
   }
 
   getUsedInfo(email: string): Observable<any> {
@@ -169,6 +198,26 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 
+  askPermission(id: number): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/permission/ask/${id}`)
+      .pipe(this.handleWarningForToaster());
+  }
+
+  confirmPermission(token: string): Observable<any>{
+    return this.http.get(`${this.apiServerUrl}/api/permission/confirm?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
+  deletePermissionRequest(token: string) {
+    return this.http.delete(`${this.apiServerUrl}/api/permission/delete?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster())
+  }
+
+  getDataPermissionRequest(token: string) {
+    return this.http.get(`${this.apiServerUrl}/api/permission/request?token=${token}`)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
   // ---- MENU ----
 
   getMenus(): Observable<any> {
@@ -191,5 +240,11 @@ export class ApiService {
     const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
     return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  // ---- CURRENCY ----
+
+  getCurrencyData():Observable<any> {
+    return this.http.get<any>(this.currencyAPI)
   }
 }

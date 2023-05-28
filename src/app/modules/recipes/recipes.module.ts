@@ -24,6 +24,10 @@ import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialo
 import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import {MatChipsModule} from "@angular/material/chips";
+import { AskPermissionDialogComponent } from './components/dialog/ask-permission-dialog/ask-permission-dialog.component';
+import { ConfirmPermissionComponent } from './components/confirm-permission/confirm-permission.component';
 
 
 @NgModule({
@@ -35,27 +39,31 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     CreateRecipeComponent,
     OwnedComponent,
     DeleteConfDialogComponent,
-    AddPermissionDialogComponent
+    AddPermissionDialogComponent,
+    RecommendationComponent,
+    AskPermissionDialogComponent,
+    ConfirmPermissionComponent
   ],
-    imports: [
-        CommonModule,
-        RecipesRoutingModule,
-        FlexModule,
-        MatButtonModule,
-        MatIconModule,
-        ExtendedModule,
-        TopBarModule,
-        MatGridListModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        FormsModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatStepperModule,
-        MatAutocompleteModule,
-        MatExpansionModule,
-        MatSidenavModule
-    ]
+  imports: [
+    CommonModule,
+    RecipesRoutingModule,
+    FlexModule,
+    MatButtonModule,
+    MatIconModule,
+    ExtendedModule,
+    TopBarModule,
+    MatGridListModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    FormsModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatSidenavModule,
+    MatChipsModule
+  ]
 })
 export class RecipesModule { }

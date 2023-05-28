@@ -1,19 +1,33 @@
-<h1 mat-dialog-title><b>Estimated prices for ingredients:</b></h1>
+<div mat-dialog-title>
+  <h2>Estimated prices for ingredients:</h2>
+
+  <mat-form-field appearance="outline" color="accent" >
+    <mat-label>Currency</mat-label>
+    <mat-select
+      (selectionChange)="changeTotal()"
+      [(ngModel)]="currency">
+      <mat-option *ngFor="let curency of currencies" [value]="curency">
+        {{curency.currency}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
 
 <div mat-dialog-content>
   <div *ngFor="let ingredient of ingredients" class="ingredient" fxLayout="row" fxLayoutAlign="space-between center">
     <b>{{ingredient.name}}:</b>
-    {{getIngredientActualAmount(ingredient.id)}} * ${{ingredient.price_per_unit}} = ${{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit)}}
+    {{getIngredientActualAmount(ingredient.id)}} * {{getPriceWithConversion(ingredient.price_per_unit) | number: '1.2-2'}} = {{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit) | number: '1.2-2'}} {{currency.currency}}
   </div>
 
   <div class="final-prices">
-    <p><b>Total:</b> ${{totalPrice}}</p>
+    <p><b>Total:</b> {{totalPrice | number: '1.2-2'}} {{currency.currency}}</p>
 
-    <span><b>Total with profit:</b> ${{extra}}
+    <span><b>Total with profit:</b> {{extra | number: '1.2-2'}} {{currency.currency}}
       <mat-form-field appearance="outline" color="accent" style="width: 100px">
         <mat-label>%</mat-label>
         <mat-select
-          (selectionChange)="changePercent()"
+          (selectionChange)="changeTotal()"
           [(ngModel)]="tax">
           <mat-option *ngFor="let percent of percentages" [value]="percent.procent">
             {{percent.view}}
@@ -27,3 +41,6 @@
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close="">Close</button>
 </div>
+
+
+<!--${{computePriceRecipe(item) | number: '1.2-2'}}-->

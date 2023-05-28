@@ -16,12 +16,14 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
     AuthentificationContainer,
     LoginFormComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    ConfirmationComponent
   ],
   exports: [
   ],

@@ -3,12 +3,12 @@
 <div mat-dialog-content>
   <div *ngFor="let ingredient of ingredients" class="ingredient" fxLayout="row" fxLayoutAlign="space-between center">
     <b>{{ingredient.name}}:</b>
-    {{ingredient.amount}} * ${{ingredient.price_per_unit}} = ${{ingredient.amount * ingredient.price_per_unit | number : '1.2-2'}}
+    {{ingredient.amount}} * {{ingredient.price_per_unit * currencyRate | number : '1.2-2'}} = {{ingredient.amount * ingredient.price_per_unit * currencyRate | number : '1.2-2'}} {{currency}}
   </div>
 
   <div class="final-prices">
-    <p><b>Total:</b> ${{totalPrice}}</p>
-    <p><b>Total with profit:</b> ${{extra}} (With {{addOns}}%)</p>
+    <p><b>Total:</b> {{totalPrice | number : '1.2-2'}} {{currency}}</p>
+    <p><b>Total with profit:</b> {{extra | number : '1.2-2'}} {{currency}} (With {{addOns}}%)</p>
   </div>
 </div>
 
