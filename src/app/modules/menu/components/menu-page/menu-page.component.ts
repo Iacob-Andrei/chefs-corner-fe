@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, take} from "rxjs";
 import {PAGE_404, RECIPE} from "@app-shared/constants";
 import {ToastrService} from "ngx-toastr";
 import {Menu} from "@app-shared/models/menu.model";
@@ -9,6 +9,7 @@ import {environment} from "../../../../../environments/environment";
 import {Recipe} from "@app-shared/models";
 import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {RecipeService} from "../../../recipes/services/recipe.service";
 
 @Component({
   selector: 'app-menu-page',
@@ -19,11 +20,18 @@ export class MenuPageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = [];
   menuObs!: Observable<Menu>;
   addOns: number = 50;
+  currency!: any;
+  currencies = [
+    {"currency": 'RON', "rate": 1},
+    {"currency": 'EUR', "rate": 1},
+    {"currency": 'USD', "rate": 1},
+  ]
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private toaster: ToastrService,
               private menuService: MenuService,
+              private recipeService: RecipeService,
               private dialog: MatDialog){
   }
 
@@ -39,6 +47,13 @@ export class MenuPageComponent implements OnInit, OnDestroy{
           }
         }
       ));
+
+    this.recipeService.getCurrencyData().pipe(take(1)).subscribe(data => {
+      this.currencies[0].rate = data.data.RON;
+      this.currencies[1].rate = data.data.EUR;
+      this.currencies[2].rate = data.data.USD;
+      this.currency = this.currencies[0];
+    });
   }
 
   getIcon(category: string) {
@@ -62,7 +77,9 @@ export class MenuPageComponent implements OnInit, OnDestroy{
     this.dialog.open(PriceMenuDialogComponent,{
       data: {
         ingredients: recipe?.ingredients,
-        addOns: this.addOns
+        addOns: this.addOns,
+        currencyRate: this.currency.rate,
+        currency: this.currency.currency
       }
     });
   }

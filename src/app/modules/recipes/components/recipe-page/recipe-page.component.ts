@@ -31,6 +31,7 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   protected recipeObs!: Observable<Recipe>;
   sortedDirections!: any;
   form! : FormGroup;
+  currencyRate!: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -56,6 +57,12 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   getRecipeData(id: string): void{
     this.recipeObs = this.recipeService.getRecipeById(id);
+    this.subscriptions.push(
+      this.recipeService.getCurrencyData().pipe(take(1))
+        .subscribe(data => {
+          this.currencyRate = data.data;
+        })
+    )
 
     this.subscriptions.push(
       this.recipeObs.subscribe(
@@ -168,7 +175,8 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     this.dialog.open(PriceDialogComponent,{
       data: {
         ingredients: this.recipe?.ingredients,
-        quantities: this.form.controls
+        quantities: this.form.controls,
+        rates: this.currencyRate
       }
     });
   }

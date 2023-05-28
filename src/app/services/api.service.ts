@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 })
 export class ApiService {
 
+  private currencyAPI = environment.currencyAPI;
   private apiServerUrl = environment.apiBaseUrl;
   private _OPTIONS = {'headers': { 'content-type': 'application/json'}};
 
@@ -239,5 +240,11 @@ export class ApiService {
     const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
     return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  // ---- CURRENCY ----
+
+  getCurrencyData():Observable<any> {
+    return this.http.get<any>(this.currencyAPI)
   }
 }

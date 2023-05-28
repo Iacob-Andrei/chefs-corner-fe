@@ -10,27 +10,40 @@ export class PriceDialogComponent implements OnInit{
   quantities!: any;
   totalPrice = 0;
   extra = 0;
-  tax =  15;
+  tax =  75;
   percentages = [
-    {"procent": 10, "view": "10%"},
-    {"procent": 15, "view": "15%"},
-    {"procent": 20, "view": "20%"},
-    {"procent": 25, "view": "25%"},
-    {"procent": 30, "view": "30%"},
+    {"procent": 40, "view": "40%"},
+    {"procent": 50, "view": "50%"},
+    {"procent": 75, "view": "75%"},
+    {"procent": 100, "view": "100%"},
   ]
+
+  currency!: any;
+  currencies = [
+    {"currency": 'RON', "rate": 1},
+    {"currency": 'EUR', "rate": 1},
+    {"currency": 'USD', "rate": 1},
+  ]
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.ingredients = this.data.ingredients;
     this.quantities = this.data.quantities;
+    this.currencies[0].rate = this.data.rates.RON;
+    this.currencies[1].rate = this.data.rates.EUR;
+    this.currencies[2].rate = this.data.rates.USD;
+    this.currency = this.currencies[0];
 
-    this.ingredients.forEach(item => this.totalPrice += this.getIngredientActualAmount(item.id) * item.price_per_unit);
-    this.totalPrice = Math.round(this.totalPrice * 100) / 100;
-    this.extra = Math.round(this.totalPrice * (this.tax + 100) ) / 100;
+    this.changeTotal();
   }
 
   getProduct(value1: number, value2: number): number{
-    return Math.round(value1 * value2 * 100) / 100
+    return Math.round(value1 * value2 * this.currency.rate * 100) / 100
+  }
+
+  getPriceWithConversion(priceUSD: number){
+    return priceUSD * this.currency.rate;
   }
 
   getIngredientActualAmount(id: string): number{
@@ -38,7 +51,10 @@ export class PriceDialogComponent implements OnInit{
     return this.quantities[key].value;
   }
 
-  changePercent() {
-    this.extra = Math.round(this.totalPrice * (this.tax + 100) ) / 100;
+  changeTotal() {
+    this.totalPrice = 0;
+    this.ingredients.forEach(item => this.totalPrice += this.getIngredientActualAmount(item.id) * item.price_per_unit);
+    this.totalPrice = this.totalPrice * this.currency.rate;
+    this.extra = this.totalPrice * (this.tax + 100) / 100;
   }
 }

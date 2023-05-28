@@ -39,4 +39,8 @@ export class RecipeService {
   getRecipesForMenu(currentMenu: any, requested: any) {
     return this.api.getRecipesForMenu(currentMenu, requested);
   }
+
+  getCurrencyData(){
+    return this.api.getCurrencyData();
+  }
 }
