@@ -15,10 +15,50 @@
 </div>
 
 <div mat-dialog-content>
-  <div *ngFor="let ingredient of ingredients" class="ingredient" fxLayout="row" fxLayoutAlign="space-between center">
-    <b>{{ingredient.name}}:</b>
-    {{getIngredientActualAmount(ingredient.id)}} * {{getPriceWithConversion(ingredient.price_per_unit) | number: '1.2-2'}} = {{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit) | number: '1.2-2'}} {{currency.currency}}
+  <form [formGroup]="form">
+  <div *ngFor="let ingredient of ingredients; let i = index;" class="ingredient">
+
+    <mat-accordion class="permissions">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title fxLayout="row" fxLayoutAlign="space-between center">
+              <b>{{ingredient.name}}:</b>
+              <span>{{getIngredientActualAmount(ingredient.id)}} * {{getPriceWithConversion(ingredient.price_per_unit) | number: '1.2-2'}} = {{getProduct(getIngredientActualAmount(ingredient.id), ingredient.price_per_unit) | number: '1.2-2'}} {{currency.currency}}</span>
+           </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <table mat-table [dataSource]="ingredient.prices" #table>
+          <ng-container matColumnDef="seller-name">
+            <th mat-header-cell *matHeaderCellDef> Seller </th>
+            <td mat-cell *matCellDef="let element">
+              <input formControlName="{{element.id + '_seller'}}">
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="seller-price">
+            <th mat-header-cell *matHeaderCellDef> Price/Unit </th>
+            <td mat-cell *matCellDef="let element">
+              {{currency.currency}} <input type="number" formControlName="{{element.id + '_price'}}">
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element" fxLayoutGap="5">
+              <mat-icon (click)="onClickDeletePrice(element.id, i)" title="Remove seller" style="color: red">remove_circle_outline</mat-icon>
+              <mat-icon *ngIf="changes[element.id + '_price'] || changes[element.id + '_seller']" (click)="onClickUpdatePrice(element.id)" title="Remove seller" style="color: green">create</mat-icon>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
   </div>
+  </form>
 
   <div class="final-prices">
     <p><b>Total:</b> {{totalPrice | number: '1.2-2'}} {{currency.currency}}</p>

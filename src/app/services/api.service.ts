@@ -242,6 +242,26 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 
+  // ---- INGREDIENT PRICE ----
+
+  patchIngredientPrice(id: any, seller: any, price: any): Observable<any> {
+    const body: string = JSON.stringify({id: id, seller: seller, price: price});
+
+    return this.http.patch(`${this.apiServerUrl}/api/ingredient/update-price`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Oops. Something went wrong.'));
+  }
+
+  deleteIngredientPrice(id: any): Observable<any>{
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    return this.http.delete(`${this.apiServerUrl}/api/ingredient/delete-price/${id}`, options)
+      .pipe(take(1), this.handleErrorForToaster());
+  }
+
   // ---- CURRENCY ----
 
   getCurrencyData():Observable<any> {

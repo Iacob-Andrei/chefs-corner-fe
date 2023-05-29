@@ -28,6 +28,7 @@ import { RecommendationComponent } from './components/recommendation/recommendat
 import {MatChipsModule} from "@angular/material/chips";
 import { AskPermissionDialogComponent } from './components/dialog/ask-permission-dialog/ask-permission-dialog.component';
 import { ConfirmPermissionComponent } from './components/confirm-permission/confirm-permission.component';
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -44,26 +45,27 @@ import { ConfirmPermissionComponent } from './components/confirm-permission/conf
     AskPermissionDialogComponent,
     ConfirmPermissionComponent
   ],
-  imports: [
-    CommonModule,
-    RecipesRoutingModule,
-    FlexModule,
-    MatButtonModule,
-    MatIconModule,
-    ExtendedModule,
-    TopBarModule,
-    MatGridListModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    FormsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatStepperModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
-    MatSidenavModule,
-    MatChipsModule
-  ]
+    imports: [
+        CommonModule,
+        RecipesRoutingModule,
+        FlexModule,
+        MatButtonModule,
+        MatIconModule,
+        ExtendedModule,
+        TopBarModule,
+        MatGridListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        FormsModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatStepperModule,
+        MatAutocompleteModule,
+        MatExpansionModule,
+        MatSidenavModule,
+        MatChipsModule,
+        MatTableModule
+    ]
 })
 export class RecipesModule { }

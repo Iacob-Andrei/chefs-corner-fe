@@ -57,12 +57,15 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   getRecipeData(id: string): void{
     this.recipeObs = this.recipeService.getRecipeById(id);
-    this.subscriptions.push(
-      this.recipeService.getCurrencyData().pipe(take(1))
-        .subscribe(data => {
-          this.currencyRate = data.data;
-        })
-    )
+    // this.subscriptions.push(
+    //   this.recipeService.getCurrencyData().pipe(take(1))
+    //     .subscribe(data => {
+    //       this.currencyRate = data.data;
+    //     })
+    // )  TODO: decomenteaza cand e gata
+
+    this.currencyRate =
+      {EUR: 0.931851, RON: 4.622405, USD: 1}
 
     this.subscriptions.push(
       this.recipeObs.subscribe(
