@@ -9,6 +9,7 @@ import {environment} from "../../../../../environments/environment";
 import {Recipe} from "@app-shared/models";
 import {MatDialog} from "@angular/material/dialog";
 import {RecipeService} from "../../../recipes/services/recipe.service";
+import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
 
 @Component({
   selector: 'app-menu-page',
@@ -19,6 +20,7 @@ export class MenuPageComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = [];
   menuObs!: Observable<Menu>;
   addOns: number = 50;
+  currencyRate!: any;
   currency!: any;
   currencies = [
     {"currency": 'RON', "rate": 1},
@@ -48,6 +50,7 @@ export class MenuPageComponent implements OnInit, OnDestroy{
       ));
 
     this.recipeService.getCurrencyData().pipe(take(1)).subscribe(data => {
+      this.currencyRate = data.data;
       this.currencies[0].rate = data.data.RON;
       this.currencies[1].rate = data.data.EUR;
       this.currencies[2].rate = data.data.USD;
@@ -73,14 +76,13 @@ export class MenuPageComponent implements OnInit, OnDestroy{
   }
 
   onClickShowPrices(recipe: Recipe) {
-    // this.dialog.open(PriceMenuDialogComponent,{
-    //   data: {
-    //     ingredients: recipe?.ingredients,
-    //     addOns: this.addOns,
-    //     currencyRate: this.currency.rate,
-    //     currency: this.currency.currency
-    //   }
-    // });
+    this.dialog.open(PriceDialogComponent,{
+      data: {
+        ingredients: recipe?.ingredients,
+        quantities: undefined,
+        rates: this.currencyRate
+      }
+    });
   }
 
   computePriceRecipe(recipe: Recipe){
