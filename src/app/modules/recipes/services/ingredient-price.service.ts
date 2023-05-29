@@ -8,6 +8,10 @@ export class IngredientPriceService {
 
   constructor(private api: ApiService) { }
 
+  postIngredientPrice(seller: any, price: any, idIngredient: any){
+    return this.api.postIngredientPrice(seller, price, idIngredient)
+  }
+
   patchIngredientPrice(id: any, seller: any, price: any){
     return this.api.patchIngredientPrice(id, seller, price);
   }

@@ -244,6 +244,13 @@ export class ApiService {
 
   // ---- INGREDIENT PRICE ----
 
+  postIngredientPrice(seller: any, price: any, idIngredient: any): Observable<any> {
+    const body: string = JSON.stringify({seller: seller, price: price, idIngredient: idIngredient});
+
+    return this.http.post(`${this.apiServerUrl}/api/ingredient/add-price`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Oops. Something went wrong.'));
+  }
+
   patchIngredientPrice(id: any, seller: any, price: any): Observable<any> {
     const body: string = JSON.stringify({id: id, seller: seller, price: price});
 
