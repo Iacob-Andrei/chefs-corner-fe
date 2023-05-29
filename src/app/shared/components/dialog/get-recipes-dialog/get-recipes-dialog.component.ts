@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {CATEGORIES} from "@app-shared/constants";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
+import {CATEGORIES} from "@app-shared/constants";
 
 @Component({
   selector: 'app-get-recipes-dialog',

@@ -1,9 +1,9 @@
 import {Component, Inject, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {IngredientPriceService} from "../../../services/ingredient-price.service";
+import {FormControl, FormGroup} from "@angular/forms";
 import {MatTable} from "@angular/material/table";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {IngredientPriceService} from "../../../../modules/recipes/services/ingredient-price.service";
 
 @Component({
   selector: 'app-price-dialog',
@@ -41,7 +41,11 @@ export class PriceDialogComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.ingredients = this.data.ingredients;
-    this.quantities = this.data.quantities;
+    if(this.data.quantities) {
+      this.quantities = this.data.quantities;
+    }else{
+      this.quantities = undefined;
+    }
     this.currencies[0].rate = this.data.rates.RON;
     this.currencies[1].rate = this.data.rates.EUR;
     this.currencies[2].rate = this.data.rates.USD;
@@ -61,8 +65,13 @@ export class PriceDialogComponent implements OnInit, OnDestroy{
   }
 
   getIngredientActualAmount(id: string): number{
-    const key = id + "_amount"
-    return this.quantities[key].value;
+    if(this.quantities) {
+      return this.quantities[id + "_amount"].value;
+    }
+    else {
+      const found = this.ingredients.find(ingredient => ingredient.id == id)
+      return found.amount
+    }
   }
 
   changeTotal() {

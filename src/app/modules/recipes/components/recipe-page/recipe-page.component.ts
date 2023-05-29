@@ -8,14 +8,18 @@ import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
 import {HOME, MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
-import {PriceDialogComponent} from "../dialog/price-dialog/price-dialog.component";
-import {DeleteConfDialogComponent} from "../dialog/delete-conf-dialog/delete-conf-dialog.component";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {AddPermissionDialogComponent} from "../dialog/add-permission-dialog/add-permission-dialog.component";
 import {Store} from "@ngrx/store";
 import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 import {selectCartObject} from "../../../../services/store/cart.selectors";
-import {AskPermissionDialogComponent} from "../dialog/ask-permission-dialog/ask-permission-dialog.component";
+import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
+import {
+  AddPermissionDialogComponent
+} from "@app-shared/components/dialog/add-permission-dialog/add-permission-dialog.component";
+import {
+  AskPermissionDialogComponent
+} from "@app-shared/components/dialog/ask-permission-dialog/ask-permission-dialog.component";
+import {DeleteConfDialogComponent} from "@app-shared/components/dialog/delete-conf-dialog/delete-conf-dialog.component";
 
 
 @Component({

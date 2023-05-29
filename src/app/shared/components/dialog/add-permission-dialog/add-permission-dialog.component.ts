@@ -1,12 +1,12 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {map, Observable, Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {FiltersService} from "@app-shared/components/top-bar/services/filters.service";
-import {map, Observable, Subscription} from "rxjs";
-import {AuthService} from "../../../../../services/auth/auth.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UserService} from "../../../services/user.service";
+import {AuthService} from "../../../../services/auth/auth.service";
+import {UserService} from "../../../../modules/recipes/services/user.service";
 import {ToastrService} from "ngx-toastr";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-add-permission-dialog',
@@ -77,3 +77,4 @@ export class AddPermissionDialogComponent implements OnInit, OnDestroy{
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 }
+

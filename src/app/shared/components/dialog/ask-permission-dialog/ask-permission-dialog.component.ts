@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UserService} from "../../../services/user.service";
+import {UserService} from "../../../../modules/recipes/services/user.service";
 import {ToastrService} from "ngx-toastr";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {take} from "rxjs";
 
 @Component({
@@ -10,7 +10,6 @@ import {take} from "rxjs";
   styleUrls: ['./ask-permission-dialog.component.scss']
 })
 export class AskPermissionDialogComponent {
-
   id: number = 0;
 
   constructor(private userService: UserService,
@@ -26,7 +25,7 @@ export class AskPermissionDialogComponent {
       .pipe(take(1))
       .subscribe(() => {
         this.toaster.success("Request completed successfully!", "Success");
-    });
+      });
     this.dialogRef.close();
   }
 }

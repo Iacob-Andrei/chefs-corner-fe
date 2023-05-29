@@ -15,20 +15,17 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDialogModule} from "@angular/material/dialog";
-import { PriceDialogComponent } from './components/dialog/price-dialog/price-dialog.component';
 import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OwnedComponent} from "./components/owned/owned.component";
-import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialog/delete-conf-dialog.component';
-import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import {MatChipsModule} from "@angular/material/chips";
-import { AskPermissionDialogComponent } from './components/dialog/ask-permission-dialog/ask-permission-dialog.component';
 import { ConfirmPermissionComponent } from './components/confirm-permission/confirm-permission.component';
 import {MatTableModule} from "@angular/material/table";
+import {DialogModule} from "@app-shared/components/dialog/dialog.module";
 
 
 @NgModule({
@@ -36,13 +33,9 @@ import {MatTableModule} from "@angular/material/table";
     ContainerComponent,
     RecipePageComponent,
     SearchComponent,
-    PriceDialogComponent,
     CreateRecipeComponent,
     OwnedComponent,
-    DeleteConfDialogComponent,
-    AddPermissionDialogComponent,
     RecommendationComponent,
-    AskPermissionDialogComponent,
     ConfirmPermissionComponent
   ],
     imports: [
@@ -65,7 +58,8 @@ import {MatTableModule} from "@angular/material/table";
         MatExpansionModule,
         MatSidenavModule,
         MatChipsModule,
-        MatTableModule
+        MatTableModule,
+        DialogModule
     ]
 })
 export class RecipesModule { }

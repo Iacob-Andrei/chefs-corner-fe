@@ -8,11 +8,13 @@ import {environment} from "../../../../../environments/environment";
 import {MENUS, RECIPE, SEARCH} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
-import {GetRecipesDialogComponent} from "../dialog/get-recipes-dialog/get-recipes-dialog.component";
 import {addRecipe, clearCart, removeRecipe} from "../../../../services/store/cart.actions";
-import {CompleteMenuDialogComponent} from "../dialog/complete-menu-dialog/complete-menu-dialog.component";
 import {MenuService} from "../../services/menu.service";
+import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
+import {GetRecipesDialogComponent} from "@app-shared/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
+import {
+  CompleteMenuDialogComponent
+} from "@app-shared/components/dialog/complete-menu-dialog/complete-menu-dialog.component";
 
 @Component({
   selector: 'app-cart',
@@ -26,6 +28,7 @@ export class CartComponent implements OnInit{
   currentForm: any = {};
   addOns: number = 50;
   currency!: any;
+  currencyRate!: any;
   currencies = [
     {"currency": 'RON', "rate": 1},
     {"currency": 'EUR', "rate": 1},
@@ -51,6 +54,7 @@ export class CartComponent implements OnInit{
     });
 
     this.recipeService.getCurrencyData().pipe(take(1)).subscribe(data => {
+      this.currencyRate = data.data;
       this.currencies[0].rate = data.data.RON;
       this.currencies[1].rate = data.data.EUR;
       this.currencies[2].rate = data.data.USD;
@@ -145,12 +149,11 @@ export class CartComponent implements OnInit{
   }
 
   onClickShowPrices(recipe: Recipe) {
-    this.dialog.open(PriceMenuDialogComponent,{
+    this.dialog.open(PriceDialogComponent,{
       data: {
         ingredients: recipe?.ingredients,
-        addOns: this.addOns,
-        currencyRate: this.currency.rate,
-        currency: this.currency.currency
+        quantities: undefined,
+        rates: this.currencyRate
       }
     });
   }

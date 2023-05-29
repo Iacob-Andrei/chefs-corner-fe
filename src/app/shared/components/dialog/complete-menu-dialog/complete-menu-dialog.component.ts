@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {GetRecipesDialogComponent} from "../get-recipes-dialog/get-recipes-dialog.component";
+import {GetRecipesDialogComponent} from "@app-shared/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
 
 @Component({
   selector: 'app-complete-menu-dialog',
@@ -9,7 +9,6 @@ import {GetRecipesDialogComponent} from "../get-recipes-dialog/get-recipes-dialo
   styleUrls: ['./complete-menu-dialog.component.scss']
 })
 export class CompleteMenuDialogComponent {
-
   form: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
     description: ['', Validators.required]})

@@ -7,7 +7,6 @@ import {Menu} from "@app-shared/models/menu.model";
 import {MenuService} from "../../services/menu.service";
 import {environment} from "../../../../../environments/environment";
 import {Recipe} from "@app-shared/models";
-import {PriceMenuDialogComponent} from "../dialog/price-menu-dialog/price-menu-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {RecipeService} from "../../../recipes/services/recipe.service";
 
@@ -74,14 +73,14 @@ export class MenuPageComponent implements OnInit, OnDestroy{
   }
 
   onClickShowPrices(recipe: Recipe) {
-    this.dialog.open(PriceMenuDialogComponent,{
-      data: {
-        ingredients: recipe?.ingredients,
-        addOns: this.addOns,
-        currencyRate: this.currency.rate,
-        currency: this.currency.currency
-      }
-    });
+    // this.dialog.open(PriceMenuDialogComponent,{
+    //   data: {
+    //     ingredients: recipe?.ingredients,
+    //     addOns: this.addOns,
+    //     currencyRate: this.currency.rate,
+    //     currency: this.currency.currency
+    //   }
+    // });
   }
 
   computePriceRecipe(recipe: Recipe){
