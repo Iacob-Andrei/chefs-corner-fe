@@ -130,7 +130,7 @@ export class PriceDialogComponent implements OnInit, OnDestroy{
   updateOnValue(initial: any, value: any, key: any) {
     if(value){
       if(typeof value == "number"){
-        this.changes[key] = !((initial * this.currency.rate + 0.1) >= value && value <= (initial * this.currency.rate + 0.1))
+        this.changes[key] = !((initial * this.currency.rate - 0.1) <= value && value <= (initial * this.currency.rate + 0.1))
       }else{
         this.changes[key] = value != initial;
       }
@@ -173,8 +173,8 @@ export class PriceDialogComponent implements OnInit, OnDestroy{
   }
 
   onClickAddPrice(id: number) {
-    let newPrice = this.form.controls[`new_${id}_price`].value;
-    let newSeller = this.round(this.form.controls[`new_${id}_seller`].value / this.currency.rate);
+    let newPrice = this.round(this.form.controls[`new_${id}_price`].value / this.currency.rate);
+    let newSeller = this.form.controls[`new_${id}_seller`].value;
 
     if(newPrice && newSeller){
       this.subscriptions.push(
@@ -187,7 +187,7 @@ export class PriceDialogComponent implements OnInit, OnDestroy{
             this.form = this._formBuilder.record({
                 ...this.form.controls,
                 [`${data.id}_seller`]: new FormControl(newSeller),
-                [`${data.id}_price`]: new FormControl(newPrice)
+                [`${data.id}_price`]: new FormControl(this.form.controls[`new_${id}_price`].value)
               }
             );
             this.changes[`${id}_seller`] = false;
