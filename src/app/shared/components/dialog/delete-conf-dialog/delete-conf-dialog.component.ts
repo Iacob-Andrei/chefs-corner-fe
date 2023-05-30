@@ -3,6 +3,7 @@ import {RecipeService} from "../../../../modules/recipes/services/recipe.service
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {MYRECIPE} from "@app-shared/constants";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-delete-conf-dialog',
@@ -16,10 +17,10 @@ export class DeleteConfDialogComponent {
   }
 
   onClickDelete() {
-    this.recipeService.deleteRecipe(this.data.idRecipe).subscribe(
+    this.recipeService.deleteRecipe(this.data.idRecipe).pipe(take(1)).subscribe(
       () => {
         this.router.navigateByUrl(MYRECIPE).then();
       }
-    ).unsubscribe();
+    )
   }
 }

@@ -24,7 +24,7 @@ export const CATEGORIES = [
   },
   {
     display: 'Desserts',
-    value: 'dessert'
+    value: 'desserts'
   },
   {
     display: 'Drinks',
