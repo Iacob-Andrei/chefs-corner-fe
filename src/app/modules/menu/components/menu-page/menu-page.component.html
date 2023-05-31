@@ -40,7 +40,7 @@
 
           <div class="recipe-info" fxLayout="column">
             <p class="recipe-name">{{item.name}}</p>
-            <p class="show-price" title="Show prices" (click)="onClickShowPrices(item)">Price without tax: {{computePriceRecipe(item) * currency.rate| number: '1.2-2'}} {{currency.currency}}/ Price with tax: {{computePriceRecipe(item) * (1 + addOns/100) * currency.rate| number: '1.2-2'}} {{currency.currency}}</p>
+            <p class="show-price" title="Show prices" (click)="onClickShowPrices(item)">Price for ingredients: {{computePriceRecipe(item) * currency.rate| number: '1.2-2'}} {{currency.currency}}/ Recommended price to sell: {{computePriceRecipe(item) * (1 + addOns/100) * currency.rate| number: '1.2-2'}} {{currency.currency}}</p>
           </div>
         </div>
       </ul>

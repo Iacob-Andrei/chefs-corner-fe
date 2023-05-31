@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {IngredientPriceService} from "../../services/ingredient-price.service";
 import {Observable, Subscription, take} from "rxjs";
 import {RecipeService} from "../../services/recipe.service";
