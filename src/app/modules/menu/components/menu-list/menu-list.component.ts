@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MENUS, SEARCH} from "@app-shared/constants";
+import {MENUS} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {Observable, take} from "rxjs";
 import {MenuService} from "../../services/menu.service";

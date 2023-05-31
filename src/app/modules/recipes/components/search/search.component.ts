@@ -6,7 +6,6 @@ import {PageService} from "../../services/page.service";
 import {CATEGORIES, RECIPE, SEARCH} from "@app-shared/constants";
 import {PageEvent} from "@angular/material/paginator";
 import {environment} from "../../../../../environments/environment";
-import {Recipe} from "@app-shared/models";
 
 @Component({
   selector: 'app-search',
