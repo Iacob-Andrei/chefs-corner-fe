@@ -31,11 +31,6 @@
     <span>My menus</span>
   </button>
 
-  <button mat-button (click)="onClickGoToCart()">
-    <mat-icon>shopping_basket</mat-icon>
-    <span matBadge="{{countProduct$ | async}}" matBadgeOverlap="false">Current menu</span>
-  </button>
-
   <button mat-button (click)="onClickGoToPrices()">
     <mat-icon>attach_money</mat-icon>
     <span>Ingredient prices</span>

@@ -6,10 +6,7 @@ import {PageService} from "../../services/page.service";
 import {CATEGORIES, RECIPE, SEARCH} from "@app-shared/constants";
 import {PageEvent} from "@angular/material/paginator";
 import {environment} from "../../../../../environments/environment";
-import {Store} from "@ngrx/store";
 import {Recipe} from "@app-shared/models";
-import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
-import {selectCartObject} from "../../../../services/store/cart.selectors";
 
 @Component({
   selector: 'app-search',
@@ -29,8 +26,7 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   constructor(private route: ActivatedRoute,
               private pageService: PageService,
-              private router: Router,
-              private store: Store){}
+              private router: Router){}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -65,18 +61,6 @@ export class SearchComponent implements OnInit, OnDestroy{
         }
       )
     )
-  }
-
-  onClickAddToCart(item: Recipe) {
-    this.store.dispatch(addRecipe(item));
-  }
-
-  onClickRemoveFromCart(item: Recipe) {
-    this.store.dispatch(removeRecipe(item));
-  }
-
-  checkIfInCart(item: Recipe){
-    return this.store.select(selectCartObject, item.id);
   }
 
   changeInSelect() {

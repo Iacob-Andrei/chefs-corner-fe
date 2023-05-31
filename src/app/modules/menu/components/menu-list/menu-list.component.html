@@ -7,11 +7,13 @@
 
   <div *ngIf="isEmpty" class="no-recipes" fxLayout="column" fxLayoutAlign="center center">
     <h3>Unfortunately you have no menus created.</h3>
-    <h3>Click the button bellow to search some recipes to create your own:</h3>
-    <button mat-raised-button color="primary"
-            class="nav-button"
-            (click)="onClickGoToRecipes()">Search recipes</button>
+    <h3>Click the button bellow to create your first menu:</h3>
   </div>
+
+  <button mat-raised-button color="primary"
+          class="nav-button"
+          (click)="onClickRequestRecipes()">Create new menu</button>
+
 </div>
 
 <div *ngIf="menuObs | async as recipes">
@@ -32,10 +34,12 @@
         </mat-expansion-panel-header>
 
         <p>{{menu.description}}</p>
-        <ul>This menu contains recipes from:
+        <ul *ngIf="getCategoriesMenu(menu).length">This menu contains recipes from:
         <li *ngFor="let category of getCategoriesMenu(menu)">
           {{category}}
         </li></ul>
+
+        <p *ngIf="getCategoriesMenu(menu).length == 0">This menu is empty. Add some recipes</p>
 
         <button mat-button (click)="onClickGoToMenu(menu.id)">Check this menu</button>
       </mat-expansion-panel>

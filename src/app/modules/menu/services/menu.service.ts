@@ -16,7 +16,11 @@ export class MenuService {
     return this.api.getMenuById(id);
   }
 
-  postMenu(name: string, description: string, currentMenu: any) {
-    return this.api.postMenu(name, description, currentMenu);
+  postMenu(name: string, description: string) {
+    return this.api.postMenu(name, description);
+  }
+
+  addRecipeToMenu(idMenu: any, idRecipe: any, category: any){
+    return this.api.addRecipeToMenu(idMenu, idRecipe, category)
   }
 }

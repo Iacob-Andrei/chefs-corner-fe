@@ -220,6 +220,12 @@ export class ApiService {
 
   // ---- MENU ----
 
+  addRecipeToMenu(idMenu: any, idRecipe: any, category: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, idRecipe: idRecipe, category: category});
+    return this.http.post(`${this.apiServerUrl}/api/menu/add`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"))
+  }
+
   getMenus(): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/menu/owned`)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
@@ -230,14 +236,14 @@ export class ApiService {
       .pipe(take(1), this.handleErrorForToaster());
   }
 
-  getRecipesForMenu(currentMenu: any, requested: any): Observable<any> {
-    const body: string = JSON.stringify({currentMenu: currentMenu, requested: requested});
+  getRecipesForMenu(idMenu: any, requested: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, requested: requested});
     return this.http.post(`${this.apiServerUrl}/api/category/complete-menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 
-  postMenu(name: string, description: string, currentMenu: any): Observable<any> {
-    const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
+  postMenu(name: string, description: string): Observable<any> {
+    const body: string = JSON.stringify({name: name, description: description});
     return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }

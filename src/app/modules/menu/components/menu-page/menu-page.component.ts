@@ -10,6 +10,7 @@ import {Recipe} from "@app-shared/models";
 import {MatDialog} from "@angular/material/dialog";
 import {RecipeService} from "../../../recipes/services/recipe.service";
 import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
+import {GetRecipesDialogComponent} from "@app-shared/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
 
 @Component({
   selector: 'app-menu-page',
@@ -17,6 +18,7 @@ import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/p
   styleUrls: ['./menu-page.component.scss']
 })
 export class MenuPageComponent implements OnInit, OnDestroy{
+  idMenu: number = 0;
   subscriptions: Subscription[] = [];
   menuObs!: Observable<Menu>;
   addOns: number = 50;
@@ -44,7 +46,8 @@ export class MenuPageComponent implements OnInit, OnDestroy{
             this.router.navigateByUrl(PAGE_404).then();
           }
           else{
-            this.menuObs = this.menuService.getMenuById(params['id']);
+            this.idMenu = params['id'];
+            this.menuObs = this.menuService.getMenuById(this.idMenu);
           }
         }
       ));
@@ -100,5 +103,23 @@ export class MenuPageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  onClickRequestRecipes() {
+    const dialogRef: any = this.dialog.open(GetRecipesDialogComponent);
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: any) => {
+      if(result)
+        if(result.total){
+          this.addRecipesToMenu(result.requested);
+        }
+    })
+  }
+
+  addRecipesToMenu(requested: any) {
+    this.subscriptions.push(
+      this.recipeService.getRecipesForMenu(this.idMenu, requested).subscribe(
+        () => location.reload()
+      )
+    )
   }
 }

@@ -13,15 +13,14 @@
 
   .no-recipes{
     text-align: center;
-
-    .nav-button {
-      min-height: 3em;
-      min-width: 7em;
-      border-radius: 30px;
-      border: 2px solid $white;
-      font-size: 16px;
-      margin-top: 30px;
-    }
+  }
+  .nav-button {
+    min-height: 3em;
+    min-width: 7em;
+    border-radius: 30px;
+    border: 2px solid $white;
+    font-size: 16px;
+    margin-top: 30px;
   }
 }
 

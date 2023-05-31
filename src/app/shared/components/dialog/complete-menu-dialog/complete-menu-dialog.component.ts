@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
-import {GetRecipesDialogComponent} from "@app-shared/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
+import {MenuService} from "../../../../modules/menu/services/menu.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-complete-menu-dialog',
@@ -13,13 +13,13 @@ export class CompleteMenuDialogComponent {
     name: ['', Validators.required],
     description: ['', Validators.required]})
 
-  constructor(public dialogRef: MatDialogRef<GetRecipesDialogComponent>,
-              private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder,
+              private menuService: MenuService) {}
 
   onClickGetRequest() {
-    this.dialogRef.close({
-      name: this.form.controls['name'].value,
-      description: this.form.controls['description'].value
-    })
+    this.menuService.postMenu(this.form.controls['name'].value, this.form.controls['description'].value)
+      .pipe(take(1)).subscribe(
+      () => window.location.reload()
+    )
   }
 }

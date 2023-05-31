@@ -18,6 +18,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import { CompleteMenuDialogComponent } from './complete-menu-dialog/complete-menu-dialog.component';
 import { GetRecipesDialogComponent } from './get-recipes-dialog/get-recipes-dialog.component';
+import { RecipeMenuDialogComponent } from './recipe-menu-dialog/recipe-menu-dialog.component';
 
 
 
@@ -28,7 +29,8 @@ import { GetRecipesDialogComponent } from './get-recipes-dialog/get-recipes-dial
     AskPermissionDialogComponent,
     DeleteConfDialogComponent,
     CompleteMenuDialogComponent,
-    GetRecipesDialogComponent
+    GetRecipesDialogComponent,
+    RecipeMenuDialogComponent
   ],
   imports: [
     CommonModule,

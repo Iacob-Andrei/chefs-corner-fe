@@ -4,6 +4,10 @@ import {Router} from "@angular/router";
 import {Observable, take} from "rxjs";
 import {MenuService} from "../../services/menu.service";
 import {Menu} from "@app-shared/models/menu.model";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  CompleteMenuDialogComponent
+} from "@app-shared/components/dialog/complete-menu-dialog/complete-menu-dialog.component";
 
 @Component({
   selector: 'app-menu-list',
@@ -16,7 +20,8 @@ export class MenuListComponent implements OnInit{
   menuObs!: Observable<Menu[]>;
 
   constructor(private router: Router,
-              private menuService: MenuService) {
+              private menuService: MenuService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -25,10 +30,6 @@ export class MenuListComponent implements OnInit{
       menus =>
         this.isEmpty = !menus.length
     );
-  }
-
-  onClickGoToRecipes() {
-    this.router.navigateByUrl(SEARCH).then();
   }
 
   getCategoriesMenu(menu: Menu){
@@ -45,5 +46,9 @@ export class MenuListComponent implements OnInit{
       count += menu.recipes[category].length;
     });
     return count;
+  }
+
+  onClickRequestRecipes() {
+    this.dialog.open(CompleteMenuDialogComponent);
   }
 }

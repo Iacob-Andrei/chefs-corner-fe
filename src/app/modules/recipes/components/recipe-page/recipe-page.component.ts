@@ -9,9 +9,6 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {HOME, MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {Store} from "@ngrx/store";
-import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
-import {selectCartObject} from "../../../../services/store/cart.selectors";
 import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
 import {
   AddPermissionDialogComponent
@@ -20,6 +17,8 @@ import {
   AskPermissionDialogComponent
 } from "@app-shared/components/dialog/ask-permission-dialog/ask-permission-dialog.component";
 import {DeleteConfDialogComponent} from "@app-shared/components/dialog/delete-conf-dialog/delete-conf-dialog.component";
+import {MenuService} from "../../../menu/services/menu.service";
+import {RecipeMenuDialogComponent} from "@app-shared/components/dialog/recipe-menu-dialog/recipe-menu-dialog.component";
 
 
 @Component({
@@ -36,13 +35,14 @@ export class RecipePageComponent implements OnInit, OnDestroy{
   sortedDirections!: any;
   form! : FormGroup;
   currencyRate!: any;
+  menus : any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public toaster: ToastrService,
               public authService: AuthService,
               private recipeService: RecipeService,
-              private store: Store,
+              private menuService: MenuService,
               public dialog: MatDialog) {}
 
   ngOnInit(): void{
@@ -57,6 +57,14 @@ export class RecipePageComponent implements OnInit, OnDestroy{
         }
       }
     ));
+
+    this.subscriptions.push(
+      this.menuService.getMenus().subscribe(
+        (data) => {
+          this.menus = data;
+        }
+      )
+    )
   }
 
   getRecipeData(id: string): void{
@@ -188,18 +196,6 @@ export class RecipePageComponent implements OnInit, OnDestroy{
     });
   }
 
-  onClickAddToCart() {
-    this.store.dispatch(addRecipe(this.recipe));
-  }
-
-  onClickRemoveFromCart() {
-    this.store.dispatch(removeRecipe(this.recipe));
-  }
-
-  checkIfInCart(){
-    return this.store.select(selectCartObject, this.recipe.id);
-  }
-
   onClickGivePermission() {
     this.dialog.open(AddPermissionDialogComponent,{
       data: {
@@ -218,5 +214,28 @@ export class RecipePageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  }
+
+  onClickAddToMenu() {
+    const dialogRef: any = this.dialog.open(RecipeMenuDialogComponent,
+      {
+        data: {
+          categories: this.recipe.categories,
+          menus: this.menus
+        }
+      });
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: any) => {
+      if(result) {
+        this.addRecipeToMenu(result.idMenu, result.category);
+      }
+    })
+  }
+
+  addRecipeToMenu(idMenu: any, category: any) {
+    this.subscriptions.push(
+      this.menuService.addRecipeToMenu(idMenu, this.recipe.id, category).subscribe(
+        () => this.toaster.success('Recipe added successfully to menu!', 'Success')
+      )
+    )
   }
 }

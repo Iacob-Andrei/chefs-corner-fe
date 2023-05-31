@@ -12,8 +12,6 @@ import {ToastrModule} from "ngx-toastr";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {InterceptorService} from "./services/core/interceptor.service";
-import {StoreModule} from "@ngrx/store";
-import {cartReducer, metaReducerLocalStorage} from "./services/store/cart.reducer";
 
 @NgModule({
   declarations: [AppComponent, PagenotfoundComponent],
@@ -29,12 +27,7 @@ import {cartReducer, metaReducerLocalStorage} from "./services/store/cart.reduce
             tapToDismiss: false,
             closeButton: true
         }),
-        MatProgressSpinnerModule,
-      StoreModule.forRoot({
-        cartEntries: cartReducer
-      },{
-        metaReducers: [metaReducerLocalStorage]
-      })
+        MatProgressSpinnerModule
     ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

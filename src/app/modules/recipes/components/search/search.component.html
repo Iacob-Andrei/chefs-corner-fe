@@ -23,8 +23,6 @@
         <div class="recipe-info" fxLayout="column">
 
           <p class="recipe-name">
-            <mat-icon *ngIf="!(checkIfInCart(item) | async)" (click)="onClickAddToCart(item)" style="color:green">add_shopping_cart</mat-icon>
-            <mat-icon *ngIf="(checkIfInCart(item) | async)" (click)="onClickRemoveFromCart(item)" style="color:red">remove_shopping_cart</mat-icon>
             {{item.name}}</p>
 
           <p fxLayoutAlign="start center" *ngIf="item.prep_time !== undefined">
