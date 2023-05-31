@@ -1,3 +1,5 @@
+import {IngredientPrice} from "@app-shared/models/ingredientprice.model";
+
 export interface Ingredient {
   id: number,
   name: string,
@@ -5,4 +7,5 @@ export interface Ingredient {
   unit?: string,
   grams?: number,
   description?: string
+  prices?: IngredientPrice[];
 }

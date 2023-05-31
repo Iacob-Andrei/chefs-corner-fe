@@ -7,6 +7,7 @@ import {CreateRecipeComponent} from "./components/create-recipe/create-recipe.co
 import {OwnedComponent} from "./components/owned/owned.component";
 import {RecommendationComponent} from "./components/recommendation/recommendation.component";
 import {ConfirmPermissionComponent} from "./components/confirm-permission/confirm-permission.component";
+import {IngredientPricesComponent} from "./components/ingredient-prices/ingredient-prices.component";
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
       {
         path: 'owned',
         component: OwnedComponent,
+        pathMatch: 'full'
+      },
+    {
+        path: 'price',
+        component: IngredientPricesComponent,
         pathMatch: 'full'
       },
       {

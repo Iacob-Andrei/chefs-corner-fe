@@ -26,6 +26,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import { ConfirmPermissionComponent } from './components/confirm-permission/confirm-permission.component';
 import {MatTableModule} from "@angular/material/table";
 import {DialogModule} from "@app-shared/components/dialog/dialog.module";
+import { IngredientPricesComponent } from './components/ingredient-prices/ingredient-prices.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {DialogModule} from "@app-shared/components/dialog/dialog.module";
     CreateRecipeComponent,
     OwnedComponent,
     RecommendationComponent,
-    ConfirmPermissionComponent
+    ConfirmPermissionComponent,
+    IngredientPricesComponent
   ],
     imports: [
         CommonModule,

@@ -9,6 +9,7 @@ export const SURPRISE = 'recipe/surprise'
 export const MYRECIPE = 'recipe/owned'
 export const CART = 'menu/cart'
 export const MENUS = 'menu'
+export const INGREDIENT_PRICES = 'recipe/price'
 export const CATEGORIES = [
   {
     display: 'Everything',
