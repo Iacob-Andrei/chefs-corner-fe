@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription, take} from "rxjs";
 import {PAGE_404, RECIPE} from "@app-shared/constants";
@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {RecipeService} from "../../../recipes/services/recipe.service";
 import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
 import {GetRecipesDialogComponent} from "@app-shared/components/dialog/get-recipes-dialog/get-recipes-dialog.component";
+import jsPDF from "jspdf";
 
 @Component({
   selector: 'app-menu-page',
@@ -121,5 +122,20 @@ export class MenuPageComponent implements OnInit, OnDestroy{
         () => location.reload()
       )
     )
+  }
+
+  @ViewChild("container")el!: ElementRef;
+  onClickSaveMenu(title: string) {
+    let pdf = new jsPDF('p', 'px', 'a4');
+
+    pdf.html(this.el.nativeElement, {
+      x: 0,
+      y: 0,
+      autoPaging: 'text',
+      margin: [20, 0, 20, 20],
+      callback: (test) => {
+        test.save(title)
+      }
+    })
   }
 }
