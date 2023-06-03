@@ -165,7 +165,7 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster("Error while uploading image. Retry in setting panel."));
   }
 
-  getUsedInfo(email: string): Observable<any> {
+  getUsedInfo(): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/user`)
       .pipe(take(1), this.handleWarningForToaster("Error while getting user data. Please re-authenticate."));
   }

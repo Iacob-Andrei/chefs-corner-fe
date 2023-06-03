@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   getUserInfo(){
-    return this.api.getUsedInfo(this.getSubjectFromToken());
+    return this.api.getUsedInfo();
   }
 
   logout() {
