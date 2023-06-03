@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {Observable, Subscription} from "rxjs";
 import {User} from "@app-shared/models/user.model";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-drawer',
@@ -30,7 +31,7 @@ export class DrawerComponent implements OnInit, OnDestroy{
       this.subscriptions.push(
         this.userDataObs.subscribe(
           response => {
-            this.imageUrl = response.image ? `data:image/png;base64,${response.image}` : "./assets/icons/default-profile.jpg";
+            this.imageUrl = response.image ? environment.storageUrl + response.image : "./assets/icons/default-profile.jpg";
           }
         )
       )

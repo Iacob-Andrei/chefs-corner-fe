@@ -44,12 +44,7 @@ export class AuthService {
   }
 
   register(name: string, email: string, password: string, business = false){
-    return this.api.register(name, email, password, business).pipe(
-      tap((response: any) =>{
-          localStorage.setItem(this.TOKEN_NAME, response['token']);
-          this._isLoggedIn$.next(true);
-        })
-    )
+    return this.api.register(name, email, password, business);
   }
 
   patchImage(email: string, image: File){

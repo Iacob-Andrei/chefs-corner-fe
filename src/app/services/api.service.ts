@@ -127,7 +127,7 @@ export class ApiService {
     const fd: FormData = new FormData();
     fd.append('image', image);
 
-    return this.http.patch(`${this.apiServerUrl}/api/recipe/image/${idRecipe}`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/recipe/${idRecipe}`, fd)
       .pipe(take(1), this.handleWarningForToaster('Error while uploading image. Retry in recipe page.'));
   }
 
@@ -135,7 +135,7 @@ export class ApiService {
     const fd: FormData = new FormData();
     fd.append('video', video);
 
-    return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/video/${idRecipe},${orderDirection}`, fd)
       .pipe(take(1), this.handleWarningForToaster(`Error while uploading video for instruction no. ${orderDirection}. Retry in recipe page.`));
   }
 
@@ -161,12 +161,12 @@ export class ApiService {
   patchImage(email: string, image: File): Observable<any>{
     const fd = new FormData();
     fd.append('image', image);
-    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/profile/${email}`, fd)
       .pipe(take(1), this.handleWarningForToaster("Error while uploading image. Retry in setting panel."));
   }
 
   getUsedInfo(email: string): Observable<any> {
-    return this.http.get(`${this.apiServerUrl}/api/user/${email}`)
+    return this.http.get(`${this.apiServerUrl}/api/user`)
       .pipe(take(1), this.handleWarningForToaster("Error while getting user data. Please re-authenticate."));
   }
 

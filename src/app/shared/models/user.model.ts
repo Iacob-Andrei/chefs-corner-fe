@@ -3,5 +3,5 @@ export interface User{
   name: string,
   email: string,
   business: boolean,
-  image: Blob | string
+  image: string;
 }

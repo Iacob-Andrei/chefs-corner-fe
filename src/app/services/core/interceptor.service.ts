@@ -13,7 +13,7 @@ export class InterceptorService implements HttpInterceptor{
               private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if( this.authService.token !== undefined ) {
+    if(this.authService.token) {
       req = req.clone({
           headers: req.headers.set('Authorization', `Bearer ${this.authService.token}`)
         }
