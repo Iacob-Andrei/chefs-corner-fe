@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Recipe} from "@app-shared/models";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {Form, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {FiltersService} from "@app-shared/components/top-bar/services/filters.service";
 import {AuthService} from "../../../../services/auth/auth.service";
