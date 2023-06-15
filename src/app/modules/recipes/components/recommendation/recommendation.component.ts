@@ -58,8 +58,8 @@ export class RecommendationComponent {
   }
 
   onClickGetRecipes() {
-    if(this.selectedIngredients.length <= 1){
-      this.toaster.warning("Please select at least 2 ingredients!", "Warning");
+    if(this.selectedIngredients.length <= 2){
+      this.toaster.warning("Please select at least 3 ingredients!", "Warning");
     }
     else {
       const ids: number[] = [];

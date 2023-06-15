@@ -27,6 +27,7 @@ import { ConfirmPermissionComponent } from './components/confirm-permission/conf
 import {MatTableModule} from "@angular/material/table";
 import {DialogModule} from "@app-shared/components/dialog/dialog.module";
 import { IngredientPricesComponent } from './components/ingredient-prices/ingredient-prices.component';
+import { EditRecipeComponent } from './components/edit-recipe/edit-recipe.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { IngredientPricesComponent } from './components/ingredient-prices/ingred
     OwnedComponent,
     RecommendationComponent,
     ConfirmPermissionComponent,
-    IngredientPricesComponent
+    IngredientPricesComponent,
+    EditRecipeComponent
   ],
     imports: [
         CommonModule,

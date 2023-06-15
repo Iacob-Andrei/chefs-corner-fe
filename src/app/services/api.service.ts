@@ -123,6 +123,12 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster('Invalid arguments.'));
   }
 
+  patchRecipe(recipe: RecipePost) {
+    const body: string = JSON.stringify(recipe)
+    return this.http.patch(`${this.apiServerUrl}/api/recipe`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Invalid arguments.'));
+  }
+
   patchRecipeImage(idRecipe: number, image: File): Observable<any> {
     const fd: FormData = new FormData();
     fd.append('image', image);
@@ -174,8 +180,7 @@ export class ApiService {
 
   addPermission(id: number, email: string): Observable<any> {
     const body: string = JSON.stringify({"email": email, "idRecipe":id});
-    return this.http.post(`${this.apiServerUrl}/api/permission/add`, body)
-      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+    return this.http.post(`${this.apiServerUrl}/api/permission/add`, body, this._OPTIONS);
   }
 
   getCurrentPermission(id: number): Observable<any> {

@@ -4,6 +4,7 @@ export const HOME = '';
 export const PAGE_404 = '404';
 export const SEARCH = 'recipe/search'
 export const RECIPE = 'recipe/'
+export const EDIT = 'recipe/edit'
 export const CREATE = 'recipe/create'
 export const SURPRISE = 'recipe/surprise'
 export const MYRECIPE = 'recipe/owned'

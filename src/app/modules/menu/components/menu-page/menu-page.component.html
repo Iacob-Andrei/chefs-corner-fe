@@ -66,11 +66,11 @@
       </div>
       <div *ngFor="let category of getCategories(menu)" style="margin-bottom: 40px; font-size: 0.8em">
         {{category}}
-        <hr style="width: 100%">
+        <hr style="width: 100%; color: #CA512EFF">
         <div *ngFor="let item of menu.recipes[category]" style="margin-bottom: 20px">
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <p>{{item.name}}</p>
-            <p>{{computePriceRecipe(item) * (1 + addOns/100) * currency.rate| number: '1.2-2'}} {{currency.currency}}</p>
+            <p>{{computePriceRecipe(item) * (1 + addOns/100) * currency.rate| number: '1.2-2'}} <span style="color: green">{{currency.currency}}</span></p>
           </div>
           <span *ngFor="let ingredient of item.ingredients; let isLast=last" style="color: gray; font-size: 0.6em">
             {{ingredient.name}}{{isLast ? '' : ', '}}

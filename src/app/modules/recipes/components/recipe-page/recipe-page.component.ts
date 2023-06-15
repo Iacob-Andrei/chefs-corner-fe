@@ -6,7 +6,7 @@ import {Recipe} from "@app-shared/models";
 import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {HOME, MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
+import {EDIT, HOME, MYRECIPE, PAGE_404, SEARCH} from "@app-shared/constants";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../../../services/auth/auth.service";
 import {PriceDialogComponent} from "@app-shared/components/dialog/price-dialog/price-dialog.component";
@@ -237,5 +237,19 @@ export class RecipePageComponent implements OnInit, OnDestroy{
         () => this.toaster.success('Recipe added successfully to menu!', 'Success')
       )
     )
+  }
+
+  onClickEdit() {
+    let data = this.recipe;
+    data.file = '';
+    data.directions?.forEach(direction => {
+      if(direction.video_data){
+        direction.video_data = 'Old video instruction.'
+      }else{
+        direction.video_data = ''
+      }
+    })
+    window.localStorage.setItem("recipe", JSON.stringify(data));
+    this.router.navigateByUrl(EDIT).then();
   }
 }
