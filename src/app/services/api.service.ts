@@ -123,11 +123,17 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster('Invalid arguments.'));
   }
 
+  patchRecipe(recipe: RecipePost) {
+    const body: string = JSON.stringify(recipe)
+    return this.http.patch(`${this.apiServerUrl}/api/recipe`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Invalid arguments.'));
+  }
+
   patchRecipeImage(idRecipe: number, image: File): Observable<any> {
     const fd: FormData = new FormData();
     fd.append('image', image);
 
-    return this.http.patch(`${this.apiServerUrl}/api/recipe/image/${idRecipe}`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/recipe/${idRecipe}`, fd)
       .pipe(take(1), this.handleWarningForToaster('Error while uploading image. Retry in recipe page.'));
   }
 
@@ -135,7 +141,7 @@ export class ApiService {
     const fd: FormData = new FormData();
     fd.append('video', video);
 
-    return this.http.patch(`${this.apiServerUrl}/api/direction/video/${idRecipe},${orderDirection}`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/video/${idRecipe},${orderDirection}`, fd)
       .pipe(take(1), this.handleWarningForToaster(`Error while uploading video for instruction no. ${orderDirection}. Retry in recipe page.`));
   }
 
@@ -161,12 +167,12 @@ export class ApiService {
   patchImage(email: string, image: File): Observable<any>{
     const fd = new FormData();
     fd.append('image', image);
-    return this.http.patch(`${this.apiServerUrl}/api/user/${email}/image`, fd)
+    return this.http.patch(`${this.apiServerUrl}/api/file/profile/${email}`, fd)
       .pipe(take(1), this.handleWarningForToaster("Error while uploading image. Retry in setting panel."));
   }
 
-  getUsedInfo(email: string): Observable<any> {
-    return this.http.get(`${this.apiServerUrl}/api/user/${email}`)
+  getUsedInfo(): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/api/user`)
       .pipe(take(1), this.handleWarningForToaster("Error while getting user data. Please re-authenticate."));
   }
 
@@ -174,8 +180,7 @@ export class ApiService {
 
   addPermission(id: number, email: string): Observable<any> {
     const body: string = JSON.stringify({"email": email, "idRecipe":id});
-    return this.http.post(`${this.apiServerUrl}/api/permission/add`, body)
-      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+    return this.http.post(`${this.apiServerUrl}/api/permission/add`, body, this._OPTIONS);
   }
 
   getCurrentPermission(id: number): Observable<any> {
@@ -220,6 +225,12 @@ export class ApiService {
 
   // ---- MENU ----
 
+  addRecipeToMenu(idMenu: any, idRecipe: any, category: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, idRecipe: idRecipe, category: category});
+    return this.http.post(`${this.apiServerUrl}/api/menu/add`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"))
+  }
+
   getMenus(): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/menu/owned`)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
@@ -230,16 +241,62 @@ export class ApiService {
       .pipe(take(1), this.handleErrorForToaster());
   }
 
-  getRecipesForMenu(currentMenu: any, requested: any): Observable<any> {
-    const body: string = JSON.stringify({currentMenu: currentMenu, requested: requested});
+  getRecipesForMenu(idMenu: any, requested: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, requested: requested});
     return this.http.post(`${this.apiServerUrl}/api/category/complete-menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 
-  postMenu(name: string, description: string, currentMenu: any): Observable<any> {
-    const body: string = JSON.stringify({name: name, description: description, currentMenu: currentMenu});
+  postMenu(name: string, description: string): Observable<any> {
+    const body: string = JSON.stringify({name: name, description: description});
     return this.http.post<any>(`${this.apiServerUrl}/api/menu`, body, this._OPTIONS)
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  deleteMenu(idMenu: any): Observable<any> {
+    return this.http.delete(`${this.apiServerUrl}/api/menu/${idMenu}`, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  removeRecipeFromMenu(idMenu: any, idRecipe: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, idRecipe: idRecipe});
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
+    };
+    return this.http.delete(`${this.apiServerUrl}/api/menu/remove`, httpOptions)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  // ---- INGREDIENT PRICE ----
+
+  getIngredientPrices(): Observable<any>{
+    return this.http.get(`${this.apiServerUrl}/api/ingredient/list-prices`, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Oops. Something went wrong.'));
+  }
+
+  postIngredientPrice(seller: any, price: any, idIngredient: any): Observable<any> {
+    const body: string = JSON.stringify({seller: seller, price: price, idIngredient: idIngredient});
+
+    return this.http.post(`${this.apiServerUrl}/api/ingredient/add-price`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Oops. Something went wrong.'));
+  }
+
+  patchIngredientPrice(id: any, seller: any, price: any): Observable<any> {
+    const body: string = JSON.stringify({id: id, seller: seller, price: price});
+
+    return this.http.patch(`${this.apiServerUrl}/api/ingredient/update-price`, body, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster('Oops. Something went wrong.'));
+  }
+
+  deleteIngredientPrice(id: any): Observable<any>{
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    return this.http.delete(`${this.apiServerUrl}/api/ingredient/delete-price/${id}`, options)
+      .pipe(take(1), this.handleErrorForToaster());
   }
 
   // ---- CURRENCY ----

@@ -11,9 +11,6 @@ import {RecipeService} from "../../services/recipe.service";
 import {environment} from "../../../../../environments/environment";
 import {RECIPE} from "@app-shared/constants";
 import {Router} from "@angular/router";
-import {selectCartObject} from "../../../../services/store/cart.selectors";
-import {Store} from "@ngrx/store";
-import {addRecipe, removeRecipe} from "../../../../services/store/cart.actions";
 
 @Component({
   selector: 'app-recommendation',
@@ -32,7 +29,6 @@ export class RecommendationComponent {
   constructor(private ingredientService: FiltersService,
               private recipeService: RecipeService,
               private router: Router,
-              private store: Store,
               private toaster: ToastrService) {}
 
   getNewIngredients(event: MatChipInputEvent): void {
@@ -62,8 +58,8 @@ export class RecommendationComponent {
   }
 
   onClickGetRecipes() {
-    if(this.selectedIngredients.length <= 1){
-      this.toaster.warning("Please select at least 2 ingredients!", "Warning");
+    if(this.selectedIngredients.length <= 2){
+      this.toaster.warning("Please select at least 3 ingredients!", "Warning");
     }
     else {
       const ids: number[] = [];
@@ -84,17 +80,5 @@ export class RecommendationComponent {
   goToRecipe(id: number) {
     const newRoute = RECIPE + id;
     this.router.navigateByUrl(newRoute).then();
-  }
-
-  checkIfInCart(item: Recipe){
-    return this.store.select(selectCartObject, item.id);
-  }
-
-  onClickAddToCart(item: Recipe) {
-    this.store.dispatch(addRecipe(item));
-  }
-
-  onClickRemoveFromCart(item: Recipe) {
-    this.store.dispatch(removeRecipe(item));
   }
 }

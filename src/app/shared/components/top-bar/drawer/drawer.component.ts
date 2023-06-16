@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CART, CREATE, MENUS, MYRECIPE, SEARCH, SURPRISE} from "@app-shared/constants";
+import {CREATE, INGREDIENT_PRICES, MENUS, MYRECIPE, SEARCH, SURPRISE} from "@app-shared/constants";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {Store} from "@ngrx/store";
-import {selectCountRecipes} from "../../../../services/store/cart.selectors";
 import {Observable, Subscription} from "rxjs";
 import {User} from "@app-shared/models/user.model";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-drawer',
@@ -15,14 +14,11 @@ import {User} from "@app-shared/models/user.model";
 export class DrawerComponent implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = []
-  countProduct$: Observable<number>;
   userDataObs!: Observable<User>;
   imageUrl!: string;
 
   constructor( private router: Router,
-               public authService: AuthService,
-               private store: Store) {
-    this.countProduct$ = this.store.select(selectCountRecipes);
+               public authService: AuthService){
   }
 
   ngOnInit() {
@@ -35,7 +31,7 @@ export class DrawerComponent implements OnInit, OnDestroy{
       this.subscriptions.push(
         this.userDataObs.subscribe(
           response => {
-            this.imageUrl = response.image ? `data:image/png;base64,${response.image}` : "./assets/icons/default-profile.jpg";
+            this.imageUrl = response.image ? environment.storageUrl + response.image : "./assets/icons/default-profile.jpg";
           }
         )
       )
@@ -61,8 +57,9 @@ export class DrawerComponent implements OnInit, OnDestroy{
   onClickGoToMenuList() {
     this.router.navigateByUrl(MENUS).then();
   }
-  onClickGoToCart(){
-    this.router.navigateByUrl(CART).then();
+
+  onClickGoToPrices() {
+    this.router.navigateByUrl(INGREDIENT_PRICES).then();
   }
 
   onClickLogout() {

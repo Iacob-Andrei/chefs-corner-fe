@@ -15,9 +15,9 @@
 
     <div class="buttons" fxLayoutGap="20">
       <mat-icon class="func-icon" title="Show prices" (click)="onClickShowPrices()">attach_money</mat-icon>
-      <mat-icon *ngIf="!(checkIfInCart() | async)" (click)="onClickAddToCart()" class="func-icon" style="color:green">add_shopping_cart</mat-icon>
-      <mat-icon *ngIf="(checkIfInCart() | async)" (click)="onClickRemoveFromCart()" class="func-icon" style="color:red">remove_shopping_cart</mat-icon>
+      <mat-icon class="func-icon" title="Add to menu" (click)="onClickAddToMenu()">add_circle_outline</mat-icon>
       <mat-icon *ngIf="myRecipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Give permission" (click)="onClickGivePermission()">person_add</mat-icon>
+      <mat-icon *ngIf="myRecipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Edit recipe" (click)="onClickEdit()">edit</mat-icon>
       <mat-icon *ngIf="myRecipe.owner === authService.getSubjectFromToken()" class="func-icon" title="Remove recipe" (click)="onClickDelete()">remove_circle</mat-icon>
     </div>
   </div>

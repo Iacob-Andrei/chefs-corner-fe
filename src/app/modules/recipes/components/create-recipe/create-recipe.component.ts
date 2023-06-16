@@ -21,7 +21,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./create-recipe.component.scss']
 })
 export class CreateRecipeComponent implements OnDestroy{
-  @ViewChild('stepper') stepper!: MatStepper   ;
+  @ViewChild('stepper') stepper!: MatStepper;
 
   subscriptions: Subscription[] = [];
   getErrorMsgRequired = getErrorMsgRequiredValue;
@@ -87,7 +87,8 @@ export class CreateRecipeComponent implements OnDestroy{
       directions.push({
         id: 0,
         order: order,
-        instruction: instr ? instr : ''
+        instruction: instr ? instr : '',
+        video_name: ''
       })
       order += 1;
     })
@@ -228,10 +229,6 @@ export class CreateRecipeComponent implements OnDestroy{
         )
       );
     });
-  }
-
-  showErrorToaster(title: string, message: string): void{
-    this.toaster.error(message, title, {});
   }
 
   showWarningToaster(title: string, message: string): void{

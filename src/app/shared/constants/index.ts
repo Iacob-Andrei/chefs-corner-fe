@@ -4,11 +4,13 @@ export const HOME = '';
 export const PAGE_404 = '404';
 export const SEARCH = 'recipe/search'
 export const RECIPE = 'recipe/'
+export const EDIT = 'recipe/edit'
 export const CREATE = 'recipe/create'
 export const SURPRISE = 'recipe/surprise'
 export const MYRECIPE = 'recipe/owned'
 export const CART = 'menu/cart'
 export const MENUS = 'menu'
+export const INGREDIENT_PRICES = 'recipe/price'
 export const CATEGORIES = [
   {
     display: 'Everything',
@@ -24,7 +26,7 @@ export const CATEGORIES = [
   },
   {
     display: 'Desserts',
-    value: 'dessert'
+    value: 'desserts'
   },
   {
     display: 'Drinks',

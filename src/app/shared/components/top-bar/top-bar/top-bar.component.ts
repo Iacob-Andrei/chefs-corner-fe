@@ -8,8 +8,6 @@ import {Recipe} from "../../../models";
 import {FiltersService} from "../services/filters.service";
 import {environment} from "../../../../../environments/environment";
 import {AuthService} from "../../../../services/auth/auth.service";
-import {Store} from "@ngrx/store";
-import {selectCountRecipes} from "../../../../services/store/cart.selectors";
 
 @Component({
   selector: 'app-top-bar',
@@ -20,14 +18,11 @@ export class TopBarComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = []
   stateCtrl = new FormControl('');
   filteredRecipes!: Observable<Recipe[]>;
-  countProduct$: Observable<number>
   @Output() sidenav: EventEmitter<any> = new EventEmitter();
 
   constructor( private router: Router,
                private filterService: FiltersService,
-               public authService: AuthService,
-               private store: Store) {
-    this.countProduct$ = this.store.select(selectCountRecipes);
+               public authService: AuthService,) {
   }
 
   ngOnInit(): void{

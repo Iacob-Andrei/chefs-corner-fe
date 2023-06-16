@@ -1,0 +1,30 @@
+<h1 mat-dialog-title><b>Add this recipe to your menu:</b></h1>
+
+<div mat-dialog-content>
+  <p>Bellow you can select the menu in which you can add this recipe:</p>
+
+  <mat-form-field color="accent">
+    <mat-label>Menu</mat-label>
+    <mat-select [(ngModel)]="menu">
+      <mat-option *ngFor="let menu of menus" [value]="menu">
+        {{menu.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field color="accent">
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="category">
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onClickAddToMenu()">Add</button>
+  <button mat-button mat-dialog-close="">Close</button>
+</div>

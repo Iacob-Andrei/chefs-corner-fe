@@ -24,6 +24,10 @@ export class RecipeService {
     return this.api.postRecipe(recipe);
   }
 
+  patchRecipe(recipe: RecipePost){
+    return this.api.patchRecipe(recipe);
+  }
+
   patchImage(idRecipe: number, image: File){
     return this.api.patchRecipeImage(idRecipe, image);
   }
@@ -36,8 +40,8 @@ export class RecipeService {
     return this.api.deleteRecipe(idRecipe);
   }
 
-  getRecipesForMenu(currentMenu: any, requested: any) {
-    return this.api.getRecipesForMenu(currentMenu, requested);
+  getRecipesForMenu(idMenu:any, requested: any) {
+    return this.api.getRecipesForMenu(idMenu, requested);
   }
 
   getCurrencyData(){

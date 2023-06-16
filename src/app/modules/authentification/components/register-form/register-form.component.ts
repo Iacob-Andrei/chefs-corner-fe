@@ -63,15 +63,19 @@ export class RegisterFormComponent implements OnDestroy{
           `${this.thirdFormGroup.value.password}`,
           this.firstFormGroup.value.accountType
         ).subscribe(
-          () =>
+          () => {
             this.patchImage()
+          }
         )
       )
     }
   }
 
   patchImage(){
-    if(!this.image) return;
+    if(!this.image) {
+      this.router.navigateByUrl(CONFIRMATION).then();
+      return;
+    }
 
     this.subscriptions.push(
       this.authService.patchImage(
@@ -81,10 +85,6 @@ export class RegisterFormComponent implements OnDestroy{
           this.router.navigateByUrl(CONFIRMATION).then();
       })
     )
-  }
-
-  showErrorToaster(title: string, message: string): void{
-    this.toaster.error(message, title, {});
   }
 
   onClickGoRegistration() {

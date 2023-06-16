@@ -15,19 +15,19 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDialogModule} from "@angular/material/dialog";
-import { PriceDialogComponent } from './components/dialog/price-dialog/price-dialog.component';
 import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {OwnedComponent} from "./components/owned/owned.component";
-import { DeleteConfDialogComponent } from './components/dialog/delete-conf-dialog/delete-conf-dialog.component';
-import { AddPermissionDialogComponent } from './components/dialog/add-permission-dialog/add-permission-dialog.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import {MatChipsModule} from "@angular/material/chips";
-import { AskPermissionDialogComponent } from './components/dialog/ask-permission-dialog/ask-permission-dialog.component';
 import { ConfirmPermissionComponent } from './components/confirm-permission/confirm-permission.component';
+import {MatTableModule} from "@angular/material/table";
+import {DialogModule} from "@app-shared/components/dialog/dialog.module";
+import { IngredientPricesComponent } from './components/ingredient-prices/ingredient-prices.component';
+import { EditRecipeComponent } from './components/edit-recipe/edit-recipe.component';
 
 
 @NgModule({
@@ -35,35 +35,35 @@ import { ConfirmPermissionComponent } from './components/confirm-permission/conf
     ContainerComponent,
     RecipePageComponent,
     SearchComponent,
-    PriceDialogComponent,
     CreateRecipeComponent,
     OwnedComponent,
-    DeleteConfDialogComponent,
-    AddPermissionDialogComponent,
     RecommendationComponent,
-    AskPermissionDialogComponent,
-    ConfirmPermissionComponent
+    ConfirmPermissionComponent,
+    IngredientPricesComponent,
+    EditRecipeComponent
   ],
-  imports: [
-    CommonModule,
-    RecipesRoutingModule,
-    FlexModule,
-    MatButtonModule,
-    MatIconModule,
-    ExtendedModule,
-    TopBarModule,
-    MatGridListModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    FormsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatStepperModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
-    MatSidenavModule,
-    MatChipsModule
-  ]
+    imports: [
+        CommonModule,
+        RecipesRoutingModule,
+        FlexModule,
+        MatButtonModule,
+        MatIconModule,
+        ExtendedModule,
+        TopBarModule,
+        MatGridListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        FormsModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatStepperModule,
+        MatAutocompleteModule,
+        MatExpansionModule,
+        MatSidenavModule,
+        MatChipsModule,
+        MatTableModule,
+        DialogModule
+    ]
 })
 export class RecipesModule { }
