@@ -23,4 +23,12 @@ export class MenuService {
   addRecipeToMenu(idMenu: any, idRecipe: any, category: any){
     return this.api.addRecipeToMenu(idMenu, idRecipe, category)
   }
+
+  deleteMenu(idMenu: any){
+    return this.api.deleteMenu(idMenu);
+  }
+
+  removeRecipeFromMenu(idMenu: any, idRecipe: any){
+    return this.api.removeRecipeFromMenu(idMenu, idRecipe);
+  }
 }

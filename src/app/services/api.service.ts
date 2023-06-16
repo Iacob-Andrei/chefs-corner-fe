@@ -253,6 +253,20 @@ export class ApiService {
       .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
   }
 
+  deleteMenu(idMenu: any): Observable<any> {
+    return this.http.delete(`${this.apiServerUrl}/api/menu/${idMenu}`, this._OPTIONS)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
+  removeRecipeFromMenu(idMenu: any, idRecipe: any): Observable<any> {
+    const body: string = JSON.stringify({idMenu: idMenu, idRecipe: idRecipe});
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
+    };
+    return this.http.delete(`${this.apiServerUrl}/api/menu/remove`, httpOptions)
+      .pipe(take(1), this.handleWarningForToaster("Oops. Something went wrong!"));
+  }
+
   // ---- INGREDIENT PRICE ----
 
   getIngredientPrices(): Observable<any>{

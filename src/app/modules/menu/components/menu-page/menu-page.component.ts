@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, Subscription, take} from "rxjs";
-import {PAGE_404, RECIPE} from "@app-shared/constants";
+import {HOME, PAGE_404, RECIPE} from "@app-shared/constants";
 import {ToastrService} from "ngx-toastr";
 import {Menu} from "@app-shared/models/menu.model";
 import {MenuService} from "../../services/menu.service";
@@ -20,6 +20,7 @@ import jsPDF from "jspdf";
 })
 export class MenuPageComponent implements OnInit, OnDestroy{
   idMenu: number = 0;
+  menu!: Menu;
   subscriptions: Subscription[] = [];
   menuObs!: Observable<Menu>;
   addOns: number = 50;
@@ -49,6 +50,9 @@ export class MenuPageComponent implements OnInit, OnDestroy{
           else{
             this.idMenu = params['id'];
             this.menuObs = this.menuService.getMenuById(this.idMenu);
+            this.menuObs.pipe(take(1)).subscribe(
+            (result) => this.menu = result
+            )
           }
         }
       ));
@@ -126,6 +130,12 @@ export class MenuPageComponent implements OnInit, OnDestroy{
 
   @ViewChild("container")el!: ElementRef;
   onClickSaveMenu(title: string) {
+
+    if(Object.keys(this.menu.recipes).length === 0){
+      this.toaster.warning("This menu is empty. Can not generate PDF!","Warning!")
+      return
+    }
+
     let pdf = new jsPDF('p', 'px', 'a4');
 
     pdf.html(this.el.nativeElement, {
@@ -137,5 +147,25 @@ export class MenuPageComponent implements OnInit, OnDestroy{
         test.save(title)
       }
     })
+  }
+
+  onClickDeleteMenu() {
+    this.menuService.deleteMenu(this.idMenu).pipe(take(1))
+      .subscribe(
+        () => {
+          this.toaster.success("Menu removed completely!", "Success");
+          this.router.navigateByUrl(HOME).then();
+        }
+      )
+  }
+
+  onClickRemoveRecipe(idRecipe: number){
+    this.menuService.removeRecipeFromMenu(this.idMenu, idRecipe).pipe(take(1))
+      .subscribe(
+        () => {
+          this.toaster.success("Recipe removed completely!", "Success");
+          window.location.reload();
+        }
+      )
   }
 }

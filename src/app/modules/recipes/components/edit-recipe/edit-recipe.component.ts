@@ -124,7 +124,11 @@ export class EditRecipeComponent implements OnInit {
     let order: number = 1;
     this.directionsCount.forEach(index => {
       let instr = this.thirdFormGroup.get(`direction${index}`)?.value as string;
-      let video_name = this.recipe.directions ? this.recipe.directions[index-1].video_name : '';
+      let video_name = '';
+      let size = this.recipe.directions?.length ? this.recipe.directions?.length : 0;
+      if(size >= index){
+        video_name = this.recipe.directions ? this.recipe.directions[index-1].video_name : '';
+      }
 
       directions.push({
         id: 0,
